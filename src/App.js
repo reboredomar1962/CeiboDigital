@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Esta es l version del gitFlow</Text>
+      <Text>terminando el dia en main </Text>
       <StatusBar style="auto" />
     </View>
   );
