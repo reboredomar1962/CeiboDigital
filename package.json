@@ -7,6 +7,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "server": "nodemon ./api/server.js"
+    "seed": "node ./api/db/seed.js"
+
   },
   "dependencies": {
     "expo": "~42.0.1",
