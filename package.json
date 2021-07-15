@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "server": "node ./api/server.js"
+    "server": "node ./api/server.js",
+    "seed": "node ./api/db/seed.js"
   },
   "dependencies": {
     "expo": "~42.0.1",
