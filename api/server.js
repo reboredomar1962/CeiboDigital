@@ -2,12 +2,15 @@ const express = require("express");
 const app = express();
 const PORT = 3001;
 const db = require("./db/index");
-const Plan = require("./models/SchemaPlan");
+const routes = require("./routes");
+const {Plan} = require("./models");
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get("/", function (req, res) {
   res.send("hello world");
 });
+
+app.use("/api" , routes)
 
 // const eventTest = new Plan({
 //   name: "eventTest3",
