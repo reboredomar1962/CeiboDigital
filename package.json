@@ -11,15 +11,28 @@
 
   },
   "dependencies": {
+    "@react-navigation/drawer": "^5.12.5",
+    "@react-navigation/native": "^5.9.4",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
-    "express": "^4.17.1",
-    "mongoose": "^5.13.2",
-    "nodemon": "^2.0.12",
+
+    "native-base": "^3.0.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-elements": "^3.4.2",
+    "react-native-reanimated": "^2.2.0",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "^3.4.0",
+    "react-native-snap-carousel": "^3.9.1",
+    "react-native-super-grid": "^4.1.3",
+    "react-native-svg": "12.1.1",
     "react-native-web": "~0.13.12",
+    "styled-components": "^5.3.0",
+    "styled-system": "^5.1.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2",
+    "nodemon": "^2.0.12",
     "volleyball": "^1.5.1"
   },
   "devDependencies": {
