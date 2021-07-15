@@ -62,7 +62,7 @@
 
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import CardComponent from "./components/SingleEvent";
+import CardComponent from "./src/components/SingleEvent";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -82,8 +82,8 @@ import {
   Divider,
   Icon,
 } from "native-base";
-import HeaderApp from "./components/HeaderApp"
-import MyDrawer from "./components/SideBarMenu";
+import HeaderApp from "./src/components/HeaderApp"
+import MyDrawer from "./src/components/SideBarMenu";
 export default function App() {
   return (
     <NavigationContainer>
