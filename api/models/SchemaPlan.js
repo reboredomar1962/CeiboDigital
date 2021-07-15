@@ -20,6 +20,15 @@ const planSchema = new Schema({
   category: String,
 });
 
+// remplazamos el _id por id y sacamos el __V en el JSON
+planSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
 const Plan = model("plan", planSchema);
 
 module.exports = Plan;
