@@ -82,19 +82,18 @@ import {
   Divider,
   Icon,
 } from "native-base";
-import HeaderApp from "./src/components/HeaderApp"
+import HeaderApp from "./src/components/HeaderApp";
 import MyDrawer from "./src/components/SideBarMenu";
 export default function App() {
   return (
     <NavigationContainer>
       <NativeBaseProvider>
-        <HeaderApp/>
-      
+        <HeaderApp />
+
         <MyDrawer />
 
         {/* <Center flex={1}></Center>
          <CardComponent/> */}
-    
       </NativeBaseProvider>
     </NavigationContainer>
   );
