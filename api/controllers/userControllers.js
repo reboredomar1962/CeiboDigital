@@ -48,7 +48,13 @@ const deleteUser = (req, res, next) => {
     .catch((error) => next(error));
 };
 
-const loginUser = (req, res, next) => {};
+const loginUser = (req, res, next) => {
+  // test para funcionar en el validPassword
+  // const { name, password } = req.body;
+  // User.findOne({ name }).then((user) => {
+  //   console.log(user.isValidPassword(password));
+  // });
+};
 const logoutUser = (req, res, next) => {};
 
 module.exports = {
