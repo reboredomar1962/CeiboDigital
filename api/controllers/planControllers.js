@@ -23,6 +23,22 @@ const getOnePlan = (req, res, next) => {
     });
 };
 
+// Find all plans by category
+const getPlansByCategory = (req, res, next) => {
+  const { category } = req.params;
+  Plan.find({ category: category })
+    .then((allPlans) => {
+      if (allPlans) {
+        return res.json(allPlans);
+      } else {
+        res.status(404);
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 // post plan
 const postPlan = (req, res, next) => {
   const plan = req.body;
@@ -63,6 +79,7 @@ const deletePlan = (req, res, next) => {
 module.exports = {
   getPlanes,
   getOnePlan,
+  getPlansByCategory,
   postPlan,
   updatePlan,
   deletePlan,
