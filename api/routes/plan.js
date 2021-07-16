@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   getPlanes,
   getOnePlan,
+  getPlansByCategory,
   postPlan,
   updatePlan,
   deletePlan,
@@ -11,6 +12,8 @@ const {
 
 // returns all the plans
 router.get("/", getPlanes);
+// get all plans by category
+router.get("/category/:category", getPlansByCategory);
 // select a plan by id
 router.get("/:id", getOnePlan);
 // create a new plan
