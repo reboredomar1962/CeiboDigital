@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import AppLoading from 'expo-app-loading';
 
 //---------FONTS CONFIG----------------
+import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font'
 import {
   Poppins_300Light,
@@ -12,11 +11,11 @@ import {
 
 //--------LIBRARIES CONFIG--------------
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 //--------SCREENS IMPORT------------------
 import Home from './screens/Home';
@@ -26,7 +25,7 @@ import Notifications from './screens/Notifications';
 import CreateEvent from './screens/CreateEvent';
 
 const Tab = createMaterialBottomTabNavigator();
-const Stack = createStackNavigator();
+
 
 const App = () => {
 
@@ -45,6 +44,7 @@ const App = () => {
   } else {
 
   return (
+    <SafeAreaProvider>
     <PaperProvider>
       <NavigationContainer>
         
@@ -111,6 +111,7 @@ const App = () => {
 
       </NavigationContainer>
     </PaperProvider>
+    </SafeAreaProvider>
   )
   }
 

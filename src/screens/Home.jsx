@@ -1,18 +1,23 @@
 import React from 'react'
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import Search from '../components/Search';
 import EventCard from '../components/EventCard';
+import MyEventCard from '../components/MyEventCard';
 
 
 const Home = ({ navigation }) => {
   return (
-    
+    <SafeAreaView>
+    <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.text} >El club del plan</Text>
+        <Text style={styles.textTitle} >El club del plan</Text>
         <Search />
         <EventCard />
+        <Text style={styles.textSubtitle} >Próximos eventos</Text>
+        <MyEventCard />
       </View>
-      
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -25,7 +30,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  text: {
+  textTitle: {
     fontFamily: 'Poppins_700Bold',
     fontSize: 20,
     letterSpacing: 2,
@@ -33,6 +38,13 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: '#23036A',
     paddingTop: 30,
+  },
+  textSubtitle: {
+    fontFamily: 'Poppins_500Medium',
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#23036A',
+    paddingTop: 20,
   },
 
 });
