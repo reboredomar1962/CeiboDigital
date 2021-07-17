@@ -13,7 +13,7 @@ const Home = ({ navigation }) => {
         <Text style={styles.textTitle} >El club del plan</Text>
         <Search />
         <EventCard />
-        <Text style={styles.textSubtitle} >Próximos eventos</Text>
+        <Text style={styles.textSubtitle} >Tus próximos eventos</Text>
         <MyEventCard />
       </View>
     </ScrollView>
@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
   },
   textSubtitle: {
     fontFamily: 'Poppins_500Medium',
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
     color: '#23036A',
-    paddingTop: 20,
+    paddingTop: 10,
   },
 
 });

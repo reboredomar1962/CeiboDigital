@@ -33,7 +33,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.13.2",
     "nodemon": "^2.0.12",
-    "volleyball": "^1.5.1"
+    "volleyball": "^1.5.1",
+    "react-native-svg": "12.1.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
