@@ -5,8 +5,8 @@ import Svg, { Rect } from 'react-native-svg';
 
 const randomUser = {
   image: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=300',
-  nombre: 'Juan Perez',
-  edad: 30,
+  nombre: 'Gonzalo Martinez',
+  edad: 28,
   ciudad: 'Buenos Aires',
   pais: 'Argentina',
 }

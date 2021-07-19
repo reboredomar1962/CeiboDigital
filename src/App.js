@@ -52,14 +52,15 @@ const App = () => {
           initialRouteName="Home"
           activeColor="#B38BF5"
           inactiveColor="#fff"
-          barStyle={{ backgroundColor: '#23036A' }}
-          labelStyle={{ fontSize: 12 }}
+          barStyle={{ backgroundColor: '#23036A', fontSize: 20 }}
+          labelStyle={{ fontSize: 20 }}
 
         >
         <Tab.Screen
         name="Home"
         component={Home}
         options={{
+          
           tabBarLabel: 'Home',
           tabBarIcon: () => (
             <AntDesign name="home" size={20} color="white" />
