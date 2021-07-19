@@ -12,10 +12,11 @@
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.0",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/material-bottom-tabs": "^5.3.15",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
-    "@react-navigation/drawer": "^5.12.5",
+    "bcrypt": "^5.0.1",
     "expo": "~42.0.1",
     "expo-app-loading": "^1.1.2",
     "expo-font": "~9.2.1",
@@ -34,7 +35,9 @@
     "mongoose": "^5.13.2",
     "nodemon": "^2.0.12",
     "volleyball": "^1.5.1",
-    "react-native-svg": "12.1.1"
+    "react-native-svg": "12.1.1",
+    "styled-components": "^5.3.0",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

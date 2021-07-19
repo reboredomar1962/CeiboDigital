@@ -1,6 +1,13 @@
 const Plan = require("../models/SchemaPlan");
 const db = require("../db");
 
+const categories = [
+  { type: "Fiesta" },
+  { type: "Negocios" },
+  { type: "Clases" },
+  { type: "Concierto" },
+];
+
 const planes = [
   {
     name: "DJ Agrelo at the Plaza",
@@ -459,3 +466,10 @@ Plan.insertMany(planes)
     db.close();
   })
   .catch((err) => console.log(err));
+
+// Category.insertMany(catergories)
+// .then(() => {
+//   console.log("data Inserted");
+//   db.close();
+// })
+// .catch((err) => console.log(err));
