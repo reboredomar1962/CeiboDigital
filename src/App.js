@@ -1,4 +1,7 @@
+//--------REACT & REDUX CONFIG-------------
 import React from 'react';
+import { Provider } from "react-redux";
+import store from './state/store';
 
 //---------FONTS CONFIG----------------
 import AppLoading from 'expo-app-loading';
@@ -42,8 +45,10 @@ const App = () => {
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-
+    
+    
   return (
+      <Provider store={store}>
     <SafeAreaProvider>
     <PaperProvider>
       <NavigationContainer>
@@ -113,6 +118,7 @@ const App = () => {
       </NavigationContainer>
     </PaperProvider>
     </SafeAreaProvider>
+    </Provider>
   )
   }
 
