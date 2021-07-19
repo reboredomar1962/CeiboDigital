@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken')
 const accessTokenSecret = "ceiboDigital"
 
 const getUser = (req, res, next) => {
-  User.find({}).then((User) => {
-    res.json(User);
+  User.find({}).then((users) => {
+    res.json(users);
   });
 };
 
