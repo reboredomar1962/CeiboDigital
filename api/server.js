@@ -4,14 +4,17 @@ const PORT = 3001;
 const db = require("./db/index");
 const volleyball = require("volleyball");
 const routes = require("./routes");
+const jwt = require('jsonwebtoken');
 const { Plan } = require("./models");
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get("/", function (req, res) {
   res.send("hello world");
 });
-
+// PARSERS
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(volleyball);
 
 app.use("/api", routes);
