@@ -2,16 +2,41 @@ const { model, Schema } = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
-  name: String,
-  lastName: String,
-  age: Number,
+  name: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: Number,
+    required: true,
+  },
   img: String,
-  email: String,
-  password: String,
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   salt: String,
-  contacts: Array,
-  myPlans: Array, //ver
-  preferences: Array,
+  contacts: {
+    type: Array,
+    default: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  },
+  myPlans: {
+    type: Array,
+    default: [],
+  }, //ver
+  preferences: {
+    type: Array,
+    default: [],
+  },
 });
 
 // remplazamos el _id por id y sacamos el __V en el JSON
