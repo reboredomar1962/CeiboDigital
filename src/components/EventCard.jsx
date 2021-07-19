@@ -34,19 +34,13 @@ const EventCard = () => {
 
   const { plans } = useSelector(store => store.plan);
   const dispatch = useDispatch();
-  const planes = []
-  const pedido = () =>{
-    return axios.get('http://localhost:3001/api/plan')
-    .then(res => planes.push(res.data))
-    .catch(error => console.log('ACA ESTA EL ERROR DE NUEVO -----> ',error))
-  }
-
+  
   React.useEffect(()=>{
-    /* dispatch(showPlans())
-    console.log('ACA ESTA PLANS---->',plans) */
-    pedido()
+     dispatch(showPlans())
+    console.log('ACA ESTA PLANS---->',plans) 
+   
     
-  })
+  }, [])
 
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
