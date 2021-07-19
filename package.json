@@ -9,6 +9,7 @@
     "server": "nodemon ./api/server.js",
     "seed": "node ./api/db/seed.js"
   },
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.0",
     "@react-native-community/masked-view": "0.1.10",
@@ -16,11 +17,17 @@
     "@react-navigation/material-bottom-tabs": "^5.3.15",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "@reduxjs/toolkit": "^1.6.1",
+    "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "expo": "~42.0.1",
     "expo-app-loading": "^1.1.2",
     "expo-font": "~9.2.1",
     "expo-status-bar": "~1.0.4",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2",
+    "nodemon": "^2.0.12",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
@@ -30,14 +37,14 @@
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "^3.4.0",
-    "react-native-web": "~0.13.12",
-    "express": "^4.17.1",
-    "mongoose": "^5.13.2",
-    "nodemon": "^2.0.12",
-    "volleyball": "^1.5.1",
     "react-native-svg": "12.1.1",
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
+    "redux-logger": "^3.0.6",
     "styled-components": "^5.3.0",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "volleyball": "^1.5.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

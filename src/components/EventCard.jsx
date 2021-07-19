@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
+import axios from 'axios';
+import { showPlans } from '../state/plan';
+import { useSelector, useDispatch } from 'react-redux'
+
 import { Card, Title, Paragraph } from 'react-native-paper';
+
 
 const promotedEvents = [
   {
@@ -23,8 +28,27 @@ const promotedEvents = [
 }
 ]
 
-const EventCard = () => (
-  
+
+
+const EventCard = () => {
+
+  const { plans } = useSelector(store => store.plan);
+  const dispatch = useDispatch();
+  const planes = []
+  const pedido = () =>{
+    return axios.get('http://localhost:3001/api/plan')
+    .then(res => planes.push(res.data))
+    .catch(error => console.log('ACA ESTA EL ERROR DE NUEVO -----> ',error))
+  }
+
+  React.useEffect(()=>{
+    /* dispatch(showPlans())
+    console.log('ACA ESTA PLANS---->',plans) */
+    pedido()
+    
+  })
+
+  return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
       <View style={styles.cardContainer} >
         {
@@ -40,8 +64,8 @@ const EventCard = () => (
         }
       </View>
     </ScrollView>
-  
-);
+  )
+      };
 
 export default EventCard;
 
