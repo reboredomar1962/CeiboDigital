@@ -1,4 +1,7 @@
 const { User } = require("../models/");
+const jwt = require('jsonwebtoken')
+
+const accessTokenSecret = "ceiboDigital"
 
 const getUser = (req, res, next) => {
   User.find({}).then((User) => {
@@ -48,13 +51,47 @@ const deleteUser = (req, res, next) => {
     .catch((error) => next(error));
 };
 
-const loginUser = (req, res, next) => {
-  // test para funcionar en el validPassword
-  // const { name, password } = req.body;
-  // User.findOne({ name }).then((user) => {
-  //   console.log(user.isValidPassword(password));
-  // });
+
+const loginUser = async (req, res, next) => {
+    const { email, password } = req.body;
+    const user = await User.findOne ({email});
+    
+    console.log(user, "soy user")
+
+    if(!user){
+      return res.status(400).json({msg: "Usuario no encontrado"})
+    }
+    const validate = await user.isValidPassword(password);
+
+    if(!validate){
+      return res.status(401).json({msg: "Password invalido"})
+    }
+
+    const token = jwt.sign({id: user.id}, accessTokenSecret)
+
+    return res.status(200).json({ token });
 };
+
+// router.post("/login", async (req, res, next) => {
+//   const { email, password } = req.body;
+
+//   const user = await User.findOne({ where: { email } });
+
+//   if (!user) {
+//     return res.status(400).json({ msg: "Usuario no encontrado" });
+//   }
+
+//   const validate = await user.validatePassword(password);
+
+//   if (!validate) {
+//     return res.status(401).json({ msg: "Invalid credentials" });
+//   }
+
+//   const token = jwt.sign({ id: user.id }, "branchSecretP5");
+
+//   return res.status(200).json({ token });
+// });
+
 const logoutUser = (req, res, next) => {};
 
 module.exports = {
