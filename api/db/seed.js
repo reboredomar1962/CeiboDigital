@@ -342,8 +342,7 @@ const planes = [
     price: 0,
     capacity: null,
     comments: [],
-    description:
-      "Temas a tratar: 1) Como ser innovador y no morir en el intento 2) Lider de sus mentes y sus corazones 3) Innovar liderando",
+    description: "Maestro de origami",
     recommendation: 4.0,
     users: ["kevin", "luciano"],
     private: 0,
