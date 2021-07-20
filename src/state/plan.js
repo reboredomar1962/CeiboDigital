@@ -11,7 +11,7 @@ const initialState = {
 
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
   return axios
-    .get("http://localhost:3001/api/plan")
+    .get("http://10.0.2.2:3001/api/plan")
     .then((res) => res.data)
     .catch((error) => console.log("ACA ESTA EL ERROR -----> ", error));
 });

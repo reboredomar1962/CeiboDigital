@@ -11,9 +11,9 @@ const Home = ({ navigation }) => {
         <View style={styles.container}>
           <Text style={styles.textTitle}>El club del plan</Text>
           <Search />
-          <View style={styles.eventCardContainer}>
-            <EventCard />
-          </View>
+          {/* <View style={styles.eventCardContainer}> */}
+          <EventCard />
+          {/* </View> */}
           <Text style={styles.textSubtitle}>Tus próximos eventos</Text>
           <MyEventCard />
         </View>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   eventCardContainer: {
-    width: 500,
+    width: 800,
   },
 
   textTitle: {
