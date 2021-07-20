@@ -12,7 +12,11 @@ const Home = ({ navigation }) => {
       <View style={styles.container}>
         <Text style={styles.textTitle} >El club del plan</Text>
         <Search />
+
+        <View style={styles.container}>
         <EventCard />
+        </View>
+        
         <Text style={styles.textSubtitle} >Tus próximos eventos</Text>
         <MyEventCard />
       </View>

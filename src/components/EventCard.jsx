@@ -12,7 +12,7 @@ const EventCard = () => {
 
   React.useEffect(()=>{
     dispatch(showPlans())
-  })
+  }, [])
 
   const Item = ({id, img, name, description}) => (
     <View style={styles.cardContainer} >
@@ -32,14 +32,27 @@ const EventCard = () => {
     <Item id={item.id} img={item.img} name={item.name} description={item.description} />
   );
 
-  /* return (
+  return(
+  
+    <SafeAreaView>
+    <FlatList horizontal={true}
+    data={plans}
+    renderItem={renderItem}
+    keyExtractor={item => item.id}
+    
+    />
+    </SafeAreaView>
+)
+  
+
+ /*  return (
     
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
       <View style={styles.cardContainer} >
         {
-          promotedEvents.map(event => (
+          plans.map(event => (
             <Card style={styles.cardStyle} key={event.id}>
-                <Card.Cover source={{uri: event.img[0]}} />
+                <Card.Cover source={{uri: event.img}} />
                 <Card.Content style={{marginTop:5}}>
                     <Title style={styles.titleTxt}>{event.name}</Title>
                     <Paragraph style={styles.paragTxt} >{event.description}</Paragraph>
@@ -52,17 +65,7 @@ const EventCard = () => {
 
   ) */
 
-return(
-  
-    <SafeAreaView>
-    <FlatList horizontal={true}
-    data={plans}
-    renderItem={renderItem}
-    keyExtractor={item => item.id}
-    
-    />
-    </SafeAreaView>
-)
+
 
       };
 
@@ -80,6 +83,7 @@ const styles = StyleSheet.create({
       flex: 1,
       margin: 15,
       width: 300,
+      
   },
   titleTxt: {
     fontFamily: 'Poppins_500Medium',
