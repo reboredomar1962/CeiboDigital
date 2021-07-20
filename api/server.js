@@ -4,6 +4,7 @@ const PORT = 3001;
 const db = require("./db/index");
 const volleyball = require("volleyball");
 const routes = require("./routes");
+const jwt = require('jsonwebtoken');
 const { Plan } = require("./models");
 const cors = require("cors");
 
@@ -11,8 +12,10 @@ const cors = require("cors");
 app.get("/", function (req, res) {
   res.send("hello world");
 });
-
+// PARSERS
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(volleyball);
 app.use(cors());
 

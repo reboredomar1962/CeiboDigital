@@ -25,18 +25,9 @@ const userSchema = new Schema({
     required: true,
   },
   salt: String,
-  contacts: {
-    type: Array,
-    default: [{ type: Schema.Types.ObjectId, ref: "user" }],
-  },
-  myPlans: {
-    type: Array,
-    default: [],
-  }, //ver
-  preferences: {
-    type: Array,
-    default: [],
-  },
+  contacts: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  myPlans: [{ type: Schema.Types.ObjectId, ref: "plan" }],
+  categories: [{ type: Schema.Types.ObjectId, ref: "category" }],
 });
 
 // remplazamos el _id por id y sacamos el __V en el JSON

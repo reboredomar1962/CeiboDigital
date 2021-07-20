@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   getUser,
+  addFriend,
   getOneUser,
   postUser,
   updateUser,
@@ -14,15 +15,17 @@ const {
 router.post("/login", loginUser);
 
 router.post("/logout", logoutUser);
-// returns all the plans
+// returns all users
 router.get("/", getUser);
-// select a plan by id
+//add a friend to a list
+router.post("/add", addFriend);
+// select user by id
 router.get("/:id", getOneUser);
-// create a new plan
+// create a new user
 router.post("/register", postUser);
-// update a plan
+// update a user
 router.put("/:id", updateUser);
-// delete a plan
+// delete a user
 router.delete("/:id", deleteUser);
 
 module.exports = router;
