@@ -29,10 +29,10 @@ const planSchema = new Schema({
   comments: Array,
   description: {
     type: String,
-    required: true,
+    required: false, //camiar dsp a true
   },
   recommendation: Number,
-  users: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  users: Array, //[{ type: Schema.Types.ObjectId, ref: "user" }],
   private: {
     type: Boolean,
     required: true,
