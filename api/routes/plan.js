@@ -12,7 +12,7 @@ const {
 } = require("../controllers/planControllers");
 
 // returns all the plans
-router.get("/", getPlanes);
+router.get("/",/* authenticateJWT, */ getPlanes);
 // get all plans by category
 router.get("/category/:category", getPlansByCategory);
 // select a plan by id
