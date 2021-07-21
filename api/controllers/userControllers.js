@@ -1,12 +1,59 @@
 const { User } = require("../models/");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
-const accessTokenSecret = "ceiboDigital"
+const accessTokenSecret = "ceiboDigital";
 
 const getUser = (req, res, next) => {
-  User.find({}).then((User) => {
-    res.json(User);
-  });
+  User.find({})
+    .populate("contacts", { name: 1, lastName: 1, age: 1, img: 1, email: 1 })
+    .then((users) => {
+      res.json(users);
+    });
+};
+
+const addFriend = (req, res, next) => {
+  //tengo la info del usuario loggeado. Como llega desde el front?
+  const loggedUser = {
+    contacts: [],
+    myPlans: [],
+    categories: [],
+    name: "marti",
+    lastName: "rebo",
+    age: 19,
+    img: "vnjgvo",
+    email: "mar@mar.com",
+    password: "$2b$16$N.pGRb2hb3yh0DgrV4PBL.jYUTNDgQXvK5JyEfASjayaTmuUhvcUO",
+    salt: "$2b$16$N.pGRb2hb3yh0DgrV4PBL.",
+    id: "60f5c3a7e0cd0625e37f5382",
+  }; //ver de donde sacar el logged user
+
+  // que informacion nos llega desde el front al momento de
+  // no se que nos va a pasar el apretar boton
+  const userFriend = {
+    contacts: [],
+    myPlans: [],
+    categories: [],
+    name: "alejandro",
+    lastName: "ro",
+    age: 31,
+    img: "lala",
+    email: "lala@lala.com",
+    password: "$2b$16$6FRF5AeFJ2PesLiBbmt2leTnOnTIQXFPv2.YdxNYU0VwJUGbEnBFW",
+    salt: "$2b$16$6FRF5AeFJ2PesLiBbmt2le",
+    id: "60f5c383e0cd0625e37f5380",
+  };
+
+  User.findById(loggedUser.id)
+    .then((user) => {
+      //console.log("contactos", user.contacts);
+      if (!user.contacts.includes(userFriend.id)) {
+        user.contacts = user.contacts.concat(userFriend.id);
+        user.save();
+      }
+      return user;
+    })
+    .then((user) => res.status(201).send(user))
+    .catch((err) => console.log(err));
 };
 
 const getOneUser = (req, res, next) => {
@@ -51,25 +98,24 @@ const deleteUser = (req, res, next) => {
     .catch((error) => next(error));
 };
 
-
 const loginUser = async (req, res, next) => {
-    const { email, password } = req.body;
-    const user = await User.findOne ({email});
-    
-    console.log(user, "soy user")
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-    if(!user){
-      return res.status(400).json({msg: "Usuario no encontrado"})
-    }
-    const validate = await user.isValidPassword(password);
+  console.log(user, "soy user");
 
-    if(!validate){
-      return res.status(401).json({msg: "Password invalido"})
-    }
+  if (!user) {
+    return res.status(400).json({ msg: "Usuario no encontrado" });
+  }
+  const validate = await user.isValidPassword(password);
 
-    const token = jwt.sign({id: user.id}, accessTokenSecret)
+  if (!validate) {
+    return res.status(401).json({ msg: "Password invalido" });
+  }
 
-    return res.status(200).json({ token });
+  const token = jwt.sign({ id: user.id }, accessTokenSecret);
+
+  return res.status(200).json({ token });
 };
 
 // router.post("/login", async (req, res, next) => {
@@ -97,6 +143,7 @@ const logoutUser = (req, res, next) => {};
 module.exports = {
   getUser,
   getOneUser,
+  addFriend,
   postUser,
   updateUser,
   deleteUser,

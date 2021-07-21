@@ -1,19 +1,46 @@
 const { Schema, model } = require("mongoose");
 
 const planSchema = new Schema({
-  name: String,
-  planOwner: String,
-  creationDate: Date,
-  planDate: Date,
-  address: String,
-  price: Number,
-  capacity: Number,
-  comments: Array,
-  description: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  planOwner: String, //setear el usuario logueado al crear el plan
+  creationDate: {
+    type: Date,
+    required: true,
+  }, // setear el date actual al crear el plan
+  planDate: {
+    type: Date,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    default: 0,
+  },
+  capacity: {
+    type: Number,
+    default: null,
+  },
+  comments: [{ type: Schema.Types.ObjectId, ref: "comments" }],
+  description: {
+    type: String,
+    required: false, //camiar dsp a true
+  },
   recommendation: Number,
-  users: Array,
-  private: Boolean,
-  free: Boolean,
+  users: Array, //[{ type: Schema.Types.ObjectId, ref: "user" }],
+  private: {
+    type: Boolean,
+    required: true,
+  },
+  free: {
+    type: Boolean,
+    required: true,
+  },
   img: Array,
   category: String,
 });
