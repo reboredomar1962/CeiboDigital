@@ -1,17 +1,21 @@
 import * as React from "react";
 import {
-StyleSheet,
+
+
+  StyleSheet,
+
   Text,
   View,
   ScrollView,
   SafeAreaView,
   FlatList,
+
   TouchableOpacity,
 } from "react-native";
 
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
-import { useSelector, useDispatch } from "react-redux";
+
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
@@ -19,11 +23,21 @@ import { Card, Title, Paragraph } from "react-native-paper";
 
 const EventCard = ({ navigation }) => {
   const plans = useSelector((store) => store.plan);
+
+} from "react-native";
+
+
+import { useSelector, useDispatch } from "react-redux";
+
+
+
+
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
+
 
   const Item = ({ id, img, name, description, onPress }) => (
     <TouchableOpacity onPress={onPress}>
@@ -46,9 +60,12 @@ const EventCard = ({ navigation }) => {
       name={item.name}
       description={item.description}
     />
+
   );
+  const renderItem = ({ item }) => <Item plan={item} />;
 
   return (
+
     <SafeAreaView>
       <FlatList
         horizontal={true}
@@ -60,6 +77,7 @@ const EventCard = ({ navigation }) => {
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
+
   );
 };
 
@@ -90,22 +108,3 @@ const styles = StyleSheet.create({
   },
 });
 
-/*  return (
-    
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-      <View style={styles.cardContainer} >
-        {
-          plans.map(event => (
-            <Card style={styles.cardStyle} key={event.id}>
-                <Card.Cover source={{uri: event.img}} />
-                <Card.Content style={{marginTop:5}}>
-                    <Title style={styles.titleTxt}>{event.name}</Title>
-                    <Paragraph style={styles.paragTxt} >{event.description}</Paragraph>
-                </Card.Content>
-            </Card>
-          ))
-        }
-      </View>
-    </ScrollView> 
-
-  ) */
