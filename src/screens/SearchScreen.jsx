@@ -54,16 +54,6 @@ const styles = StyleSheet.create({
         color: '#23036A',
         paddingTop: 15,
     },
-    /* titleTxt: {
-        fontFamily: "Poppins_500Medium",
-        fontSize: 15,
-        color: "#23036A",
-    },
-    cardStyle: {
-        flex: 1,
-        margin: 15,
-        width: 300,
-    }, */
     
 });
 

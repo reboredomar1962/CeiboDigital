@@ -22,13 +22,7 @@ const Home = ({ navigation }) => {
         <Text style={styles.textSubtitle} >Eventos promocionados</Text>
 
         <View style={styles.container}>
-          <Text style={styles.textTitle}>El club del plan</Text>
-          <Search />
-          {/* <View style={styles.eventCardContainer}> */}
-          <EventCard />
-          {/* </View> */}
-          <Text style={styles.textSubtitle}>Tus próximos eventos</Text>
-          <MyEventCard />
+        <EventCard navigation={navigation}/>
         </View>
 
         

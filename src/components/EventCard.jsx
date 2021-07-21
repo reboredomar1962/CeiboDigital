@@ -17,7 +17,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Card, Title, Paragraph } from "react-native-paper";
 
 const EventCard = ({ navigation }) => {
-  const plans = useSelector((store) => store.plan);
+
+  const {plans} = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
 
@@ -26,7 +27,10 @@ const EventCard = ({ navigation }) => {
   }, []);
 
   const Item = ({ id, img, name, description, onPress }) => (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={() => navigation.navigate("SingleEvent", {
+      id: id,
+      eventName: name
+    })}>
       <View style={styles.cardContainer}>
         <Card style={styles.cardStyle} key={id}>
           <Card.Cover source={{ uri: img[0] }} />
@@ -55,8 +59,6 @@ const EventCard = ({ navigation }) => {
         showsHorizontalScrollIndicator={false}
         data={plans}
         renderItem={renderItem}
-        onPress={() => navigation.navigate("SingleEvent")} //????????
-        /* onPress={() => dispatch(showSinglePlan(item.id))} */
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
@@ -89,3 +91,28 @@ const styles = StyleSheet.create({
     color: "#23036A",
   },
 });
+
+
+/*  
+ESTO ES UN SCROLLVIEW
+
+return (
+    
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
+      <View style={styles.cardContainer} >
+        {
+          plans.map(event => (
+            <Card style={styles.cardStyle} key={event.id}>
+                <Card.Cover source={{uri: event.img}} />
+                <Card.Content style={{marginTop:5}}>
+                    <Title style={styles.titleTxt}>{event.name}</Title>
+                    <Paragraph style={styles.paragTxt} >{event.description}</Paragraph>
+                </Card.Content>
+            </Card>
+          ))
+        }
+      </View>
+    </ScrollView> 
+
+  ) */
+
