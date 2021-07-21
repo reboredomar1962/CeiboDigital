@@ -92,7 +92,12 @@ const App = () => {
                 <Stack.Screen name="MyAccount" component={MyAccount} />
                 <Stack.Screen name="Notifications" component={Notifications} />
                 <Stack.Screen name="CreateEvent" component={CreateEvent} />
-                <Stack.Screen name="SingleEvent" component={SingleEvent} />
+                <Stack.Screen name="SingleEvent" component={SingleEvent} options={({ route }) => ({ title: route.params.eventName, headerTintColor: "#23036A",
+                    headerTitleStyle: {
+                      fontFamily: "Poppins_500Medium",
+                      fontSize: 18,
+                      textAlign: "center",
+                    }, })} />
                 <Stack.Screen name="SearchScreen" component={SearchScreen} />
               </Stack.Navigator>
             </NavigationContainer>
