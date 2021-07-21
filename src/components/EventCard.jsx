@@ -1,20 +1,36 @@
 import * as React from "react";
 import {
+
+
   StyleSheet,
+
   Text,
   View,
   ScrollView,
   SafeAreaView,
   FlatList,
+
+  TouchableOpacity,
 } from "react-native";
 
-import { showPlans } from "../state/plan";
-import { useSelector, useDispatch } from "react-redux";
+//-------------Redux Import------------------------------
+import { showPlans, showSinglePlan } from "../state/plan";
 
+
+//-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
 
-const EventCard = () => {
+
+const EventCard = ({ navigation }) => {
   const plans = useSelector((store) => store.plan);
+
+} from "react-native";
+
+
+import { useSelector, useDispatch } from "react-redux";
+
+
+
 
   const dispatch = useDispatch();
 
@@ -22,26 +38,46 @@ const EventCard = () => {
     dispatch(showPlans());
   }, []);
 
-  const Item = ({ plan }) => (
-    <Card style={styles.cardStyle} key={plan.id}>
-      <Card.Cover source={{ uri: plan.img[0] }} />
-      <Card.Content style={{ marginTop: 5 }}>
-        <Title style={styles.titleTxt}>{plan.name}</Title>
-        <Paragraph style={styles.paragTxt}>{plan.description}</Paragraph>
-      </Card.Content>
-    </Card>
+
+  const Item = ({ id, img, name, description, onPress }) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.cardContainer}>
+        <Card style={styles.cardStyle} key={id}>
+          <Card.Cover source={{ uri: img[0] }} />
+          <Card.Content style={{ marginTop: 5 }}>
+            <Title style={styles.titleTxt}>{name}</Title>
+            <Paragraph style={styles.paragTxt}>{description}</Paragraph>
+          </Card.Content>
+        </Card>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderItem = ({ item }) => (
+    <Item
+      id={item.id}
+      img={item.img}
+      name={item.name}
+      description={item.description}
+    />
+
   );
   const renderItem = ({ item }) => <Item plan={item} />;
 
   return (
-    // <ScrollView horizontal={true}>
-    <FlatList
-      data={plans}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      horizontal
-    />
-    // </ScrollView>
+
+    <SafeAreaView>
+      <FlatList
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        data={plans}
+        renderItem={renderItem}
+        onPress={() => navigation.navigate("SingleEvent")} //????????
+        /* onPress={() => dispatch(showSinglePlan(item.id))} */
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
+
   );
 };
 
@@ -71,3 +107,4 @@ const styles = StyleSheet.create({
     color: "#23036A",
   },
 });
+
