@@ -17,7 +17,7 @@ const planes = [
     address: "5th Avenue, NYC",
     price: 500,
     capacity: 300,
-    comments: ["Amazing music", "All good all good!", "Se viene bueno bueno!!"],
+    comments: [],
     description:
       "World known DJ Agrelo will host a private event at the Hotel Plaza. Invites only. Bring your best attitude!!",
     recommendation: 0,
@@ -39,11 +39,7 @@ const planes = [
     address: "Entre Rios 2020, Buenos Aires",
     price: 0,
     capacity: 150,
-    comments: [
-      "Lo mejor de lo mejor",
-      "posta que esta bueno!",
-      "breve y conciso. 5 estrellas",
-    ],
+    comments: [],
     description:
       "Charla de transoformacion digital a cargo de Vikingo Zuniga. Hablara sobre los desafios que enfrentan hoy las empresas para el desarrollo de aplicaciones web y sus recomendaciones para poder sortearlos. No olviden asistir! ",
     recommendation: 5,
@@ -65,7 +61,7 @@ const planes = [
     address: "Francisco de Villagra 300, Santiago",
     price: 1000,
     capacity: 25,
-    comments: ["degustacion de lujo!! que se repita"],
+    comments: [],
     description:
       "Master class a cargo del reconocido chef Ivan Moroni. Su trayectoria internacional y la dedicacion entregada en cada plato lo llevo a ser el chef mas joven con 5 estrellas Michelin. Degustacion al final de la clase incluida en el precio de la entrada.",
     recommendation: 4.3,
@@ -87,11 +83,7 @@ const planes = [
     address: "Rca Argentina esq Mcal Lopez, Asuncion",
     price: 0,
     capacity: 15,
-    comments: [
-      "Nunca mas, no puedo caminar",
-      "la tercera que voy, vamos por la cuarta!",
-      "no siento las piernas",
-    ],
+    comments: [],
     description:
       "Bota todas las calorias de fin de año con las clases grupales de Martina. Siendo coach nivel 1 de Crossfit, ella te llevara a sudar todo lo que no debiste comer en la cena. Apurante, cupos limitados! ",
     recommendation: 4.5,
@@ -113,11 +105,7 @@ const planes = [
     address: "La Concepcion 25, Santiago",
     price: 15.0,
     capacity: 200,
-    comments: [
-      "concertazo",
-      "horrible, no vayan!",
-      "es a beneficiencia, haganlo por los otros",
-    ],
+    comments: [],
     description: "Concierto a beneficiencia para la fundacion las Rosas.",
     recommendation: 4.0,
     users: ["erika", "santiago", "la familia 123"],
@@ -138,7 +126,7 @@ const planes = [
     address: "Cruz del Chaco esq Dugarty, Asuncion",
     price: 500,
     capacity: 150,
-    comments: ["esta que se rompe todo!", "ATR"],
+    comments: [],
     description:
       "Porque no todo en la vida es entrenar, ahora tambien podes tomar! No faltes a la fiesta del año",
     recommendation: 4.0,
@@ -161,7 +149,7 @@ const planes = [
     address: "Juana de Arco 37, Buenos Aires",
     price: 150,
     capacity: 25,
-    comments: ["Muy innovador", "el expositor un cra"],
+    comments: [],
     description:
       "Temas a tratar: 1) Como ser innovador y no morir en el intento 2) Lider de sus mentes y sus corazones 3) Innovar liderando",
     recommendation: 4.0,
@@ -182,11 +170,7 @@ const planes = [
     address: "Miguel Unamuno 108, Buenos Aires",
     price: 0,
     capacity: 100,
-    comments: [
-      "Punchi punchi punchi",
-      "dancing all night long",
-      "hasta que salga el sol",
-    ],
+    comments: [],
     description:
       "Ven a bailar bajo las estrellas! Discoteque con pista de baile principal destechada",
     recommendation: 4.0,
@@ -209,7 +193,7 @@ const planes = [
     address: "Juana de Arco 37, Buenos Aires",
     price: 0,
     capacity: null,
-    comments: ["Salud!", "nunca mas 2020, aguante 2022"],
+    comments: [],
     description:
       "Ven a relajarte y tomarte unos tragos para cerrar bien el ciclo! Nosotros ponemos el alcohol, vos la diversion",
     recommendation: null,
@@ -230,7 +214,7 @@ const planes = [
     address: "Alejandro Galan Romo 2525, Madrid",
     price: 55,
     capacity: 125,
-    comments: ["que vuelvan los lentos!", "eh eh eh!"],
+    comments: [],
     description:
       "Fiesta estilo retro con el mejor DJ de Madrid! DJ Oldie but Goldie in the HOUSE!!",
     recommendation: 2.0,
@@ -251,12 +235,7 @@ const planes = [
     address: "Fernando Belasteguin 111, Buenos Aires",
     price: 0,
     capacity: 35,
-    comments: [
-      "como se viene!!",
-      "una bomba!",
-      "SEO o CEO??",
-      "me paSEO con este tema",
-    ],
+    comments: [],
     description:
       "Tips y recomendaciones para que como hacer que mi ecommerce aparezca primero en las busquedas de Google.",
     recommendation: 3.0,
@@ -277,7 +256,7 @@ const planes = [
     address: "La tercera a la izquiera 58, Buenos Aires",
     price: 0,
     capacity: null,
-    comments: ["la PITON", "console.log vs print", "nunca mas brackets {} !!"],
+    comments: [],
     description:
       "Principios basicos para la programacion funcional usando Python",
     recommendation: 4.0,
@@ -299,7 +278,7 @@ const planes = [
     address: "Natiruts 1205, Sao Paulo",
     price: 0,
     capacity: null,
-    comments: ["ser o no ser..", "sera?", "el curso muy bueno!"],
+    comments: [],
     description:
       "Ser o no ser en el siglo XXI. Importancia y consecuencias del reconocimiento personal dentro de una socidedad individualista.",
     recommendation: 4.8,
@@ -361,7 +340,7 @@ const planes = [
     address: "Facundo Machain 58, Asuncion",
     price: 100,
     capacity: 20,
-    comments: ["5 dias para la perfeccion! vamos vamos"],
+    comments: [],
     description:
       "Composicion musical desde lo basico hasta topicos intermedios y avanzados",
     recommendation: 5.0,
@@ -382,7 +361,7 @@ const planes = [
     address: "Teatro teatral 150, Buenos Aires",
     price: 75,
     capacity: 500,
-    comments: ["rock and roll!!", "esta que rola"],
+    comments: [],
     description: "",
     recommendation: 4.0,
     users: ["fred durst", "el cangri"],
@@ -444,7 +423,7 @@ const planes = [
     address: "Juana de Arco 37, Buenos Aires",
     price: 150,
     capacity: 25,
-    comments: ["IN DA HOUSE", "checking in", "the best"],
+    comments: [],
     description:
       "Concierto dedicado a todas las grandes estrellas del basketball del hoy y el ayer",
     recommendation: 4.0,

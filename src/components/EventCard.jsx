@@ -1,43 +1,29 @@
 import * as React from "react";
 import {
-
-
   StyleSheet,
-
   Text,
   View,
   ScrollView,
   SafeAreaView,
   FlatList,
-
   TouchableOpacity,
 } from "react-native";
 
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
-
+import { useSelector, useDispatch } from "react-redux";
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
 
-
 const EventCard = ({ navigation }) => {
   const plans = useSelector((store) => store.plan);
-
-} from "react-native";
-
-
-import { useSelector, useDispatch } from "react-redux";
-
-
-
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
-
 
   const Item = ({ id, img, name, description, onPress }) => (
     <TouchableOpacity onPress={onPress}>
@@ -60,12 +46,9 @@ import { useSelector, useDispatch } from "react-redux";
       name={item.name}
       description={item.description}
     />
-
   );
-  const renderItem = ({ item }) => <Item plan={item} />;
 
   return (
-
     <SafeAreaView>
       <FlatList
         horizontal={true}
@@ -77,7 +60,6 @@ import { useSelector, useDispatch } from "react-redux";
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
-
   );
 };
 
@@ -107,4 +89,3 @@ const styles = StyleSheet.create({
     color: "#23036A",
   },
 });
-

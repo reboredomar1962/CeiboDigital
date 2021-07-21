@@ -10,6 +10,8 @@ const {
   postPlan,
   updatePlan,
   deletePlan,
+  getComments,
+  postComments,
 } = require("../controllers/planControllers");
 
 // returns all the plans
@@ -18,10 +20,14 @@ router.get("/", /* authenticateJWT, */ getPlanes);
 router.get("/category/:category", getPlansByCategory);
 // get all plans that match a search input
 router.get("/search", getPlanByQuery);
+// get all comments from plan
+router.get("/:id/comments", getComments);
 // select a plan by id
 router.get("/:id", getOnePlan);
 // create a new plan
 router.post("/", postPlan);
+// create new comments
+router.post("/:id/comments", authenticateJWT, postComments);
 // update a plan
 router.put("/:id", updatePlan);
 // delete a plan

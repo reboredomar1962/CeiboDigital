@@ -1,7 +1,7 @@
 const { User } = require("../models/");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
-const accessTokenSecret = "ceiboDigital"
+const accessTokenSecret = "ceiboDigital";
 
 const getUser = (req, res, next) => {
   User.find({})
@@ -27,7 +27,7 @@ const addFriend = (req, res, next) => {
     id: "60f5c3a7e0cd0625e37f5382",
   }; //ver de donde sacar el logged user
 
-  // que informacion nos llega desde el front al momento de 
+  // que informacion nos llega desde el front al momento de
   // no se que nos va a pasar el apretar boton
   const userFriend = {
     contacts: [],
@@ -98,25 +98,24 @@ const deleteUser = (req, res, next) => {
     .catch((error) => next(error));
 };
 
-
 const loginUser = async (req, res, next) => {
-    const { email, password } = req.body;
-    const user = await User.findOne ({email});
-    
-    console.log(user, "soy user")
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-    if(!user){
-      return res.status(400).json({msg: "Usuario no encontrado"})
-    }
-    const validate = await user.isValidPassword(password);
+  console.log(user, "soy user");
 
-    if(!validate){
-      return res.status(401).json({msg: "Password invalido"})
-    }
+  if (!user) {
+    return res.status(400).json({ msg: "Usuario no encontrado" });
+  }
+  const validate = await user.isValidPassword(password);
 
-    const token = jwt.sign({id: user.id}, accessTokenSecret)
+  if (!validate) {
+    return res.status(401).json({ msg: "Password invalido" });
+  }
 
-    return res.status(200).json({ token });
+  const token = jwt.sign({ id: user.id }, accessTokenSecret);
+
+  return res.status(200).json({ token });
 };
 
 // router.post("/login", async (req, res, next) => {
