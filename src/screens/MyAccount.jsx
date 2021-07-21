@@ -4,6 +4,7 @@ import { Avatar } from 'react-native-elements';
 import Svg, { Rect } from 'react-native-svg';
 import { List } from 'react-native-paper';
 import { alignItems } from 'styled-system';
+import Login from './LoginFacebook';
 
 const randomUser = {
   image: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=300',
@@ -35,6 +36,7 @@ const MyAccount = () => {
             titleStyle={{color:'black'}}
             />
             </View>
+            <Login/>
 
         </View>
     )
