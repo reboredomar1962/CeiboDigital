@@ -1,16 +1,19 @@
-const { Plan } = require("../models/");
+const { Plan, Comments, User } = require("../models/");
 
 // get planes
 const getPlanes = (req, res, next) => {
-  Plan.find({}).then((planes) => {
-    res.json(planes);
-  });
+  Plan.find({})
+    .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
+    .then((planes) => {
+      res.json(planes);
+    });
 };
 
 // get one plan by id
 const getOnePlan = (req, res, next) => {
   const { id } = req.params;
   Plan.findById(id)
+    .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
     .then((plan) => {
       if (plan) {
         return res.json(plan);
@@ -90,6 +93,46 @@ const deletePlan = (req, res, next) => {
     .catch((error) => next(error));
 };
 
+// get planes
+const getComments = (req, res, next) => {
+  Comments.find({}).then((comments) => {
+    console.log("ENTRAMOS A LA RUTA DE COMMENTS");
+    res.json(comments);
+  });
+};
+
+// post plan
+const postComments = (req, res, next) => {
+  const { comentario, valoracion } = req.body;
+  const planId = req.params.id;
+  const { id } = req.user;
+
+  if (!comentario) {
+    return res.status(400).json({
+      error: "required content field is missing",
+    });
+  }
+
+  const userPromise = User.findById(id);
+  const planPromise = Plan.findById(planId);
+
+  Promise.all([userPromise, planPromise]).then((values) => {
+    const [user, plan] = values;
+
+    const newComment = new Comments({
+      userId: user,
+      valoracion,
+      comentario,
+    });
+    /// PREGUNTAR A GUS
+    newComment.save().then((comment) => {
+      plan.comments = plan.comments.concat(comment);
+      plan.save();
+      res.json(comment);
+    });
+  });
+};
+
 module.exports = {
   getPlanes,
   getOnePlan,
@@ -98,4 +141,6 @@ module.exports = {
   postPlan,
   updatePlan,
   deletePlan,
+  getComments,
+  postComments,
 };
