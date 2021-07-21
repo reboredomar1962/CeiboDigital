@@ -1,18 +1,16 @@
 const { model, Schema } = require("mongoose");
 
 const commentsSchema = new Schema({
-  userId: {
-      type: String,
-  },
-  comentario:{
-      type: String,
-      required: true,
-  },
-  valoracion:{
+  userId: { type: Schema.Types.ObjectId, ref: "user" },
+  comentario: {
     type: String,
-    enum: ["1","2","3","4","5"],
     required: true,
-},
+  },
+  valoracion: {
+    type: String,
+    enum: ["1", "2", "3", "4", "5"],
+    required: true,
+  },
 });
 
 commentsSchema.set("toJSON", {
