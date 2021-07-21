@@ -1,18 +1,22 @@
+//--------REACT CONFIG---------------------
 import React from 'react'
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
-import Search from '../components/Search';
+
+//--------COMPONENTS IMPORT----------------
 import EventCard from '../components/EventCard';
 import MyEventCard from '../components/MyEventCard';
 
 
 const Home = ({ navigation }) => {
+
   return (
     <SafeAreaView>
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.textTitle} >El club del plan</Text>
-        <Search />
+        {/* <Text style={styles.textTitle} >El club del plan</Text> */}
+        {/* <Search /> */}
 
+        <Text style={styles.textSubtitle} >Eventos promocionados</Text>
         <View style={styles.container}>
         <EventCard />
         </View>
@@ -20,9 +24,10 @@ const Home = ({ navigation }) => {
         <Text style={styles.textSubtitle} >Tus próximos eventos</Text>
         <MyEventCard />
       </View>
-    </ScrollView>
-    </SafeAreaView>
+      </ScrollView>
+      </SafeAreaView>    
   );
+
 }
 
 export default Home;

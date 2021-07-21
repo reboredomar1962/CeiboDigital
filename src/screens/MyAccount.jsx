@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from 'react-native-elements';
 import Svg, { Rect } from 'react-native-svg';
+import { List } from 'react-native-paper';
+import { alignItems } from 'styled-system';
 
 const randomUser = {
   image: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=300',
@@ -25,6 +27,15 @@ const MyAccount = () => {
                 containerStyle={styles.avatar}
             />
             <Text style={styles.textTitle}>{randomUser.nombre}</Text>
+
+            <View>
+            <List.Item
+            title="First Item"
+            left={props => <List.Icon {...props} icon="folder" color="black"/>}
+            titleStyle={{color:'black'}}
+            />
+            </View>
+
         </View>
     )
 }
@@ -39,7 +50,7 @@ const styles = StyleSheet.create({
       justifyContent: "flex-start",
     },
     avatar: {
-      marginTop: 45,
+      marginTop: 25,
     },
     textTitle: {
       fontFamily: 'Poppins_500Medium',
@@ -47,5 +58,10 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       color: '#fff',
       marginTop: 15,
+    },
+    listContainer: {
+      flex:1,
+      justifyContent:'flex-start',
+      
     },
   });
