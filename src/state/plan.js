@@ -20,10 +20,16 @@ export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
     .catch((error) => console.log("ACA ESTA EL ERROR -----> ", error));
 });
 
-export const searchPlans = createAsyncThunk("SEARCH_PLANS", () => {});
+export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
+  return axios
+    .get(`http://localhost:3001/api/plan/search?name=${namePlan}`)
+    .then((res) => res.data)
+    .catch((error) => console.log("ACA ESTA EL ERROR -----> ", error));
+});
 
 const plansReducer = createReducer(initialState, {
   [showPlans.fulfilled]: (state, action) => action.payload,
+  [searchPlans.fulfilled]: (state, action) => action.payload,
 });
 
 export default plansReducer;
