@@ -3,11 +3,28 @@ import { Searchbar } from "react-native-paper";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import { searchPlans } from "../state/plan";
+import { showPlans } from "../state/plan";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [plansFilter, setPlansFilter] = React.useState([]);
+  const plans = useSelector((store) => store.plan);
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(showPlans());
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(searchPlans(searchQuery));
+  }, [searchQuery]);
+
+  const onChangeSearch = (query) => {
+    console.log("aca ->", query);
+    setSearchQuery(query);
+    console.log(plans);
+  };
 
   return (
     <Searchbar
