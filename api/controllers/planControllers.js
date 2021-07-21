@@ -39,6 +39,20 @@ const getPlansByCategory = (req, res, next) => {
     });
 };
 
+// get all plans that match a search input
+const getPlanByQuery = (req, res, next) => {
+  // OJO para que coincida con el key que viene desde el front
+  const { name } = req.query;
+
+  Plan.find({ name: { $regex: name, $options: "i" } })
+    .then((search) => {
+      console.log(search);
+      if (!search) res.status(404);
+      res.status(200).json(search);
+    })
+    .catch((err) => console.log(err));
+};
+
 // post plan
 const postPlan = (req, res, next) => {
   const plan = req.body;
@@ -80,6 +94,7 @@ module.exports = {
   getPlanes,
   getOnePlan,
   getPlansByCategory,
+  getPlanByQuery,
   postPlan,
   updatePlan,
   deletePlan,

@@ -1,17 +1,21 @@
 import * as React from "react";
 import {
-StyleSheet,
+
+
+  StyleSheet,
+
   Text,
   View,
   ScrollView,
   SafeAreaView,
   FlatList,
+
   TouchableOpacity,
 } from "react-native";
 
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
-import { useSelector, useDispatch } from "react-redux";
+
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
@@ -24,6 +28,7 @@ const EventCard = ({ navigation }) => {
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
+
 
   const Item = ({ id, img, name, description, onPress }) => (
     <TouchableOpacity onPress={() => navigation.navigate("SingleEvent", {
@@ -49,9 +54,12 @@ const EventCard = ({ navigation }) => {
       name={item.name}
       description={item.description}
     />
+
   );
+  const renderItem = ({ item }) => <Item plan={item} />;
 
   return (
+
     <SafeAreaView>
       <FlatList
         horizontal={true}
@@ -61,6 +69,7 @@ const EventCard = ({ navigation }) => {
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
+
   );
 };
 
