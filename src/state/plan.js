@@ -15,18 +15,18 @@ const initialState = {
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
-    .get("http://localhost:3001/api/plan")
+    .get("http://10.0.2.2:3001/api/plan")
     .then((res) => res.data)
     .catch((error) => console.log("ACA ESTA EL ERROR -----> ", error));
 });
 
 export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
-  return axios.get(`http://${os}:3001/api/plan/${param}`);
+  return axios.get(`http://10.0.2.2:3001/api/plan/${param}`);
 });
 
 export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
   return axios
-    .get(`http://localhost:3001/api/plan/search?name=${namePlan}`)
+    .get(`http://10.0.2.2:3001/api/plan/search?name=${namePlan}`)
     .then((res) => res.data)
     .catch((error) => console.log("ACA ESTA EL ERROR -----> ", error));
 });
