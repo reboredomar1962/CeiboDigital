@@ -21,8 +21,6 @@ const EventCard = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  console.log(plans);
-
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
