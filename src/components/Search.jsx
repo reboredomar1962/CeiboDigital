@@ -7,7 +7,7 @@ import { showPlans } from "../state/plan";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const plans = useSelector((store) => store.plan);
+  //const plans = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
 
@@ -16,6 +16,7 @@ const Search = () => {
   }, []);
 
   React.useEffect(() => {
+    console.log("actualiza el search query", searchQuery);
     dispatch(searchPlans(searchQuery));
   }, [searchQuery]);
 

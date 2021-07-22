@@ -45,7 +45,9 @@ const plansReducer = createReducer(initialState, {
   [showSinglePlan.fulfilled]: (state, action) => {
     state.singlePlan = action.payload;
   },
-  [searchPlans.fulfilled]: (state, action) => action.payload,
+  [searchPlans.fulfilled]: (state, action) => {
+    state.plans = action.payload;
+  },
 });
 
 export default plansReducer;
