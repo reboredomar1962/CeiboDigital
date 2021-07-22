@@ -17,20 +17,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { Card, Title, Paragraph } from "react-native-paper";
 
 const EventCard = ({ navigation }) => {
-
-  const {plans} = useSelector((store) => store.plan);
+  const { plans } = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
+
+  console.log(plans);
 
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
 
   const Item = ({ id, img, name, description, onPress }) => (
-    <TouchableOpacity onPress={() => navigation.navigate("SingleEvent", {
-      id: id,
-      eventName: name
-    })}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("SingleEvent", {
+          id: id,
+          eventName: name,
+        })
+      }
+    >
       <View style={styles.cardContainer}>
         <Card style={styles.cardStyle} key={id}>
           <Card.Cover source={{ uri: img[0] }} />
@@ -92,7 +97,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 /*  
 ESTO ES UN SCROLLVIEW
 
@@ -115,4 +119,3 @@ return (
     </ScrollView> 
 
   ) */
-

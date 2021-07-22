@@ -1,5 +1,13 @@
-import * as React from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, FlatList, TouchableOpacity } from "react-native";
+import * as React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 //-------------Libraries Import--------------------------
 import { Card, List } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
@@ -8,8 +16,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { showSinglePlan } from "../state/plan";
 import { useDispatch, useSelector } from "react-redux";
 
-const SingleEvent = ({route}) => {
-  console.log('ACA ESTA ID ------->>>>>',route)
+const SingleEvent = ({ route }) => {
+  console.log("ACA ESTA ID ------->>>>>", route);
 
   const { singlePlan } = useSelector((store) => store.plan);
   const dispatch = useDispatch();
@@ -17,53 +25,51 @@ const SingleEvent = ({route}) => {
   React.useEffect(() => {
     dispatch(showSinglePlan(route.params.id));
   }, []);
-  console.log('ACA ESTA SINGLE PLAN-------->', singlePlan)
+  console.log("ACA ESTA SINGLE PLAN-------->", singlePlan);
 
-return(
-  <SafeAreaView>
-    <ScrollView>
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.container}>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <View style={styles.cardContainer}>
+                {Object.keys(singlePlan).length !== 0 &&
+                  singlePlan.img.map((image) => (
+                    <Card style={styles.cardStyle} key={image}>
+                      <Card.Cover source={{ uri: image }} />
+                    </Card>
+                  ))}
+              </View>
+            </ScrollView>
+          </View>
 
-    <View style={styles.container}>
+          <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
-      <View style={styles.container}>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-      <View style={styles.cardContainer} >
-        { Object.keys(singlePlan).length &&
-          singlePlan.img.map(image => (
-            <Card style={styles.cardStyle} key={image}>
-                <Card.Cover source={{uri: image}} />
-            </Card>
-          ))
-        }
-      </View>
-    </ScrollView> 
-      </View>
-      
-    
-    <Text style={styles.titleTxt}>{singlePlan.name}</Text>
+          {/* <View style={styles.infoContainer}> */}
 
-    {/* <View style={styles.infoContainer}> */}
+          <List.Section>
+            <List.Item
+              title="First Item"
+              left={() => <AntDesign name="search1" size={20} color="black" />}
+            />
+            <List.Item
+              title="Second Item"
+              /* left={() => <AntDesign name="search1" size={20} color="blue" />} */
+              titleStyle={{ color: "black", fontSize: 12 }}
+              titleNumberOfLines={0}
+            />
+          </List.Section>
 
-    <List.Section>
-      <List.Item title="First Item" left={() => <AntDesign name="search1" size={20} color="black" />} />
-      <List.Item
-        title="Second Item"
-        /* left={() => <AntDesign name="search1" size={20} color="blue" />} */
-        titleStyle={{color:'black', fontSize:12}}
-        titleNumberOfLines={0}
-      />
-    </List.Section>
-
-    {/* </View> */}
-      
-    
-    </View>
-
-    </ScrollView>
-  </SafeAreaView>
-
-)
-}
+          {/* </View> */}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 export default SingleEvent;
 
 const styles = StyleSheet.create({
@@ -73,10 +79,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  infoContainer:{
-    flex:1,
-    alignItems:'flex-start',
-    justifyContent:'flex-start',
+  infoContainer: {
+    flex: 1,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
   cardContainer: {
     flex: 1,
