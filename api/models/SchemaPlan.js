@@ -26,7 +26,7 @@ const planSchema = new Schema({
     type: Number,
     default: null,
   },
-  comments: Array,
+  comments: [{ type: Schema.Types.ObjectId, ref: "comments" }],
   description: {
     type: String,
     required: false, //camiar dsp a true

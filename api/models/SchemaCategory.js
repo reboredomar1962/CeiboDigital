@@ -2,6 +2,7 @@ const { model, Schema } = require("mongoose");
 
 const categorySchema = new Schema({
   type: String,
+  img: String,
 });
 
 categorySchema.set("toJSON", {
