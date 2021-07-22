@@ -18,9 +18,12 @@ const RegisterForm = () => {
 
   const onSubmit = (data) => console.log(data);
 
+
+
   return (
     <SafeAreaView>
-    <View>
+    <View style={styles.container}>
+    <Text style={styles.textTitle}>Nombre</Text>
       <Controller
         control={control}
         name="nombre"
@@ -34,6 +37,7 @@ const RegisterForm = () => {
           />
         )}
       />
+
       {/* 
       //ESTO ES PARA LAS VALIDACIONES
       rules={{
@@ -42,6 +46,8 @@ const RegisterForm = () => {
              message: 'Field is required!'
            }
          }} */}
+         
+         <Text style={styles.textTitle}>Email</Text>
          <Controller
         control={control}
         name="Email"
@@ -55,6 +61,7 @@ const RegisterForm = () => {
           />
         )}
       />
+      <Text style={styles.textTitle}>Password</Text>
       <Controller
         control={control}
         name='Password'
@@ -84,7 +91,6 @@ const styles = StyleSheet.create({
       flex: 1,
       width:'100%',
       height: '100%',
-      backgroundColor: "red",
       alignItems: "center",
       justifyContent: "flex-start",
     },
@@ -92,12 +98,20 @@ const styles = StyleSheet.create({
       fontFamily: "Poppins_500Medium",
       fontSize: 15,
       textAlign: "center",
-      backgroundColor:'white',
+      borderBottomWidth: 1,
+      borderBottomColor: '#D4B5FA',
       width: 300,
     },
-    button: {
+    textTitle: {
+        fontFamily: "Poppins_300Light",
+        fontSize: 15,
+        width: 300,
         color: 'white',
-        height: 40,
-        borderRadius: 4,
+        marginBottom:5,
+      },
+    button: {
+        marginTop: 10,
+        color: 'white',
+        width: '50%',
       },
   });

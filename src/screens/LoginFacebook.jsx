@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  Alert,
   View,
   StyleSheet,
 } from "react-native";
@@ -14,7 +15,7 @@ import * as Facebook from "expo-facebook";
 // const secretKey = "31b0617b3eb5843ea53856fe232c44c2"
 
 export default function Login() {
-  const id = "588827002106865";
+  const id = "2075898539247474";
 
   async function logIn() {
     try {

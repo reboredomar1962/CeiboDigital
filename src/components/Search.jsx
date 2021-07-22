@@ -6,6 +6,7 @@ import { searchPlans } from "../state/plan";
 import { showPlans } from "../state/plan";
 
 const Search = () => {
+  
   const [searchQuery, setSearchQuery] = React.useState("");
   const {searchedPlans} = useSelector((store) => store.plan);
 

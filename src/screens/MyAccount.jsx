@@ -29,13 +29,13 @@ const MyAccount = ({navigation}) => {
             />
             <Text style={styles.textTitle}>{randomUser.nombre}</Text>
 
-            <View>
+            {/* <View>
             <List.Item
             title="First Item"
             left={props => <List.Icon {...props} icon="folder" color="black"/>}
             titleStyle={{color:'black'}}
             />
-            </View>
+            </View> */}
             <Login/>
             <Button
             title='Registrarse'
