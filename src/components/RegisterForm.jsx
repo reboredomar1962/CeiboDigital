@@ -8,6 +8,8 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { createUser } from "../state/user";
 
 const RegisterForm = () => {
   const {
@@ -16,25 +18,30 @@ const RegisterForm = () => {
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
 
-  const onSubmit = (data) => console.log(data);
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    dispatch(createUser(data));
+    console.log(data);
+  };
 
   return (
     <SafeAreaView>
-    <View>
-      <Controller
-        control={control}
-        name="nombre"
-        render={({ field: { onChange, value, onBlur } }) => (
-          <TextInput
-            style={styles.textSubtitle}
-            placeholder="Ingresá tu nombre"
-            value={value}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-          />
-        )}
-      />
-      {/* 
+      <View>
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value, onBlur } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Ingresá tu nombre"
+              value={value}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+            />
+          )}
+        />
+        {/* 
       //ESTO ES PARA LAS VALIDACIONES
       rules={{
            required: {
@@ -42,37 +49,36 @@ const RegisterForm = () => {
              message: 'Field is required!'
            }
          }} */}
-         <Controller
-        control={control}
-        name="Email"
-        render={({ field: { onChange, value, onBlur } }) => (
-          <TextInput
-            style={styles.textSubtitle}
-            placeholder="Ingresá tu Email"
-            value={value}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-          />
-        )}
-      />
-      <Controller
-        control={control}
-        name='Password'
-        render={({ field: { onChange, value, onBlur } }) => (
-          <TextInput
-            style={styles.textSubtitle}
-            placeholder="Ingresá tu password"
-            value={value}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-          />
-        )}
-      />
-    <View style={styles.button}>
-        <Button title="Enviar" onPress={handleSubmit(onSubmit)} />
-    </View>
-
-    </View>
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, value, onBlur } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Ingresá tu Email"
+              value={value}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { onChange, value, onBlur } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Ingresá tu password"
+              value={value}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+            />
+          )}
+        />
+        <View style={styles.button}>
+          <Button title="Enviar" onPress={handleSubmit(onSubmit)} />
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -80,24 +86,24 @@ const RegisterForm = () => {
 export default RegisterForm;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      width:'100%',
-      height: '100%',
-      backgroundColor: "red",
-      alignItems: "center",
-      justifyContent: "flex-start",
-    },
-    textSubtitle: {
-      fontFamily: "Poppins_500Medium",
-      fontSize: 15,
-      textAlign: "center",
-      backgroundColor:'white',
-      width: 300,
-    },
-    button: {
-        color: 'white',
-        height: 40,
-        borderRadius: 4,
-      },
-  });
+  container: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  textSubtitle: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 15,
+    textAlign: "center",
+    backgroundColor: "white",
+    width: 300,
+  },
+  button: {
+    color: "white",
+    height: 40,
+    borderRadius: 4,
+  },
+});
