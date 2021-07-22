@@ -27,7 +27,7 @@ const EventCard = ({ navigation }) => {
     dispatch(showPlans());
   }, []);
 
-  const Item = ({ id, img, name, description, onPress }) => (
+  const Item = ({ id, img, name, description }) => (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("SingleEvent", {

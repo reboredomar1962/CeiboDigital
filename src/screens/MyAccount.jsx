@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { Avatar } from 'react-native-elements';
 import Svg, { Rect } from 'react-native-svg';
 import { List } from 'react-native-paper';
@@ -14,7 +14,7 @@ const randomUser = {
   pais: 'Argentina',
 }
 
-const MyAccount = () => {
+const MyAccount = ({navigation}) => {
     return (
         <View style={styles.container}>
             <Svg height="100%" width="100%" style={{position: 'absolute'}}>
@@ -37,6 +37,11 @@ const MyAccount = () => {
             />
             </View>
             <Login/>
+            <Button
+            title='Registrarse'
+            style={{color:'black'}}
+            onPress={() => navigation.navigate('RegisterScreen')}
+            ></Button>
 
         </View>
     )

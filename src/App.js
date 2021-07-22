@@ -29,6 +29,7 @@ import CreateEvent from "./screens/CreateEvent";
 import SingleEvent from "./screens/SingleEvent";
 import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 //------- https://reactnavigation.org/docs/nesting-navigators#best-practices-when-nesting ---------
 const commonScreens = {
@@ -37,7 +38,7 @@ const commonScreens = {
 
 /* const authScreens = {
   SignIn: SignInScreen,
-  SignUp: SignUpScreen,
+  Register: RegisterScreen,
 }; */
 
 const userScreens = {
@@ -99,6 +100,8 @@ const App = () => {
                       textAlign: "center",
                     }, })} />
                 <Stack.Screen name="SearchScreen" component={SearchScreen} />
+                <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+
               </Stack.Navigator>
             </NavigationContainer>
           </PaperProvider>

@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 //--------COMPONENTS IMPORT----------------
 import EventCard from "../components/EventCard";
 import MyEventCard from "../components/MyEventCard";
-import Search from "../components/Search";
+
 
 const Home = ({ navigation }) => {
   return (
