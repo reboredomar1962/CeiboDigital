@@ -25,12 +25,12 @@ router.get("/:id/comments", getComments);
 // select a plan by id
 router.get("/:id", getOnePlan);
 // create a new plan
-router.post("/", postPlan);
+router.post("/", authenticateJWT, postPlan);
 // create new comments
 router.post("/:id/comments", authenticateJWT, postComments);
 // update a plan
-router.put("/:id", updatePlan);
+router.put("/:id", authenticateJWT, updatePlan);
 // delete a plan
-router.delete("/:id", deletePlan);
+router.delete("/:id", authenticateJWT, deletePlan);
 
 module.exports = router;

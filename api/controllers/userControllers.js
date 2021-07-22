@@ -85,7 +85,13 @@ const postUser = (req, res, next) => {
     return res.status(400).json({ error: "required content field is missing" });
   }
 
-  User.create(user).then((user) => res.status(201).send(user));
+  User.create(user)
+    .then((user) => {
+      res.status(201).send(user);
+    })
+    .catch((err) => {
+      res.status(409).send(err);
+    });
 };
 
 const deleteUser = (req, res, next) => {
