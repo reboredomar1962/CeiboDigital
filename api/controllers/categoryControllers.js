@@ -1,7 +1,7 @@
 const { Category } = require("../models");
 
 const getCategory = (req, res, next) => {
-  Category.find({}).then((category) => res.json(category));
+  Category.find({}).then((category) => {console.log(category), res.json(category)});
 };
 
 const addCategory = (req, res, next) => {

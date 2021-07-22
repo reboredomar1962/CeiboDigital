@@ -3,8 +3,8 @@ const { Plan, Comments, User } = require("../models/");
 // get planes
 const getPlanes = (req, res, next) => {
   Plan.find({})
-    .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
     .then((planes) => {
+      console.log('ESTO ES PLANES EN CONTROLLERS',planes)
       res.json(planes);
     });
 };

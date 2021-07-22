@@ -31,6 +31,8 @@ const SearchScreen = () => {
                     
                     <Search />
                     <Text style={styles.textSubtitle}>Categorías</Text>
+                    {/* si hay algo en searchedPlans(store) renderear componente de searchedPlans(no existe todavia)
+                    si no, mostrar CategoriesComponent */}
                     <CategoriesComponent />
                 
                 </View>

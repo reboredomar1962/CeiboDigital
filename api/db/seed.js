@@ -510,14 +510,14 @@ const users = [
 
 // Borrar todo lo que haya en base de datos
 
-// deletePlanPromise = Plan.deleteMany({});
-// deleteCategoryPromise = Category.deleteMany({});
-// deleteUserPromise = User.deleteMany({});
+/*  deletePlanPromise = Plan.deleteMany({});
+ deleteCategoryPromise = Category.deleteMany({});
+ deleteUserPromise = User.deleteMany({});
 
-// Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
-//   .then((deleted) => console.log("Items deleted", deleted))
-//   .then(() => db.close())
-//   .catch((err) => console.log(err));
+ Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
+   .then((deleted) => console.log("Items deleted", deleted))
+   .then(() => db.close())
+   .catch((err) => console.log(err)); */
 
 // Ingresa todo lo que tenga en base de datos
 
