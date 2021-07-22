@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
+import Svg, { Rect } from 'react-native-svg';
 
 
 const LoginScreen = () => {

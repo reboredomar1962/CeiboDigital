@@ -72,6 +72,7 @@ const HomeScreen = ({ navigation }) => {
           
         }}
       />
+      
     </Tab.Navigator>
     
   );
