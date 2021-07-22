@@ -8,20 +8,21 @@ import {
 
 import { Platform } from "react-native";
 
+// const os = Platform.OS !== "android" ? "localhost" : "10.0.2.2";
+
 const initialState = {
   plans: [],
 };
 
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
-  if(Platform.OS)
-  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
-    .get("http://10.0.2.2:3001/api/plan")
+    .get(`http://10.0.2.2:3001/api/plan`)
     .then((res) => res.data)
     .catch((error) => console.log("ACA ESTA EL ERROR -----> ", error));
 });
 
 export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
+  //console.log("entro aca");
   return axios.get(`http://10.0.2.2:3001/api/plan/${param}`);
 });
 

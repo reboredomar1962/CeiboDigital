@@ -49,11 +49,10 @@ const getPlanByQuery = (req, res, next) => {
 
   Plan.find({ name: { $regex: name, $options: "i" } })
     .then((search) => {
-      console.log(search);
       if (!search) res.status(404);
       res.status(200).json(search);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => res.status(400).send(err));
 };
 
 // post plan
@@ -96,7 +95,6 @@ const deletePlan = (req, res, next) => {
 // get planes
 const getComments = (req, res, next) => {
   Comments.find({}).then((comments) => {
-    console.log("ENTRAMOS A LA RUTA DE COMMENTS");
     res.json(comments);
   });
 };
