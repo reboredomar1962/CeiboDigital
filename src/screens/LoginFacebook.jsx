@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  Alert,
   View,
   StyleSheet,
   Alert,
