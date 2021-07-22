@@ -9,6 +9,7 @@ import {
   Alert,
   View,
   StyleSheet,
+  Alert,
 } from "react-native";
 import * as Facebook from "expo-facebook";
 // const id = "588827002106865"
@@ -37,14 +38,12 @@ export default function Login() {
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
-
     }
   }
 
   return (
     <View style={styles.container}>
-      <Button title="Login con Facebook" 
-      onPress = {logIn}/>
+      <Button title="Login con Facebook" onPress={logIn} />
     </View>
   );
 }
