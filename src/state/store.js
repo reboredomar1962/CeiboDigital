@@ -5,12 +5,12 @@ import logger from "redux-logger";
 import categoriesReducer from "./categories";
 import plansReducer from "./plan";
 
+//middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 const store = configureStore({
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-    reducer: {
-      plan: plansReducer,
-      categories: categoriesReducer,
-    },
-  });
-  
-  export default store;
+  reducer: {
+    plan: plansReducer,
+    categories: categoriesReducer,
+  },
+});
+
+export default store;

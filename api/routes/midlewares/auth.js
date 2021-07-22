@@ -7,7 +7,6 @@ const accessTokenSecret = "ceiboDigital";
 
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader, "esto es el authHeader");
 
   if (authHeader) {
     const token = authHeader.split(" ")[1];

@@ -45,7 +45,6 @@ const addFriend = (req, res, next) => {
 
   User.findById(loggedUser.id)
     .then((user) => {
-      //console.log("contactos", user.contacts);
       if (!user.contacts.includes(userFriend.id)) {
         user.contacts = user.contacts.concat(userFriend.id);
         user.save();
@@ -101,8 +100,6 @@ const deleteUser = (req, res, next) => {
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-
-  console.log(user, "soy user");
 
   if (!user) {
     return res.status(400).json({ msg: "Usuario no encontrado" });
