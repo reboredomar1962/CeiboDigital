@@ -56,7 +56,7 @@ const EventCard = ({ navigation }) => {
     />
 
   );
-  const renderItem = ({ item }) => <Item plan={item} />;
+
 
   return (
 
