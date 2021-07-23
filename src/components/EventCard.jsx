@@ -17,17 +17,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Card, Title, Paragraph } from "react-native-paper";
 
 const EventCard = ({ navigation }) => {
-  
   const { plans } = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
 
-  
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
-  
-  console.log(plans);
+
   const Item = ({ id, img, name, description }) => (
     <TouchableOpacity
       onPress={() =>
