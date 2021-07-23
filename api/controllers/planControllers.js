@@ -4,7 +4,6 @@ const { Plan, Comments, User } = require("../models/");
 const getPlanes = (req, res, next) => {
   Plan.find({})
     .then((planes) => {
-      console.log('ESTO ES PLANES EN CONTROLLERS',planes)
       res.json(planes);
     });
 };
