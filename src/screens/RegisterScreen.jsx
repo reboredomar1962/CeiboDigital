@@ -4,7 +4,7 @@ import Svg, { Rect } from 'react-native-svg';
 import RegisterForm from '../components/RegisterForm';
 
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
     return (
       <SafeAreaView>
         <ScrollView>
@@ -20,7 +20,7 @@ const RegisterScreen = () => {
           </View>
 
           <View style={{position:'relative', transform:([{translateY:200}])}}>
-          <RegisterForm />
+          <RegisterForm navigation={navigation}/>
           </View>
 
         </View>

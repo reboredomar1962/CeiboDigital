@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import Svg, { Rect } from 'react-native-svg';
 import LoginForm from '../components/LoginForm';
+import Login from './LoginFacebook';
 
 
 const LoginScreen = () => {
@@ -22,6 +23,8 @@ const LoginScreen = () => {
         <View>
         <LoginForm />
         </View>
+
+        <Login />
 
       </View>
       </ScrollView>
