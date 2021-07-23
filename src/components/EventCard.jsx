@@ -28,6 +28,7 @@ const EventCard = ({ navigation }) => {
   }, []);
   
   console.log(plans);
+  
   const Item = ({ id, img, name, description }) => (
     <TouchableOpacity
       onPress={() =>

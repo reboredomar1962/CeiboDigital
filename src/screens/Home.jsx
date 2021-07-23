@@ -12,8 +12,6 @@ const Home = ({ navigation }) => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
-          {/* <Text style={styles.textTitle}>El club del plan</Text>
-          <Search /> */}
 
           <Text style={styles.textSubtitle}>Eventos promocionados</Text>
 
@@ -22,7 +20,9 @@ const Home = ({ navigation }) => {
           </View>
 
           <Text style={styles.textSubtitle}>Tus próximos eventos</Text>
+
           <MyEventCard />
+          
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -38,10 +38,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  eventCardContainer: {
-    width: 800,
-  },
-
   textTitle: {
     fontFamily: "Poppins_700Bold",
     fontSize: 20,

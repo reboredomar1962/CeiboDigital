@@ -30,6 +30,8 @@ import SingleEvent from "./screens/SingleEvent";
 import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import LoginScreen from "./screens/LoginScreen";
+import MyAccountLoggedIn from "./screens/MyAccountLoggedIn";
 
 //------- https://reactnavigation.org/docs/nesting-navigators#best-practices-when-nesting ---------
 const commonScreens = {
@@ -97,10 +99,20 @@ const App = () => {
                     headerTitleStyle: {
                       fontFamily: "Poppins_500Medium",
                       fontSize: 18,
-                      textAlign: "center",
                     }, })} />
                 <Stack.Screen name="SearchScreen" component={SearchScreen} />
-                <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ title:'Registro', headerTintColor: "#23036A",
+                    headerTitleStyle: {
+                      fontFamily: "Poppins_500Medium",
+                      fontSize: 18,
+                    }, }} />
+                    <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title:'Iniciar Sesión', headerTintColor: "#23036A",
+                    headerTitleStyle: {
+                      fontFamily: "Poppins_500Medium",
+                      fontSize: 18,
+                    }, }} />
+                <Stack.Screen name="MyAccountLoggedIn" component={MyAccountLoggedIn} />
+
 
               </Stack.Navigator>
             </NavigationContainer>
