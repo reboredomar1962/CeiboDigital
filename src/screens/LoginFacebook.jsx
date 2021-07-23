@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
-  Alert,
   View,
   StyleSheet,
 } from "react-native";
@@ -49,9 +48,6 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    // paddingTop: Constants.statusBarHeight,
     backgroundColor: "#ecf0f1",
   },
   paragraph: {
@@ -59,6 +55,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#34495e",
+   
   },
 });

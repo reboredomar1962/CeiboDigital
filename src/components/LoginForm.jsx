@@ -15,80 +15,24 @@ import { useDispatch } from "react-redux";
 import SelectMultiple from 'react-native-select-multiple'
 import RNPickerSelect from 'react-native-picker-select';
 
-import { createUser } from "../state/user";
 
-
-
-const RegisterForm = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm({ mode: "onBlur" });
-
-  const dispatch = useDispatch();
-
-  const onSubmit = (data) => {
-    dispatch(createUser(data));
-    console.log(data);
-  };
-
+const LoginForm = () => {
+    const {
+        control,
+        handleSubmit,
+        formState: { errors, isValid },
+      } = useForm({ mode: "onBlur" });
+    
+      const dispatch = useDispatch();
+    
+      const onSubmit = (data) => {
+        dispatch(createUser(data));
+        console.log(data);
+      };
   return (
     <SafeAreaView>
 
-
       <View style={styles.container}>
-        
-         <Controller
-        control={control}
-        name="Nombre"
-        render={({ field: { onChange, value, onBlur } }) => (
-          <TextInput
-            style={styles.textSubtitle}
-            placeholder="Nombre"
-            /* inlineImageLeft='' */
-            placeholderTextColor='#23036A'
-            textContentType='name'
-            value={value}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-          />
-        )}
-      />
-
-      <Controller
-        style={{marginBottom:10}}
-        control={control}
-        name='Apellido'
-        render={({ field: { onChange, value, onBlur } }) => (
-          <TextInput
-            style={styles.textSubtitle}
-            placeholder="Apellido"
-            placeholderTextColor='#23036A'
-            textContentType='familyName'
-            value={value}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-          />
-        )}
-      />
-
-      <Controller
-        style={{marginBottom:10}}
-        control={control}
-        name='Edad'
-        render={({ field: { onChange, value, onBlur } }) => (
-          <TextInput
-            style={styles.textSubtitle}
-            placeholder="Edad"
-            placeholderTextColor='#23036A'
-            keyboardType='number-pad'
-            value={value}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-          />
-        )}
-      />
 
       <Controller
         style={{marginBottom:10}}
@@ -125,7 +69,6 @@ const RegisterForm = () => {
         )}
       />
 
-
         <View style={styles.button}>
           <Button 
           title="Enviar"
@@ -136,19 +79,23 @@ const RegisterForm = () => {
         </View>
 
       </View>
+
     </SafeAreaView>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
 
 const styles = StyleSheet.create({
 
-
     container: {
       flex: 1,
+      width:'100%',
+      height: '100%',
       alignItems: "center",
       justifyContent: "flex-start",
+      marginTop:'60%',
+      marginBottom:'50%',
     },
     textSubtitle: {
       fontFamily: "Poppins_300Light",
@@ -167,12 +114,11 @@ const styles = StyleSheet.create({
     button: {
         fontFamily: "Poppins_300Light",
         fontSize: 15,
-        marginTop: 30,
+        marginTop: 10,
         color: 'white',
         width: 100,
         borderRadius: 50,
         overflow: 'hidden'
       },
   });
-
 

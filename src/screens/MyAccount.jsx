@@ -1,46 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, FlatList } from "react-native";
 import { Avatar } from 'react-native-elements';
 import Svg, { Rect } from 'react-native-svg';
-import { List } from 'react-native-paper';
 import { alignItems } from 'styled-system';
 import Login from './LoginFacebook';
 
-const randomUser = {
-  image: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=300',
-  nombre: 'Gonzalo Martinez',
-  edad: 28,
-  ciudad: 'Buenos Aires',
-  pais: 'Argentina',
-}
 
 const MyAccount = ({navigation}) => {
     return (
         <View style={styles.container}>
+
             <Svg height="100%" width="100%" style={{position: 'absolute'}}>
               <Rect x="0" y="0" width="100%" height="35%" fill="#23036A" />
             </Svg>
-            
-            <Avatar
-                size={110}
-                source={{uri: randomUser.image}}
-                avatarStyle={{borderRadius: 10}}
-                containerStyle={styles.avatar}
-            />
-            <Text style={styles.textTitle}>{randomUser.nombre}</Text>
 
-            {/* <View>
-            <List.Item
-            title="First Item"
-            left={props => <List.Icon {...props} icon="folder" color="black"/>}
-            titleStyle={{color:'black'}}
-            />
-            </View> */}
             <Login/>
+
             <Button
             title='Registrarse'
-            style={{color:'black'}}
             onPress={() => navigation.navigate('RegisterScreen')}
+            ></Button>
+
+            <Button
+            title='Iniciar sesión'
+            onPress={() => navigation.navigate('LoginScreen')}
+            ></Button>
+
+            <Button
+            title='Logged In'
+            onPress={() => navigation.navigate('MyAccountLoggedIn')}
             ></Button>
 
         </View>

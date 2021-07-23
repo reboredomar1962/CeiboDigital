@@ -17,7 +17,7 @@ import { showSinglePlan } from "../state/plan";
 import { useDispatch, useSelector } from "react-redux";
 
 const SingleEvent = ({ route }) => {
-  console.log("ACA ESTA ID ------->>>>>", route);
+  /* console.log("ACA ESTA ID ------->>>>>", route); */
 
   const { singlePlan } = useSelector((store) => store.plan);
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const SingleEvent = ({ route }) => {
   React.useEffect(() => {
     dispatch(showSinglePlan(route.params.id));
   }, []);
-  console.log("ACA ESTA SINGLE PLAN-------->", singlePlan);
+  /* console.log("ACA ESTA SINGLE PLAN-------->", singlePlan); */
 
   return (
     <SafeAreaView>
@@ -49,22 +49,27 @@ const SingleEvent = ({ route }) => {
 
           <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
-          {/* <View style={styles.infoContainer}> */}
+          <View style={styles.infoContainer}>
+            <Text style={styles.titleTxt}>Descripción</Text>
+            <Text style={styles.paragTxt}>{singlePlan.description}</Text>
 
-          <List.Section>
-            <List.Item
-              title="First Item"
-              left={() => <AntDesign name="search1" size={20} color="black" />}
-            />
-            <List.Item
-              title="Second Item"
-              /* left={() => <AntDesign name="search1" size={20} color="blue" />} */
-              titleStyle={{ color: "black", fontSize: 12 }}
-              titleNumberOfLines={0}
-            />
-          </List.Section>
+            <Text style={styles.titleTxt}>Fecha</Text>
+            <Text style={styles.paragTxt}>{singlePlan.planDate}</Text>
+            
+            <Text style={styles.titleTxt}>Ubicación</Text>
+            <Text style={styles.paragTxt}>{singlePlan.address}</Text>
+            
+            <Text style={styles.titleTxt}>Precio</Text>
+            {singlePlan.price === 0 ? <Text style={styles.paragTxt}>El evento es gratuito</Text> : <Text style={styles.paragTxt}>${singlePlan.price}</Text>}
+            
+            <Text style={styles.titleTxt}>Anfitrión</Text>
+            <Text style={styles.paragTxt}>{singlePlan.planOwner}</Text>
+            
+            <Text style={styles.titleTxt}>Categoría</Text>
+            <Text style={styles.paragTxt}>{singlePlan.category}</Text>
+          </View>
 
-          {/* </View> */}
+          
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -83,6 +88,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-start",
     justifyContent: "flex-start",
+    marginLeft:10,
+    marginRight:10,
+    marginTop: 15,
   },
   cardContainer: {
     flex: 1,
@@ -98,12 +106,31 @@ const styles = StyleSheet.create({
   },
   titleTxt: {
     fontFamily: "Poppins_500Medium",
-    fontSize: 15,
+    fontSize: 14,
     color: "#23036A",
   },
   paragTxt: {
     fontFamily: "Poppins_300Light",
     fontSize: 12,
     color: "#23036A",
+    marginBottom:10,
   },
 });
+
+
+{/* <View style={styles.infoContainer}>
+
+<List.Section>
+  <List.Item
+    title="First Item"
+    left={() => <AntDesign name="search1" size={20} color="black" />}
+  />
+  <List.Item
+    title="Second Item"
+    left={() => <AntDesign name="search1" size={20} color="blue" />}
+    titleStyle={{ color: "black", fontSize: 12 }}
+    titleNumberOfLines={0}
+  />
+</List.Section>
+
+</View> */}

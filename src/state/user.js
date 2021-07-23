@@ -10,6 +10,7 @@ import { Platform } from "react-native";
 
 const initialState = {
   userRegister: {},
+
 };
 
 export const createUser = createAsyncThunk("CREATE_USER", (user) => {
@@ -23,6 +24,8 @@ export const createUser = createAsyncThunk("CREATE_USER", (user) => {
       console.log("ACA ESTA EL ERROR EN CREATE_USER -----> ", error)
     );
 });
+
+
 
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
