@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, FlatList } from "react-native";
 import { Avatar } from 'react-native-elements';
 import Svg, { Rect } from 'react-native-svg';
 import { alignItems } from 'styled-system';
-import Login from './LoginFacebook';
+
 
 
 const MyAccount = ({navigation}) => {
@@ -13,23 +13,25 @@ const MyAccount = ({navigation}) => {
             <Svg height="100%" width="100%" style={{position: 'absolute'}}>
               <Rect x="0" y="0" width="100%" height="35%" fill="#23036A" />
             </Svg>
-
-            <Login/>
+            <Text>Registrate para acceder</Text>
 
             <Button
             title='Registrarse'
             onPress={() => navigation.navigate('RegisterScreen')}
             ></Button>
+            
+
+            <Text>Ya tenés una cuenta? Iniciá sesión</Text>
 
             <Button
             title='Iniciar sesión'
             onPress={() => navigation.navigate('LoginScreen')}
             ></Button>
 
-            <Button
-            title='Logged In'
+            {/* <Button
+            title='pantalla de usuario logueado'
             onPress={() => navigation.navigate('MyAccountLoggedIn')}
-            ></Button>
+            ></Button> */}
 
         </View>
     )
