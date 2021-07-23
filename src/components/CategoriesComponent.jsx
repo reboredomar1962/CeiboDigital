@@ -1,7 +1,8 @@
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Card, Title } from 'react-native-paper';
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Card, Title } from "react-native-paper";
 import { showCategories } from "../state/categories";
+import { searchPlans } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
 
 /* 
@@ -13,32 +14,40 @@ const categories = [
 ] */
 
 const CategoriesComponent = () => {
-    
-    const categories = useSelector((store)=>store.categories)
-    const dispatch= useDispatch()
-    
+  const categories = useSelector((store) => store.categories);
+  const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    dispatch(showCategories());
+  }, []);
 
-    React.useEffect(() => {
-        dispatch(showCategories());
-    }, []);
+  const onPressAction = (category) => {
+    dispatch(searchPlans(category));
+  };
 
-    console.log('ESTO ES CATEGORIES',categories)
+  //console.log("ESTO ES CATEGORIES", categories);
 
-    return (
-        <View style={styles.cardCont}>
-                {categories.map(category => (
-                <Card style={styles.cardStyle} key={category.id}>
-                    <Card.Cover source={{uri: category.img }} />
-                    <Card.Content style={{marginTop:5}}>
-                        <Title style={styles.titleTxt}>{category.type}</Title>
-                    </Card.Content>
-                </Card>
-                ))
-                }
-            </View>
-    )
-}
+  return (
+    <View style={styles.cardCont}>
+      {categories.map((category) => (
+        <TouchableOpacity
+          style={styles.cardStyle}
+          key={category.id}
+          onPress={() => {
+            onPressAction(category);
+          }}
+        >
+          <Card>
+            <Card.Cover source={{ uri: category.img }} />
+            <Card.Content style={{ marginTop: 5 }}>
+              <Title style={styles.titleTxt}>{category.type}</Title>
+            </Card.Content>
+          </Card>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+};
 
 export default CategoriesComponent;
 
