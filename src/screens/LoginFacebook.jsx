@@ -8,7 +8,6 @@ import {
   Button,
   View,
   StyleSheet,
-  Alert,
 } from "react-native";
 import * as Facebook from "expo-facebook";
 // const id = "588827002106865"

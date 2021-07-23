@@ -6,6 +6,8 @@ import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import EventCard from "../components/EventCard";
 import MyEventCard from "../components/MyEventCard";
 
+import { useDispatch } from "react-redux";
+import { showCategories } from "../state/categories";
 
 const Home = ({ navigation }) => {
   return (

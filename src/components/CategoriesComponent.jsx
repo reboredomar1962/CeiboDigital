@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { StyleSheet, Text, View } from "react-native";
-import { Card, Title } from 'react-native-paper';
+import * as React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Card, Title } from "react-native-paper";
 import { showCategories } from "../state/categories";
+import { searchPlans } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
 
 /* 
@@ -13,37 +14,45 @@ const categories = [
 ] */
 
 const CategoriesComponent = () => {
-    
-    const categories = useSelector((store)=>store.categories)
-    const dispatch= useDispatch()
-    
+  const categories = useSelector((store) => store.categories);
+  const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    dispatch(showCategories());
+  }, []);
 
-    React.useEffect(() => {
-        dispatch(showCategories());
-    }, []);
+  const onPressAction = (category) => {
+    dispatch(searchPlans(category));
+  };
 
-    console.log('ESTO ES CATEGORIES',categories)
+  //console.log("ESTO ES CATEGORIES", categories);
 
-    return (
-        <View style={styles.cardCont}>
-                {categories.map(category => (
-                <Card style={styles.cardStyle} key={category.id}>
-                    <Card.Cover source={{uri: category.img }} />
-                    <Card.Content style={{marginTop:5}}>
-                        <Title style={styles.titleTxt}>{category.type}</Title>
-                    </Card.Content>
-                </Card>
-                ))
-                }
-            </View>
-    )
-}
+  return (
+    <View style={styles.cardCont}>
+      {categories.map((category) => (
+        <TouchableOpacity
+          style={styles.cardStyle}
+          key={category.id}
+          onPress={() => {
+            onPressAction(category);
+          }}
+        >
+          <Card>
+            <Card.Cover source={{ uri: category.img }} />
+            <Card.Content style={{ marginTop: 5 }}>
+              <Title style={styles.titleTxt}>{category.type}</Title>
+            </Card.Content>
+          </Card>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+};
 
 export default CategoriesComponent;
 
 const styles = StyleSheet.create({
-    /* cardContainer: {
+  /* cardContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -51,27 +60,27 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         margin: 15
     }, */
-    cardCont: {
-        flex: 1,
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent:'center',
-        height: '100%',
-        width:'100%'
-    },
-    cardStyle: {
-        /* flex: 2, */
-        width: '40%',
-        margin: 10,
-    },
-    titleTxt: {
-      fontFamily: 'Poppins_500Medium',
-      fontSize: 15,
-      color: '#23036A',
-    },
-    paragTxt: {
-        fontFamily: 'Poppins_300Light',
-        fontSize: 12,
-        color: '#23036A',
-      },
-  });
+  cardCont: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
+    height: "100%",
+    width: "100%",
+  },
+  cardStyle: {
+    /* flex: 2, */
+    width: "40%",
+    margin: 10,
+  },
+  titleTxt: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 15,
+    color: "#23036A",
+  },
+  paragTxt: {
+    fontFamily: "Poppins_300Light",
+    fontSize: 12,
+    color: "#23036A",
+  },
+});

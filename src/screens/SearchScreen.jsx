@@ -1,61 +1,66 @@
-import  * as React from 'react';
+import * as React from "react";
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 //-------------Redux Import------------------------------
 import { useSelector, useDispatch } from "react-redux";
-import { showCategories } from '../state/categories';
+import { showCategories } from "../state/categories";
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
 
 //------------Components Import-----------------------------
-import Search from '../components/Search';
-import CategoriesComponent from '../components/CategoriesComponent';
+import Search from "../components/Search";
+import CategoriesComponent from "../components/CategoriesComponent";
+import SearchedPlans from "../components/SearchedPlans";
 
+const SearchScreen = ({ navigation }) => {
+  const { searchedPlans } = useSelector((store) => {
+    console.log("estos son los store searchedPlans", store.plan.searchedPlans);
+    return store.plan;
+  });
 
-const SearchScreen = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View>
+          <Search />
 
-    /* const categories = useSelector((store) => store.categories)
-    const dispatch = useDispatch();
-
-    React.useEffect(() => {
-        dispatch(showCategories());
-        console.log('ACA ESTA CATEGORIES--------->', categories)
-    }, []); */
-
-    
-    
-
-    return (
-        <SafeAreaView>
-            <ScrollView>
-                <View style={styles.container}>
-                    
-                    <Search />
-                    <Text style={styles.textSubtitle}>Categorías</Text>
-                    {/* si hay algo en searchedPlans(store) renderear componente de searchedPlans(no existe todavia)
-                    si no, mostrar CategoriesComponent */}
-                    <CategoriesComponent />
-                
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
-}
+          {searchedPlans.length !== 0 ? (
+            <View>
+              <SearchedPlans navigation={navigation} />
+            </View>
+          ) : (
+            <View style={styles.categoriesCont}>
+              <Text style={styles.textSubtitle}>Categorías</Text>
+              <CategoriesComponent />
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
 export default SearchScreen;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#fff",
-      alignItems: "center",
-      justifyContent: "flex-start",
-    },
-    textSubtitle: {
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 15,
-        color: '#23036A',
-        paddingTop: 15,
-    },
-    
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textSubtitle: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 15,
+    color: "#23036A",
+    paddingTop: 15,
+  },
+  categoriesCont: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchPlanCont: {
+    backgroundColor: "red",
+  },
 });
-

@@ -33,10 +33,9 @@ const RegisterForm = () => {
     console.log(data);
   };
 
-
-
   return (
     <SafeAreaView>
+
 
       <View style={styles.container}>
         
@@ -126,6 +125,7 @@ const RegisterForm = () => {
         )}
       />
 
+
         <View style={styles.button}>
           <Button 
           title="Enviar"
@@ -136,7 +136,6 @@ const RegisterForm = () => {
         </View>
 
       </View>
-
     </SafeAreaView>
   );
 };
@@ -144,6 +143,7 @@ const RegisterForm = () => {
 export default RegisterForm;
 
 const styles = StyleSheet.create({
+
 
     container: {
       flex: 1,
@@ -174,4 +174,5 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
       },
   });
+
 
