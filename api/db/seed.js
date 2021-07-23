@@ -1,5 +1,24 @@
-const Plan = require("../models/SchemaPlan");
+const { Plan, Category, User } = require("../models");
 const db = require("../db");
+
+const categories = [
+  {
+    type: "Fiesta",
+    img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1867&q=80",
+  },
+  {
+    type: "Negocios",
+    img: "https://images.unsplash.com/photo-1612550761236-e813928f7271?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80",
+  },
+  {
+    type: "Clases",
+    img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2250&q=80",
+  },
+  {
+    type: "Concierto",
+    img: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2250&q=80",
+  },
+];
 
 const planes = [
   {
@@ -10,11 +29,11 @@ const planes = [
     address: "5th Avenue, NYC",
     price: 500,
     capacity: 300,
-    comments: ["Amazing music", "All good all good!", "Se viene bueno bueno!!"],
+    comments: [],
     description:
       "World known DJ Agrelo will host a private event at the Hotel Plaza. Invites only. Bring your best attitude!!",
     recommendation: 0,
-    users: ["ale", "erika", "vikingo"],
+    users: [],
     private: 1,
     free: 0,
     img: [
@@ -32,15 +51,11 @@ const planes = [
     address: "Entre Rios 2020, Buenos Aires",
     price: 0,
     capacity: 150,
-    comments: [
-      "Lo mejor de lo mejor",
-      "posta que esta bueno!",
-      "breve y conciso. 5 estrellas",
-    ],
+    comments: [],
     description:
       "Charla de transoformacion digital a cargo de Vikingo Zuniga. Hablara sobre los desafios que enfrentan hoy las empresas para el desarrollo de aplicaciones web y sus recomendaciones para poder sortearlos. No olviden asistir! ",
     recommendation: 5,
-    users: ["alejandro", "martina", "chester55", "lari"],
+    users: [],
     private: 0,
     free: 1,
     img: [
@@ -58,11 +73,11 @@ const planes = [
     address: "Francisco de Villagra 300, Santiago",
     price: 1000,
     capacity: 25,
-    comments: ["degustacion de lujo!! que se repita"],
+    comments: [],
     description:
       "Master class a cargo del reconocido chef Ivan Moroni. Su trayectoria internacional y la dedicacion entregada en cada plato lo llevo a ser el chef mas joven con 5 estrellas Michelin. Degustacion al final de la clase incluida en el precio de la entrada.",
     recommendation: 4.3,
-    users: ["elChef", "patricio"],
+    users: [],
     private: 1,
     free: 0,
     img: [
@@ -80,15 +95,11 @@ const planes = [
     address: "Rca Argentina esq Mcal Lopez, Asuncion",
     price: 0,
     capacity: 15,
-    comments: [
-      "Nunca mas, no puedo caminar",
-      "la tercera que voy, vamos por la cuarta!",
-      "no siento las piernas",
-    ],
+    comments: [],
     description:
       "Bota todas las calorias de fin de año con las clases grupales de Martina. Siendo coach nivel 1 de Crossfit, ella te llevara a sudar todo lo que no debiste comer en la cena. Apurante, cupos limitados! ",
     recommendation: 4.5,
-    users: ["gymFun", "alejandro", "pau", "santiago"],
+    users: [],
     private: 0,
     free: 1,
     img: [
@@ -106,14 +117,10 @@ const planes = [
     address: "La Concepcion 25, Santiago",
     price: 15.0,
     capacity: 200,
-    comments: [
-      "concertazo",
-      "horrible, no vayan!",
-      "es a beneficiencia, haganlo por los otros",
-    ],
+    comments: [],
     description: "Concierto a beneficiencia para la fundacion las Rosas.",
     recommendation: 4.0,
-    users: ["erika", "santiago", "la familia 123"],
+    users: [],
     private: 0,
     free: 0,
     img: [
@@ -131,11 +138,11 @@ const planes = [
     address: "Cruz del Chaco esq Dugarty, Asuncion",
     price: 500,
     capacity: 150,
-    comments: ["esta que se rompe todo!", "ATR"],
+    comments: [],
     description:
       "Porque no todo en la vida es entrenar, ahora tambien podes tomar! No faltes a la fiesta del año",
     recommendation: 4.0,
-    users: ["ivan", "ale", "la vida"],
+    users: [],
     private: 0,
     free: 0,
     img: [
@@ -154,7 +161,7 @@ const planes = [
     address: "Juana de Arco 37, Buenos Aires",
     price: 150,
     capacity: 25,
-    comments: ["Muy innovador", "el expositor un cra"],
+    comments: [],
     description:
       "Temas a tratar: 1) Como ser innovador y no morir en el intento 2) Lider de sus mentes y sus corazones 3) Innovar liderando",
     recommendation: 4.0,
@@ -175,15 +182,11 @@ const planes = [
     address: "Miguel Unamuno 108, Buenos Aires",
     price: 0,
     capacity: 100,
-    comments: [
-      "Punchi punchi punchi",
-      "dancing all night long",
-      "hasta que salga el sol",
-    ],
+    comments: [],
     description:
       "Ven a bailar bajo las estrellas! Discoteque con pista de baile principal destechada",
     recommendation: 4.0,
-    users: ["fran", "gaby", "horacio"],
+    users: [],
     private: 0,
     free: 1,
     img: [
@@ -202,11 +205,11 @@ const planes = [
     address: "Juana de Arco 37, Buenos Aires",
     price: 0,
     capacity: null,
-    comments: ["Salud!", "nunca mas 2020, aguante 2022"],
+    comments: [],
     description:
       "Ven a relajarte y tomarte unos tragos para cerrar bien el ciclo! Nosotros ponemos el alcohol, vos la diversion",
     recommendation: null,
-    users: ["kevin", "axel", "alejandro", "antonio", "larissa", "ines"],
+    users: [],
     private: 0,
     free: 0,
     img: [
@@ -223,11 +226,11 @@ const planes = [
     address: "Alejandro Galan Romo 2525, Madrid",
     price: 55,
     capacity: 125,
-    comments: ["que vuelvan los lentos!", "eh eh eh!"],
+    comments: [],
     description:
       "Fiesta estilo retro con el mejor DJ de Madrid! DJ Oldie but Goldie in the HOUSE!!",
     recommendation: 2.0,
-    users: ["agileo", "rupertina", "anacleta", "alejandro"],
+    users: [],
     private: 0,
     free: 0,
     img: [
@@ -244,16 +247,11 @@ const planes = [
     address: "Fernando Belasteguin 111, Buenos Aires",
     price: 0,
     capacity: 35,
-    comments: [
-      "como se viene!!",
-      "una bomba!",
-      "SEO o CEO??",
-      "me paSEO con este tema",
-    ],
+    comments: [],
     description:
       "Tips y recomendaciones para que como hacer que mi ecommerce aparezca primero en las busquedas de Google.",
     recommendation: 3.0,
-    users: ["ivan", "martina", "vikingo"],
+    users: [],
     private: 1,
     free: 1,
     img: [
@@ -270,11 +268,11 @@ const planes = [
     address: "La tercera a la izquiera 58, Buenos Aires",
     price: 0,
     capacity: null,
-    comments: ["la PITON", "console.log vs print", "nunca mas brackets {} !!"],
+    comments: [],
     description:
       "Principios basicos para la programacion funcional usando Python",
     recommendation: 4.0,
-    users: ["daddy", "yankee", "bad bunny"],
+    users: [],
     private: 0,
     free: 1,
     img: [
@@ -292,11 +290,11 @@ const planes = [
     address: "Natiruts 1205, Sao Paulo",
     price: 0,
     capacity: null,
-    comments: ["ser o no ser..", "sera?", "el curso muy bueno!"],
+    comments: [],
     description:
       "Ser o no ser en el siglo XXI. Importancia y consecuencias del reconocimiento personal dentro de una socidedad individualista.",
     recommendation: 4.8,
-    users: ["kevin", "axel", "paz"],
+    users: [],
     private: 0,
     free: 1,
     img: [
@@ -316,7 +314,7 @@ const planes = [
     comments: [],
     description: "Clases de canto con el unico e inigualable Dave Grohl",
     recommendation: 5.0,
-    users: ["Luca", "Enzo", "Auditore"],
+    users: [],
     private: 1,
     free: 0,
     img: [
@@ -335,10 +333,9 @@ const planes = [
     price: 0,
     capacity: null,
     comments: [],
-    description:
-      "Temas a tratar: 1) Como ser innovador y no morir en el intento 2) Lider de sus mentes y sus corazones 3) Innovar liderando",
+    description: "Maestro de origami",
     recommendation: 4.0,
-    users: ["kevin", "luciano"],
+    users: [],
     private: 0,
     free: 1,
     img: [
@@ -355,11 +352,11 @@ const planes = [
     address: "Facundo Machain 58, Asuncion",
     price: 100,
     capacity: 20,
-    comments: ["5 dias para la perfeccion! vamos vamos"],
+    comments: [],
     description:
       "Composicion musical desde lo basico hasta topicos intermedios y avanzados",
     recommendation: 5.0,
-    users: ["dave", "grohl", "taylor", "hawkins"],
+    users: [],
     private: 1,
     free: 0,
     img: [
@@ -376,10 +373,10 @@ const planes = [
     address: "Teatro teatral 150, Buenos Aires",
     price: 75,
     capacity: 500,
-    comments: ["rock and roll!!", "esta que rola"],
-    description: "",
+    comments: [],
+    description: "Concierto pulento en Baires",
     recommendation: 4.0,
-    users: ["fred durst", "el cangri"],
+    users: [],
     private: 1,
     free: 0,
     img: [
@@ -398,7 +395,7 @@ const planes = [
     price: 100,
     capacity: 100,
     comments: [],
-    description: "",
+    description: "Jazz para todos",
     recommendation: null,
     users: [],
     private: 1,
@@ -438,11 +435,11 @@ const planes = [
     address: "Juana de Arco 37, Buenos Aires",
     price: 150,
     capacity: 25,
-    comments: ["IN DA HOUSE", "checking in", "the best"],
+    comments: [],
     description:
       "Concierto dedicado a todas las grandes estrellas del basketball del hoy y el ayer",
     recommendation: 4.0,
-    users: ["theWeekend", "lucia", "maria"],
+    users: [],
     private: 0,
     free: 0,
     img: [
@@ -453,9 +450,113 @@ const planes = [
   },
 ];
 
-Plan.insertMany(planes)
-  .then(() => {
-    console.log("data Inserted");
-    db.close();
-  })
+const users = [
+  {
+    name: "Ale",
+    lastName: "Ro",
+    age: 31,
+    img: null,
+    email: "ale@ale.com",
+    password: "123",
+    contacts: [],
+    myPlans: [],
+    categories: [],
+  },
+  {
+    name: "ivan",
+    lastName: "mo",
+    age: 31,
+    img: null,
+    email: "ivan@ivan.com",
+    password: "123",
+    contacts: [],
+    myPlans: [],
+    categories: [],
+  },
+  {
+    name: "marti",
+    lastName: "ro",
+    age: 31,
+    img: null,
+    email: "marti@marti.com",
+    password: "123",
+    contacts: [],
+    myPlans: [],
+    categories: [],
+  },
+  {
+    name: "ale",
+    lastName: "zu",
+    age: 31,
+    img: null,
+    email: "alezu@alezu.com",
+    password: "123",
+    contacts: [],
+    myPlans: [],
+    categories: [],
+  },
+  {
+    name: "eri",
+    lastName: "ag",
+    age: 31,
+    img: null,
+    email: "eri@eri.com",
+    password: "123",
+    contacts: [],
+    myPlans: [],
+    categories: [],
+  },
+];
+
+// Borrar todo lo que haya en base de datos
+
+/*  deletePlanPromise = Plan.deleteMany({});
+ deleteCategoryPromise = Category.deleteMany({});
+ deleteUserPromise = User.deleteMany({});
+
+ Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
+   .then((deleted) => console.log("Items deleted", deleted))
+   .then(() => db.close())
+   .catch((err) => console.log(err)); */
+
+// Ingresa todo lo que tenga en base de datos
+
+planPromise = Plan.insertMany(planes);
+categoryPromise = Category.insertMany(categories);
+userPromise = User.insertMany(users);
+
+Promise.all([planPromise, categoryPromise, userPromise])
+  .then(() => console.log("Values inserted"))
+  .then(() => db.close())
   .catch((err) => console.log(err));
+
+// Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
+//   .then((deleted) => console.log("Items deleted", deleted))
+// .then(() => {
+//   Promise.all([planPromise, categoryPromise, userPromise])
+//     .then(() => console.log("Values inserted"))
+// .then(() => db.close());
+//     .catch((err) => console.log(err));
+// })
+// .catch((err) => console.log(err));
+
+//Insertando cada categoria
+
+// Promise.all([planPromise, categoryPromise, userPromise])
+//   .then(() => console.log("Values inserted"))
+//   .then(() => db.close())
+//   .catch((err) => console.log(err));
+
+// Plan.insertMany(planes)
+//   .then(() => {
+//     console.log("data Inserted");
+//     db.close();
+//   })
+//   .catch((err) => console.log(err));
+
+// Category.insertMany(catergories)
+// .then(() => {
+//   console.log("data Inserted");
+//   db.close();
+// })
+// .catch((err) => console.log(err));
