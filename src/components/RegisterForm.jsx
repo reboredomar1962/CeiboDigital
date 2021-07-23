@@ -19,7 +19,7 @@ import { createUser } from "../state/user";
 
 
 
-const RegisterForm = () => {
+const RegisterForm = ({navigation}) => {
   const {
     control,
     handleSubmit,
@@ -31,11 +31,11 @@ const RegisterForm = () => {
   const onSubmit = (data) => {
     dispatch(createUser(data));
     console.log(data);
+    navigation.navigate('LoginScreen')
   };
 
   return (
     <SafeAreaView>
-
 
       <View style={styles.container}>
         

@@ -51,7 +51,6 @@ const AccountInfo = () => {
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
         />
-        
         </SafeAreaView>
     )
 }
