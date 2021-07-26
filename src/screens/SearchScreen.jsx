@@ -13,7 +13,7 @@ import SearchedPlans from "../components/SearchedPlans";
 
 const SearchScreen = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => {
-    console.log("estos son los store searchedPlans", store.plan.searchedPlans);
+    //console.log("estos son los store searchedPlans", store.plan.searchedPlans);
     return store.plan;
   });
 
