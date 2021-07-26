@@ -40,8 +40,11 @@ export default function Login() {
   }
 
   return (
-    <View style={styles.container}>
-      <Button title="Login con Facebook" onPress={logIn} />
+    <View style={styles.button}>
+      <Button
+      color="#23036A"
+      title="Login con Facebook" 
+      onPress={logIn} />
     </View>
   );
 }
@@ -55,6 +58,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-   
+  },
+  button: {
+    fontSize: 15,
+    color: 'white',
+    width: 200,
+    borderRadius: 50,
+    overflow: 'hidden'
   },
 });

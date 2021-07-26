@@ -13,6 +13,7 @@ import CreateEvent from "./CreateEvent";
 import SearchScreen from "./SearchScreen";
 import Notifications from "./Notifications";
 import SingleEvent from './SingleEvent';
+import FilterDrawer from "../components/FilterDrawer";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -62,7 +63,7 @@ const HomeScreen = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name="Search"
+        name="SearchScreen"
         component={SearchScreen}
         options={{
           tabBarLabel: "Search",

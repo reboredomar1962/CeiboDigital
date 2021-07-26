@@ -1,15 +1,17 @@
 import * as React from "react";
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, Modal, Pressable } from "react-native";
 //-------------Redux Import------------------------------
 import { useSelector, useDispatch } from "react-redux";
 import { showCategories } from "../state/categories";
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
+import { AntDesign } from '@expo/vector-icons'; 
 
 //------------Components Import-----------------------------
 import Search from "../components/Search";
 import CategoriesComponent from "../components/CategoriesComponent";
 import SearchedPlans from "../components/SearchedPlans";
+
 
 const SearchScreen = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => {
@@ -17,11 +19,14 @@ const SearchScreen = ({ navigation }) => {
     return store.plan;
   });
 
+  const [modalVisible, setModalVisible] = React.useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+          
         <View>
-          <Search />
+          <Search navigation={navigation} setModal={()=>setModalVisible(true)}/>
 
           {searchedPlans.length !== 0 ? (
             <View>
@@ -33,8 +38,38 @@ const SearchScreen = ({ navigation }) => {
               <CategoriesComponent />
             </View>
           )}
+
+
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+        presentationStyle='overFullScreen'
+      >
+        <View style={{width:'50%', backgroundColor:'red',  flex:1, justifyContent:'center', alignItems:'center', flexDirection:'column' }}>
+        <Pressable
+              
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <AntDesign name="close" size={24} color="black" />
+            </Pressable>
+
+        <Text>Holis?</Text>
+        </View>
+
+
+      </Modal>
+
         </View>
       </ScrollView>
+
+
+
+
     </SafeAreaView>
   );
 };
