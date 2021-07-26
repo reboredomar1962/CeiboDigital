@@ -15,7 +15,6 @@ const Search = () => {
   // }, []);
 
   React.useEffect(() => {
-    console.log("actualiza el search query", searchQuery);
     dispatch(searchPlans(searchQuery));
   }, [searchQuery]);
 

@@ -121,6 +121,21 @@ const loginUser = async (req, res, next) => {
   return res.status(200).json({ token });
 };
 
+const getMe = (req, res, next) => {
+  const { id } = req.user;
+
+  User.findById(id)
+    .then((user) => {
+      if (user.name) {
+        return res.json(user);
+      } else {
+        res.status(404);
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
 // router.post("/login", async (req, res, next) => {
 //   const { email, password } = req.body;
 
@@ -152,4 +167,5 @@ module.exports = {
   deleteUser,
   loginUser,
   logoutUser,
+  getMe,
 };

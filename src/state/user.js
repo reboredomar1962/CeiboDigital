@@ -17,7 +17,7 @@ export const createUser = createAsyncThunk("CREATE_USER", (user) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   console.log("esta llegando el user", user);
   return axios
-    .post(`http://10.0.2.2:3001/api/user/register`, user)
+    .post(`http://192.168.0.3:3001/api/user/register`, user)
     .then((res) => res.data)
     .catch((error) =>
       //en el caso de usuario ya creado, llega el error 409. Como hacer que esto llegue al front?
@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   console.log("esta llegando el loginUser", user);
   return axios
-    .post(`http://10.0.2.2:3001/api/user/login`, user)
+    .post(`http://192.168.0.3:3001/api/user/login`, user)
     .then((res) => res.data)
     .catch((error) =>
       //en el caso de usuario ya creado, llega el error 409. Como hacer que esto llegue al front?

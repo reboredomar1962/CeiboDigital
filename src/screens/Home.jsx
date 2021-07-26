@@ -14,7 +14,6 @@ const Home = ({ navigation }) => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
-
           <Text style={styles.textSubtitle}>Eventos promocionados</Text>
 
           <View style={styles.container}>
@@ -24,7 +23,6 @@ const Home = ({ navigation }) => {
           <Text style={styles.textSubtitle}>Tus próximos eventos</Text>
 
           <MyEventCard />
-          
         </View>
       </ScrollView>
     </SafeAreaView>
