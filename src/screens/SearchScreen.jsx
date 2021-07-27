@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   Modal,
   Pressable,
+  TouchableOpacity,
+  TextInput
 } from "react-native";
 //-------------Redux Import------------------------------
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +16,7 @@ import { showCategories } from "../state/categories";
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import { Switch } from 'react-native-paper';
 
 //------------Components Import-----------------------------
 import Search from "../components/Search";
@@ -21,13 +24,30 @@ import CategoriesComponent from "../components/CategoriesComponent";
 import SearchedPlans from "../components/SearchedPlans";
 import { TextInput } from "react-native-gesture-handler";
 
+
 const SearchScreen = ({ navigation }) => {
+
   const { searchedPlans } = useSelector((store) => {
     //console.log("estos son los store searchedPlans", store.plan.searchedPlans);
     return store.plan;
   });
 
   const [modalVisible, setModalVisible] = React.useState(false);
+
+  const data = [
+    'planDate',
+    'planDateBefore',
+    'planDateAfter',
+    'address',
+    'Min',
+    'Max',
+    'recommendation',
+    'Private',
+    'Free'
+  ]
+
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,7 +70,6 @@ const SearchScreen = ({ navigation }) => {
           )}
 
           <Modal
-            style={{ marginTop: 50 }}
             animationType="fade"
             transparent={true}
             visible={modalVisible}
@@ -59,50 +78,39 @@ const SearchScreen = ({ navigation }) => {
             }}
             presentationStyle="overFullScreen"
           >
-            <View
-              style={{
-                flex: 1,
-
-                justifyContent: "center",
-                alignItems: "flex-start",
-                flexDirection: "column",
-              }}
-            >
-              <View
-                style={{
-                  width: "75%",
-                  height: "80%",
-                  backgroundColor: "blue",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  borderRadius: 10,
-                }}
-              >
-                <View>
-                  {/* Maneja la X para salir*/}
-                  <Pressable onPress={() => setModalVisible(!modalVisible)}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <View style={styles.iconStyle}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
                     <AntDesign name="close" size={24} color="black" />
-                  </Pressable>
-                </View>
-                <View>
-                  <Text>Fecha</Text>
-                </View>
-                <View>
-                  <Text>Precio</Text>
-                  <TextInput placeholder="Mínimo" onEndEditing={() => {}} />
-                  <TextInput placeholder="Máximo" onEndEditing={() => {}} />
+                  </TouchableOpacity>
                 </View>
 
-                <View>
-                  <Text>Recomendación</Text>
+                <View style={styles.switchStyle}>
+                <Text>{data[7]}</Text>
+                <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
                 </View>
-                <View>
-                  <Text>Privado?</Text>
+
+                <View style={styles.switchStyle}>
+                <Text>{data[8]}</Text>
+                <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
                 </View>
-                <View>
-                  <Text>Gratis?</Text>
+
+                
+                <View style={styles.switchStyle}>
+                  <Text>Precio</Text>
+
+                  <View style={styles.inputStyle}>
+                  <TextInput style={{borderBottomWidth:0.5, height:25, width:60, textAlign:'center'}} placeholder={data[4]} onEndEditing={() => {}} />
+                  <Text> - </Text>
+                  <TextInput style={{borderBottomWidth:0.5, height:25, width:60, textAlign:'center'}} placeholder={data[5]} onEndEditing={() => {}} />
+                  </View>
+
                 </View>
+                
+
               </View>
             </View>
           </Modal>
@@ -130,6 +138,40 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "red",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    flexDirection: "column",
+  },
+  modalContent: {
+    width: "75%",
+    height: "80%",
+    backgroundColor: "blue",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "column",
+    borderRadius: 10,
+  },
+  iconStyle:{
+    justifyContent:'flex-end',
+    alignItems:'flex-end',
+    width:'100%',
+    height:30,
+    marginRight:10,
+  },
+  switchStyle:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    width:'100%',
+    height: 35,
+  },
+  inputStyle:{
+    flexDirection:'row',
+    alignItems:'center',
   },
   textSubtitle: {
     fontFamily: "Poppins_500Medium",
