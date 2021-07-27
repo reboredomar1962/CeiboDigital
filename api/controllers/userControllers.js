@@ -156,7 +156,13 @@ const getMe = (req, res, next) => {
 //   return res.status(200).json({ token });
 // });
 
-const logoutUser = (req, res, next) => {};
+const logoutUser = (req, res, next) => {
+  const user = req.user
+  console.log('ESTAMOS EN LA RUTA DE LOGOUT',user)
+  user = null
+  res.status(200).json({})
+};
+
 
 module.exports = {
   getUser,

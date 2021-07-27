@@ -92,21 +92,10 @@ const App = () => {
 
   useEffect(() => {
     readData();
-    // AsyncStorage.clear();
-    // AsyncStorage.getItem("token").then((userToken) => {
-    //   const nerToken = JSON.parse(userToken);
-    //   return axios
-    //     .get("http://192.168.0.3:3001/api/user/me", {
-    //       headers: { Authorization: `Bearer ${nerToken}` },
-    //     })
-    //     .then((user) => {
-    //       console.log("Usuario Me -> ", user.data);
-    //     });
-    // });
   }, []);
 
   useEffect(() => {
-    if (me.name) return;
+    if (me && me.name) return;
     readData();
     //AsyncStorage.clear();
   }, [readData]);
