@@ -17,7 +17,7 @@ import { showCategories } from "../state/categories";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { Switch } from 'react-native-paper';
-
+import { Rating, AirbnbRating } from 'react-native-elements';
 //------------Components Import-----------------------------
 import Search from "../components/Search";
 import CategoriesComponent from "../components/CategoriesComponent";
@@ -36,8 +36,6 @@ const SearchScreen = ({ navigation }) => {
 
   const data = [
     'planDate',
-    'planDateBefore',
-    'planDateAfter',
     'address',
     'Min',
     'Max',
@@ -89,12 +87,12 @@ const SearchScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.switchStyle}>
-                <Text>{data[7]}</Text>
+                <Text>{data[5]}</Text>
                 <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
                 </View>
 
                 <View style={styles.switchStyle}>
-                <Text>{data[8]}</Text>
+                <Text>{data[6]}</Text>
                 <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
                 </View>
 
@@ -103,12 +101,25 @@ const SearchScreen = ({ navigation }) => {
                   <Text>Precio</Text>
 
                   <View style={styles.inputStyle}>
-                  <TextInput style={{borderBottomWidth:0.5, height:25, width:60, textAlign:'center'}} placeholder={data[4]} onEndEditing={() => {}} />
+                  <TextInput style={{borderBottomWidth:0.5, height:25, width:60, textAlign:'center'}} placeholder={data[2]} onEndEditing={() => {}} />
                   <Text> - </Text>
-                  <TextInput style={{borderBottomWidth:0.5, height:25, width:60, textAlign:'center'}} placeholder={data[5]} onEndEditing={() => {}} />
+                  <TextInput style={{borderBottomWidth:0.5, height:25, width:60, textAlign:'center'}} placeholder={data[3]} onEndEditing={() => {}} />
                   </View>
 
                 </View>
+
+                <View>
+                  <Text>{data[4]}</Text>
+
+                  <Rating
+                    type='star'
+                    ratingCount={5}
+                    imageSize={20}
+                    ratingTextColor='black'
+                    /* onFinishRating={} */
+                  />
+                </View>
+
                 
 
               </View>
