@@ -25,21 +25,13 @@ const LoginForm = () => {
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
 
-  const [token, setToken] = useState("");
-
-  const STORAGE_KEY = "token";
-
-  useEffect(() => {
-    readData();
-  }, []);
-
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     dispatch(loginUser(data))
       .then((data) => data.payload.token)
       .then((token) => {
-        AsyncStorage.setItem(STORAGE_KEY, token);
+        AsyncStorage.setItem("token", JSON.stringify(token));
         alert("Data successfully saved");
       })
       .catch((err) => {
@@ -47,28 +39,6 @@ const LoginForm = () => {
       });
   };
 
-  const readData = async () => {
-    try {
-      const userToken = await AsyncStorage.getItem(STORAGE_KEY);
-
-      if (userToken !== null) {
-        setToken(userToken);
-      }
-    } catch (e) {
-      alert("Failed to fetch the data from storage");
-    }
-  };
-
-  // const clearStorage = async () => {
-  //   try {
-  //     await AsyncStorage.clear();
-  //     setToken("");
-  //     alert("Storage successfully cleared!");
-  //   } catch (e) {
-  //     alert("Failed to clear the async storage.");
-  //   }
-  // };
-  console.log("new token-> ", token);
   return (
     <SafeAreaView>
       <View style={styles.container}>

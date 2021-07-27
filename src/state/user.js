@@ -11,6 +11,7 @@ import { Platform } from "react-native";
 const initialState = {
   userRegister: {},
   userLogin: {},
+  me: {},
 };
 
 export const createUser = createAsyncThunk("CREATE_USER", (user) => {
@@ -37,12 +38,23 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
     );
 });
 
+export const userMe = createAsyncThunk("USER_ME", (token) => {
+  return axios
+    .get("http://192.168.0.3:3001/api/user/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => res.data);
+});
+
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
     state.userRegister = action.payload;
   },
   [loginUser.fulfilled]: (state, action) => {
     state.userLogin = action.payload;
+  },
+  [userMe.fulfilled]: (state, action) => {
+    state.me = action.payload;
   },
 });
 
