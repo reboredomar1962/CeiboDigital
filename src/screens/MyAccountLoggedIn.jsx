@@ -13,7 +13,7 @@ const randomUser = {
     password: "123",
     contacts: [],
     myPlans: [],
-    categories: [],
+    categories: ['Conciertos -', ' Negocios'],
     id: 1
 }
 
@@ -26,7 +26,7 @@ const MyAccountLoggedIn = ({navigation}) => {
                     </Svg>
 
                     <Avatar
-                        size={110}
+                        size={120}
                         source={{uri: randomUser.img}}
                         avatarStyle={{borderRadius: 10}}
                         containerStyle={styles.avatar}
@@ -36,8 +36,34 @@ const MyAccountLoggedIn = ({navigation}) => {
                     <Text style={styles.textTitle}>{randomUser.name} {randomUser.lastName}</Text>
                     </View>
 
-                    <View style={styles.container}>
-                    <AccountInfo />
+                    <View style={styles.infoContainer}>
+
+                    <View>
+                    <Text style={styles.title}>Edad</Text>
+                    <Text style={styles.subtitle}>{randomUser.age}</Text>
+                    </View>
+
+                    <View>
+                    <Text style={styles.title}>E-mail</Text>
+                    <Text style={styles.subtitle}>{randomUser.email}</Text>
+                    </View>
+
+                    <View>
+                    <Text style={styles.title}>Mis Planes</Text>
+                    {randomUser.myPlans.length !== 0 ?
+                    <Text style={styles.subtitle}>{randomUser.myPlans}</Text> :
+                    <Text style={styles.subtitle}>No hay planes para mostrar</Text>
+                    }
+                    </View>
+
+                    <View>
+                    <Text style={styles.title}>Categorías favoritas</Text>
+                    {randomUser.categories.length !== 0 ?
+                    <Text style={styles.subtitle}>{randomUser.categories}</Text> :
+                    <Text style={styles.subtitle}>No hay categorias favoritas</Text>
+                    }
+                    </View>
+
                     </View>
 
 
@@ -54,7 +80,6 @@ const styles = StyleSheet.create({
       backgroundColor: "#fff",
       alignItems: "center",
       justifyContent: "flex-start",
-      
     },
     avatar: {
       position:'absolute',
@@ -65,9 +90,28 @@ const styles = StyleSheet.create({
       fontSize: 18,
       textAlign: 'center',
       color: '#fff',
+      marginTop:18,
     },
     textContainer: {
       position:'absolute',
       transform:([{translateY:140}]),
+    },
+    infoContainer:{
+      flex:1,
+      alignItems: "flex-start",
+      justifyContent: "flex-start",
+      position:'relative',
+      transform:([{translateY:240}]),
+    },
+    title: {
+      fontFamily: 'Poppins_500Medium',
+      fontSize: 15,
+      color: '#23036A',
+    },
+    subtitle: {
+      fontFamily: 'Poppins_300Light',
+      fontSize: 15,
+      color: '#23036A',
+      marginBottom:10,
     },
   });
