@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const accessTokenSecret = "ceiboDigital";
 
+//trae todos los usuarios
 const getUser = (req, res, next) => {
   User.find({})
     .populate("contacts", { name: 1, lastName: 1, age: 1, img: 1, email: 1 })

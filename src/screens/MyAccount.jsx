@@ -7,6 +7,7 @@ const MyAccount = ({ navigation }) => {
 
   const { me } = useSelector((store) => store.user);
 
+
   return (
     <>
       {me && Object.keys(me).length ? navigation.navigate('MyAccountLoggedIn') : navigation.navigate('LoginScreen')} 
@@ -15,27 +16,51 @@ const MyAccount = ({ navigation }) => {
   );
 };
 
+
 export default MyAccount;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  avatar: {
-    marginTop: 25,
-  },
-  textTitle: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 18,
-    textAlign: "center",
-    color: "#fff",
-    marginTop: 15,
-  },
-  listContainer: {
-    flex: 1,
-    justifyContent: "flex-start",
-  },
-});
+
+    container: {
+      flex: 1,
+      backgroundColor: "#fff",
+      alignItems: "center",
+      justifyContent: "flex-start",
+    },
+    avatar: {
+      marginTop: 25,
+    },
+    /* textTitle: {
+      fontFamily: 'Poppins_500Medium',
+      fontSize: 18,
+      textAlign: 'center',
+      color: '#fff',
+      marginTop: 15,
+    }, */
+    listContainer: {
+      flex:1,
+      justifyContent:'flex-start',
+      position:'relative',
+      transform:([{translateY:200}]),
+    },
+    textContainer: {
+      position:'absolute',
+      transform:([{translateY:60}]),
+    },
+    textTitle: {
+      fontFamily: 'Poppins_300Light',
+      fontSize: 18,
+      color: '#fff',
+    },
+    btnContainer:{
+      marginBottom:20,
+    },
+    button: {
+      fontSize: 15,
+      color: 'white',
+      width: 200,
+      borderRadius: 50,
+      overflow: 'hidden'
+    },
+  });
+

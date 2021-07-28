@@ -2,10 +2,9 @@ const { Plan, Comments, User } = require("../models/");
 
 // get planes
 const getPlanes = (req, res, next) => {
-  Plan.find({})
-    .then((planes) => {
-      res.json(planes);
-    });
+  Plan.find({}).then((planes) => {
+    res.json(planes);
+  });
 };
 
 // get one plan by id
@@ -39,6 +38,53 @@ const getPlansByCategory = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+// get all plans that match several filters
+const getPlanByFilters = (req, res, next) => {
+  // If the model changes, need to change this as well
+  // Filtrar de repente por categoria aca mismo para poder ver les planes? Por usuarios? Agregar ciudad y pais? Capacity no voy a filtar por eso, capaz covid ahora sirva, pero no se
+  // Para filtro fecha, quiero todos los eventos en la fecha? antes de la fecha? despues de la fecha? en ese mes y año?
+  // ver si tengo que hacer que el input fecha sea de alguna forma. al parecer es yyyy-mm-dd (https://mongoosejs.com/docs/tutorials/dates.html)
+
+  const {
+    planDate,
+    planDateBefore,
+    planDateAfter,
+    address,
+    priceMin,
+    priceMax,
+    recommendation,
+    private,
+    free,
+    afterFirstPrivate,
+    afterFirstFree,
+  } = req.body;
+
+  let priceRange = false;
+  if (priceMin && priceMax) priceRange = true;
+
+  let queryCond = {
+    ...(planDate && { planDate }),
+    ...(planDateBefore && { planDate: { $lt: planDateBefore } }),
+    ...(planDateAfter && { planDate: { $gt: planDateAfter } }),
+    ...(address && { address }),
+    ...(priceMin && { price: { $gte: priceMin } }),
+    ...(priceMax && { price: { $lte: priceMax } }),
+    ...(priceRange && { price: { $gte: priceMin, $lte: priceMax } }),
+    ...(recommendation && { recommendation: { $gte: recommendation } }),
+    ...(afterFirstPrivate && { private }),
+    ...(afterFirstFree && { free }),
+  };
+
+  console.log("este es el queryCond", queryCond);
+
+  Plan.find(queryCond)
+    .then((search) => {
+      if (!search) res.status(404);
+      res.status(200).json(search);
+    })
+    .catch((err) => res.status(400).send(err));
 };
 
 // get all plans that match a search input
@@ -134,6 +180,7 @@ module.exports = {
   getPlanes,
   getOnePlan,
   getPlansByCategory,
+  getPlanByFilters,
   getPlanByQuery,
   postPlan,
   updatePlan,

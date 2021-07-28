@@ -35,6 +35,7 @@ import SearchScreen from "./screens/SearchScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import MyAccountLoggedIn from "./screens/MyAccountLoggedIn";
+import FilterDrawer from "./components/FilterDrawer";
 
 //------- https://reactnavigation.org/docs/nesting-navigators#best-practices-when-nesting ---------
 const commonScreens = {
@@ -106,6 +107,7 @@ const App = () => {
     return <AppLoading />;
   } else {
     return (
+
       <SafeAreaProvider>
         <PaperProvider>
           <NavigationContainer>
@@ -178,6 +180,7 @@ const App = () => {
           </NavigationContainer>
         </PaperProvider>
       </SafeAreaProvider>
+
     );
   }
 };

@@ -17,6 +17,7 @@ import AccountInfo from "../components/AccountInfo";
 import { logoutUser } from "../state/user";
 
 const randomUser = {
+
   name: "Juan",
   lastName: "Perez",
   age: 31,
@@ -57,9 +58,11 @@ const MyAccountLoggedIn = ({ navigation }) => {
   );
 };
 
+
 export default MyAccountLoggedIn;
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -122,3 +125,5 @@ const styles = StyleSheet.create({
       ></Button>
 
 */
+
+
