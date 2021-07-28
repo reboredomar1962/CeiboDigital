@@ -32,6 +32,7 @@ import SearchScreen from "./screens/SearchScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import MyAccountLoggedIn from "./screens/MyAccountLoggedIn";
+import FilterDrawer from "./components/FilterDrawer";
 
 //------- https://reactnavigation.org/docs/nesting-navigators#best-practices-when-nesting ---------
 const commonScreens = {
@@ -112,6 +113,9 @@ const App = () => {
                       fontSize: 18,
                     }, }} />
                 <Stack.Screen name="MyAccountLoggedIn" component={MyAccountLoggedIn} />
+                <Stack.Screen name="FilterDrawer" component={FilterDrawer} />
+
+                
 
 
               </Stack.Navigator>

@@ -6,6 +6,7 @@ const {
   getPlanes,
   getOnePlan,
   getPlansByCategory,
+  getPlanByFilters,
   getPlanByQuery,
   postPlan,
   updatePlan,
@@ -18,6 +19,8 @@ const {
 router.get("/", /* authenticateJWT, */ getPlanes);
 // get all plans by category
 router.get("/category/:category", getPlansByCategory);
+// get all plans that match a several inputs
+router.post("/search/multipleFilter", getPlanByFilters);
 // get all plans that match a search input
 router.get("/search", getPlanByQuery);
 // get all comments from plan
