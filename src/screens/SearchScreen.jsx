@@ -17,8 +17,8 @@ import { showCategories } from "../state/categories";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 
-import { Switch } from 'react-native-paper';
-import { Rating, AirbnbRating } from 'react-native-elements';
+import { Switch } from "react-native-paper";
+import { Rating, AirbnbRating } from "react-native-elements";
 
 //------------Components Import-----------------------------
 import Search from "../components/Search";
@@ -29,7 +29,7 @@ import { searchPlans } from "../state/plan";
 
 const SearchScreen = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => {
-
+    //console.log("aca es el searchedPlans", store.plan.searchedPlans);
     return store.plan;
   });
 
@@ -48,7 +48,6 @@ const SearchScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const data = [
-
     "planDate",
     "planDateBefore",
     "planDateAfter",
@@ -92,7 +91,6 @@ const SearchScreen = ({ navigation }) => {
   React.useEffect(() => {
     dispatch(searchPlans(filter));
   }, [filter]);
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -143,7 +141,6 @@ const SearchScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.switchStyle}>
-
                   <Text>{data[7]}</Text>
                   <Switch
                     value={filter.private}
@@ -154,14 +151,12 @@ const SearchScreen = ({ navigation }) => {
                 <View style={styles.switchStyle}>
                   <Text>{data[8]}</Text>
                   <Switch value={filter.free} onValueChange={onSwitchFree} />
-
                 </View>
 
                 <View style={styles.switchStyle}>
                   <Text>Precio</Text>
 
                   <View style={styles.inputStyle}>
-
                     <TextInput
                       style={{
                         borderBottomWidth: 0.5,
@@ -183,26 +178,20 @@ const SearchScreen = ({ navigation }) => {
                       placeholder={data[5]}
                       onEndEditing={onEditMax}
                     />
-
                   </View>
                 </View>
-
 
                 <View>
                   <Text>{data[4]}</Text>
 
                   <Rating
-                    type='star'
+                    type="star"
                     ratingCount={5}
                     imageSize={20}
-                    ratingTextColor='black'
+                    ratingTextColor="black"
                     /* onFinishRating={} */
                   />
                 </View>
-
-                
-
-
               </View>
             </View>
           </Modal>

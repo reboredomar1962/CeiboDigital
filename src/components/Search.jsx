@@ -29,6 +29,7 @@ const Search = ({ navigation, setModal, filter }) => {
   }, [searchQuery]);
 
   const onChangeSearch = (query) => {
+    console.log(query);
     setSearchQuery({
       ...searchQuery,
       query: query,
@@ -42,7 +43,7 @@ const Search = ({ navigation, setModal, filter }) => {
       <Searchbar
         placeholder="Buscar eventos..."
         onChangeText={onChangeSearch}
-        value={searchQuery}
+        value={searchQuery.query}
         inputStyle={{ fontFamily: "Poppins_300Light", fontSize: 15 }}
         iconColor="#23036A"
         style={{
@@ -53,10 +54,7 @@ const Search = ({ navigation, setModal, filter }) => {
           alignSelf: "center",
         }}
       />
-      <TouchableOpacity
-        style={styles.icon}
-        onPress={setModal}
-      >
+      <TouchableOpacity style={styles.icon} onPress={setModal}>
         <AntDesign name="filter" size={24} color="#23036A" />
       </TouchableOpacity>
     </View>
