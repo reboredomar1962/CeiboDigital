@@ -16,16 +16,17 @@ import {
 } from "@expo-google-fonts/poppins";
 
 //--------LIBRARIES CONFIG--------------------------------------
+
 //react navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+
 //react paper
 import { Provider as PaperProvider } from "react-native-paper";
 
 //--------SCREENS IMPORT------------------
 import Home from "./screens/Home";
-import MyAccount from "./screens/MyAccount";
 import Events from "./screens/Events";
 import Notifications from "./screens/Notifications";
 import CreateEvent from "./screens/CreateEvent";
@@ -37,22 +38,6 @@ import LoginScreen from "./screens/LoginScreen";
 import MyAccountLoggedIn from "./screens/MyAccountLoggedIn";
 import FilterDrawer from "./components/FilterDrawer";
 
-//------- https://reactnavigation.org/docs/nesting-navigators#best-practices-when-nesting ---------
-const commonScreens = {
-  Home: Home,
-};
-
-/* const authScreens = {
-  SignIn: SignInScreen,
-  Register: RegisterScreen,
-}; */
-
-const userScreens = {
-  Home: HomeScreen,
-  MyAccount: MyAccount,
-  CreateEvent: CreateEvent,
-};
-//----------------------------------------------------------------------------------------------
 
 const Stack = createStackNavigator();
 
@@ -72,40 +57,25 @@ const App = () => {
   const readData = async () => {
     try {
       const userToken = await AsyncStorage.getItem("token");
-      const nerToken = JSON.parse(userToken);
+      const newToken = JSON.parse(userToken);
       console.log("readData->", userToken);
-      if (nerToken !== null) {
-        dispatch(userMe(nerToken));
+      if (newToken !== null) {
+        dispatch(userMe(newToken));
       }
     } catch (e) {
       alert("Failed to fetch the data from storage");
     }
   };
 
-  const clearStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      alert("Storage successfully cleared!");
-    } catch (e) {
-      alert("Failed to clear the async storage.");
-    }
-  };
-
-  useEffect(() => {
-    readData();
-  }, []);
-
   useEffect(() => {
     if (me && me.name) return;
     readData();
-    //AsyncStorage.clear();
   }, [readData]);
-
-  console.log(me);
 
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
+
     return (
 
       <SafeAreaProvider>
@@ -132,7 +102,6 @@ const App = () => {
               />
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Events" component={Events} />
-              <Stack.Screen name="MyAccount" component={MyAccount} />
               <Stack.Screen name="Notifications" component={Notifications} />
               <Stack.Screen name="CreateEvent" component={CreateEvent} />
               <Stack.Screen

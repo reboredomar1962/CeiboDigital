@@ -8,6 +8,7 @@ import {
   Button,
   View,
   StyleSheet,
+  Alert
 } from "react-native";
 import * as Facebook from "expo-facebook";
 // const id = "588827002106865"
@@ -31,6 +32,8 @@ export default function Login() {
           `https://graph.facebook.com/me?access_token=${token}`
         );
         Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+        const data = await response.json();
+        console.log(data)
       } else {
         // type === 'cancel'
       }

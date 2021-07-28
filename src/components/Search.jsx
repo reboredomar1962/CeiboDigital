@@ -1,19 +1,16 @@
 import * as React from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  ScrollView,
-  SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { searchPlans } from "../state/plan";
-import { showPlans } from "../state/plan";
+
 
 const Search = ({ navigation, setModal, filter }) => {
   const [searchQuery, setSearchQuery] = React.useState(filter);
@@ -42,7 +39,7 @@ const Search = ({ navigation, setModal, filter }) => {
       <Searchbar
         placeholder="Buscar eventos..."
         onChangeText={onChangeSearch}
-        value={searchQuery}
+        value={searchQuery.query}
         inputStyle={{ fontFamily: "Poppins_300Light", fontSize: 15 }}
         iconColor="#23036A"
         style={{

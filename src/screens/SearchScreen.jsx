@@ -6,30 +6,27 @@ import {
   ScrollView,
   SafeAreaView,
   Modal,
-  Pressable,
   TouchableOpacity,
   TextInput,
+  LogBox
 } from "react-native";
+
 //-------------Redux Import------------------------------
 import { useSelector, useDispatch } from "react-redux";
-import { showCategories } from "../state/categories";
-//-------------Libraries Import--------------------------
-import { Card, Title, Paragraph } from "react-native-paper";
-import { AntDesign } from "@expo/vector-icons";
+import { searchPlans } from "../state/plan";
 
-import { Switch } from 'react-native-paper';
-import { Rating, AirbnbRating } from 'react-native-elements';
+//-------------Libraries Import--------------------------
+import { AntDesign } from "@expo/vector-icons";
+import { Switch } from "react-native-paper";
+import { Rating, AirbnbRating } from "react-native-elements";
 
 //------------Components Import-----------------------------
 import Search from "../components/Search";
 import CategoriesComponent from "../components/CategoriesComponent";
 import SearchedPlans from "../components/SearchedPlans";
-import { compose } from "redux";
-import { searchPlans } from "../state/plan";
 
 const SearchScreen = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => {
-
     return store.plan;
   });
 
@@ -48,7 +45,6 @@ const SearchScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const data = [
-
     "planDate",
     "planDateBefore",
     "planDateAfter",
@@ -61,6 +57,7 @@ const SearchScreen = ({ navigation }) => {
   ];
 
   const dispatch = useDispatch();
+
   const onSwitchPrivate = (e) => {
     let auxPrivate = !filter.private;
     setFilter({ ...filter, private: auxPrivate, afterFirstPrivate: true });
@@ -93,6 +90,10 @@ const SearchScreen = ({ navigation }) => {
     dispatch(searchPlans(filter));
   }, [filter]);
 
+  //Para ignorar el error insoportable ese
+  React.useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -143,7 +144,6 @@ const SearchScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.switchStyle}>
-
                   <Text>{data[7]}</Text>
                   <Switch
                     value={filter.private}
@@ -154,14 +154,12 @@ const SearchScreen = ({ navigation }) => {
                 <View style={styles.switchStyle}>
                   <Text>{data[8]}</Text>
                   <Switch value={filter.free} onValueChange={onSwitchFree} />
-
                 </View>
 
                 <View style={styles.switchStyle}>
                   <Text>Precio</Text>
 
                   <View style={styles.inputStyle}>
-
                     <TextInput
                       style={{
                         borderBottomWidth: 0.5,
@@ -183,26 +181,20 @@ const SearchScreen = ({ navigation }) => {
                       placeholder={data[5]}
                       onEndEditing={onEditMax}
                     />
-
                   </View>
                 </View>
-
 
                 <View>
                   <Text>{data[4]}</Text>
 
                   <Rating
-                    type='star'
+                    type="star"
                     ratingCount={5}
                     imageSize={20}
-                    ratingTextColor='black'
+                    ratingTextColor="black"
                     /* onFinishRating={} */
                   />
                 </View>
-
-                
-
-
               </View>
             </View>
           </Modal>
@@ -221,17 +213,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  categoriesCont: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   modalContainer: {
     flex: 1,
-    backgroundColor: "red",
+    backgroundColor: "transparent",
     alignItems: "flex-start",
     justifyContent: "center",
     flexDirection: "column",
+    padding:20,
   },
   modalContent: {
     width: "75%",
     height: "80%",
-    backgroundColor: "blue",
+    backgroundColor: "#fff",
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "column",
@@ -260,14 +259,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#23036A",
     paddingTop: 15,
-  },
-  categoriesCont: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  searchPlanCont: {
-    backgroundColor: "red",
   },
 });
