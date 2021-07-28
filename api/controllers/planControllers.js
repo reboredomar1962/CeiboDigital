@@ -57,6 +57,8 @@ const getPlanByFilters = (req, res, next) => {
     recommendation,
     private,
     free,
+    afterFirstPrivate,
+    afterFirstFree,
   } = req.body;
 
   let priceRange = false;
@@ -71,9 +73,11 @@ const getPlanByFilters = (req, res, next) => {
     ...(priceMax && { price: { $lte: priceMax } }),
     ...(priceRange && { price: { $gte: priceMin, $lte: priceMax } }),
     ...(recommendation && { recommendation: { $gte: recommendation } }),
-    ...(private && { private }),
-    ...(free && { free }),
+    ...(afterFirstPrivate && { private }),
+    ...(afterFirstFree && { free }),
   };
+
+  console.log("este es el queryCond", queryCond);
 
   Plan.find(queryCond)
     .then((search) => {
