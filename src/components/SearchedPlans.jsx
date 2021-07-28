@@ -1,19 +1,24 @@
 import * as React from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  ScrollView,
-  SafeAreaView,
   FlatList,
   TouchableOpacity,
 } from "react-native";
+
+//----------------LIBRARIES CONFIG--------------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
+
+//-----------------REDUX CONFIG-----------------------------------
 import { useSelector } from "react-redux";
 
-const SearchedPlans = ({ navigation }) => {
-  const { searchedPlans } = useSelector((store) => store.plan);
 
+const SearchedPlans = ({ navigation }) => {
+
+  const { searchedPlans } = useSelector((store) => store.plan);
+  
+  //FlatList config------------------------------------------------
+  
   const Item = ({ id, img, name, description }) => (
     <TouchableOpacity
       onPress={() =>
@@ -43,6 +48,7 @@ const SearchedPlans = ({ navigation }) => {
       description={item.description}
     />
   );
+  //FlatList Config termina aki --------------------------------------------
 
   return (
     <View style={styles.cardCont}>

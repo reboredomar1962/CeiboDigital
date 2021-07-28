@@ -19,7 +19,7 @@ const initialState = {
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
-    .get(`http://10.0.2.2:3001/api/plan`)
+    .get(`http://${os}:3001/api/plan`)
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR EN SHOW_PLANS -----> ", error)
@@ -37,7 +37,11 @@ export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
 });
 
 export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
+
   console.log("este es el namePLan", namePlan);
+
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+
   if (namePlan.fromModal) {
     return axios
 

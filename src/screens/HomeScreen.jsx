@@ -7,13 +7,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 //--------SCREENS IMPORT------------------
 import Home from "./Home";
-import MyAccount from "./MyAccount";
 import Events from "./Events";
 import CreateEvent from "./CreateEvent";
 import SearchScreen from "./SearchScreen";
 import Notifications from "./Notifications";
 import SingleEvent from './SingleEvent';
 import FilterDrawer from "../components/FilterDrawer";
+import LoginScreen from "./LoginScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -35,8 +35,8 @@ const HomeScreen = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name="MyAccount"
-        component={MyAccount}
+        name="LoginScreen"
+        component={LoginScreen}
         options={{
           tabBarLabel: "My Account",
           tabBarIcon: () => <AntDesign name="user" size={20} color="white" />,

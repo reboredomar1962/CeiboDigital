@@ -20,8 +20,8 @@ export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
     );
 });
 
-const categoriesReducer = createReducer([], {
-  [showCategories.fulfilled]: (state, action) => action.payload,
+const categoriesReducer = createReducer(initialState, {
+  [showCategories.fulfilled]: (state, action) => {state.categories = action.payload} ,
 });
 
 export default categoriesReducer;
