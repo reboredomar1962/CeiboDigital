@@ -72,10 +72,10 @@ const App = () => {
   const readData = async () => {
     try {
       const userToken = await AsyncStorage.getItem("token");
-      const nerToken = JSON.parse(userToken);
+      const newToken = JSON.parse(userToken);
       console.log("readData->", userToken);
-      if (nerToken !== null) {
-        dispatch(userMe(nerToken));
+      if (newToken !== null) {
+        dispatch(userMe(newToken));
       }
     } catch (e) {
       alert("Failed to fetch the data from storage");
@@ -90,10 +90,6 @@ const App = () => {
       alert("Failed to clear the async storage.");
     }
   };
-
-  useEffect(() => {
-    readData();
-  }, []);
 
   useEffect(() => {
     if (me && me.name) return;

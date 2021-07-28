@@ -6,11 +6,18 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 const MyAccount = ({ navigation }) => {
 
   const { me } = useSelector((store) => store.user);
+  console.log('ESTO ES ME',me)
+
+  React.useEffect(()=>{
+    me && me.id ? navigation.navigate('MyAccountLoggedIn') : navigation.navigate('LoginScreen')
+  })
 
 
   return (
     <>
-      {me && Object.keys(me).length ? navigation.navigate('MyAccountLoggedIn') : navigation.navigate('LoginScreen')} 
+     
+
+     {me && me.id ? <Text>Existe ME</Text> : <Text>NO existe ME</Text>}
     </>
 
   );

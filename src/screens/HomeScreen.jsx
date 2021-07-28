@@ -14,6 +14,7 @@ import SearchScreen from "./SearchScreen";
 import Notifications from "./Notifications";
 import SingleEvent from './SingleEvent';
 import FilterDrawer from "../components/FilterDrawer";
+import LoginScreen from "./LoginScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -36,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
       />
       <Tab.Screen
         name="MyAccount"
-        component={MyAccount}
+        component={LoginScreen}
         options={{
           tabBarLabel: "My Account",
           tabBarIcon: () => <AntDesign name="user" size={20} color="white" />,
