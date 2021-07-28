@@ -17,6 +17,7 @@ import { searchPlans } from "../state/plan";
 
 //-------------Libraries Import--------------------------
 import { AntDesign } from "@expo/vector-icons";
+
 import { Switch } from "react-native-paper";
 import { Rating, AirbnbRating } from "react-native-elements";
 
@@ -27,6 +28,7 @@ import SearchedPlans from "../components/SearchedPlans";
 
 const SearchScreen = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => {
+
     return store.plan;
   });
 
@@ -36,8 +38,13 @@ const SearchScreen = ({ navigation }) => {
     query: "",
     afterFirstPrivate: false,
     afterFirstFree: false,
+    afterFirstPublic: false,
+    afterFirstPaid: false,
+    //afterFirstRecommendation: false,
     private: false,
     free: false,
+    public: false,
+    paid: false,
   };
 
   const [filter, setFilter] = React.useState(initialState);
@@ -58,14 +65,65 @@ const SearchScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const onSwitchPrivate = (e) => {
+  const onSwitchPrivate = () => {
+
     let auxPrivate = !filter.private;
-    setFilter({ ...filter, private: auxPrivate, afterFirstPrivate: true });
+    if (auxPrivate && filter.public)
+      setFilter({
+        ...filter,
+        private: auxPrivate,
+        afterFirstPrivate: true,
+        public: false,
+        afterFirstPublic: false,
+      });
+    else if (!auxPrivate && !filter.public)
+      setFilter({ ...filter, private: auxPrivate, afterFirstPrivate: false });
+    else setFilter({ ...filter, private: auxPrivate, afterFirstPrivate: true });
+  };
+
+  const onSwitchPublic = () => {
+    let auxPublic = !filter.public;
+    if (auxPublic && filter.private)
+      setFilter({
+        ...filter,
+        public: auxPublic,
+        afterFirstPublic: true,
+        private: false,
+        afterFirstPrivate: false,
+      });
+    else if (!auxPublic && !filter.private)
+      setFilter({ ...filter, public: auxPublic, afterFirstPublic: false });
+    else setFilter({ ...filter, public: auxPublic, afterFirstPublic: true });
   };
 
   const onSwitchFree = () => {
     let auxFree = !filter.free;
-    setFilter({ ...filter, free: auxFree, afterFirstFree: true });
+    if (auxFree && filter.paid)
+      setFilter({
+        ...filter,
+        free: auxFree,
+        afterFirstFree: true,
+        paid: false,
+        afterFirstPaid: false,
+      });
+    else if (!auxFree && !filter.paid)
+      setFilter({ ...filter, free: auxFree, afterFirstFree: false });
+    else setFilter({ ...filter, free: auxFree, afterFirstFree: true });
+  };
+
+  const onSwitchPaid = () => {
+    let auxPaid = !filter.paid;
+    if (auxPaid && filter.free)
+      setFilter({
+        ...filter,
+        paid: auxPaid,
+        afterFirstPaid: true,
+        free: false,
+        afterFirstFree: false,
+      });
+    else if (!auxPaid && !filter.free)
+      setFilter({ ...filter, paid: auxPaid, afterFirstPaid: false });
+    else setFilter({ ...filter, paid: auxPaid, afterFirstPaid: true });
   };
 
   const onEditMin = (e) => {
@@ -86,14 +144,24 @@ const SearchScreen = ({ navigation }) => {
     }
   };
 
+  const onRatingSubmit = (score) => {
+    setFilter({
+      ...filter,
+      recommendation: Number(score),
+      afterFirstRecommendation: true,
+    });
+  };
+
   React.useEffect(() => {
     dispatch(searchPlans(filter));
   }, [filter]);
+
 
   //Para ignorar el error insoportable ese
   React.useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, [])
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -137,7 +205,27 @@ const SearchScreen = ({ navigation }) => {
               <View style={styles.modalContent}>
                 <View style={styles.iconStyle}>
                   <TouchableOpacity
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => {
+                      filterLen = Object.keys(filter).length;
+                      iniStateLen = Object.keys(initialState).length;
+                      if (
+                        !filter.afterFirstPrivate &&
+                        !filter.afterFirstFree &&
+                        !filter.afterFirstPublic &&
+                        !filter.afterFirstPaid &&
+                        //!filter.afterFirstRecommendation &&
+                        filterLen === iniStateLen
+                      ) {
+                        setFilter({
+                          ...initialState,
+                          fromModal: false,
+                          fromSearch: false,
+                          query: "",
+                        });
+                      }
+
+                      setModalVisible(!modalVisible);
+                    }}
                   >
                     <AntDesign name="close" size={24} color="black" />
                   </TouchableOpacity>
@@ -152,8 +240,23 @@ const SearchScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.switchStyle}>
+                  <Text>{"Public"}</Text>
+                  <Switch
+                    value={filter.public}
+                    onValueChange={onSwitchPublic}
+                  />
+                </View>
+
+                <View style={styles.switchStyle}>
                   <Text>{data[8]}</Text>
                   <Switch value={filter.free} onValueChange={onSwitchFree} />
+
+                </View>
+
+                <View style={styles.switchStyle}>
+                  <Text>{"Paid"}</Text>
+                  <Switch value={filter.paid} onValueChange={onSwitchPaid} />
+
                 </View>
 
                 <View style={styles.switchStyle}>
@@ -192,7 +295,11 @@ const SearchScreen = ({ navigation }) => {
                     ratingCount={5}
                     imageSize={20}
                     ratingTextColor="black"
-                    /* onFinishRating={} */
+
+                    onFinishRating={(score) => {
+                      onRatingSubmit(score);
+                    }}
+
                   />
                 </View>
               </View>

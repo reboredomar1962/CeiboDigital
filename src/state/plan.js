@@ -37,7 +37,11 @@ export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
 });
 
 export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
+
+  console.log("este es el namePLan", namePlan);
+
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+
   if (namePlan.fromModal) {
     return axios
 
@@ -61,8 +65,10 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
       );
   } else if (namePlan.type) {
     return axios
-      .get(`http://${os}:3001/api/plan/category/${namePlan.type}`)
-      .then((res) => res.data)
+      .get(`http://10.0.2.2:3001/api/plan/category/${namePlan.type}`)
+      .then((res) => {
+        return res.data;
+      })
       .catch((error) =>
         console.log("ACA ESTA EL ERROR EN SEARCH PLANS CATEGORY-----> ", error)
       );
