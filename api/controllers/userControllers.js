@@ -56,6 +56,10 @@ const addFriend = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+const addPlan = (req, res, next)=> {
+
+}
+
 const getOneUser = (req, res, next) => {
   const { id } = req.params;
   User.findById(id)
@@ -175,4 +179,5 @@ module.exports = {
   loginUser,
   logoutUser,
   getMe,
+  addPlan,
 };
