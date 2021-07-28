@@ -7,6 +7,8 @@ import {
 } from "@reduxjs/toolkit";
 
 import { Platform } from "react-native";
+/* import AsyncStorage from "@react-native-async-storage/async-storage"; */
+import { AsyncStorage } from "react-native";
 
 const initialState = {
   userRegister: {},
@@ -38,16 +40,8 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
     );
 });
 
-export const logoutUser = createAsyncThunk("LOGOUT_USER", (token) => {
-  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
-  return axios
-    .post(`http://10.0.2.2:3001/api/user/logout`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    .then((res) => res.data)
-    .catch((error) =>
-      console.log("ACA ESTA EL ERROR EN LOGOUT_USER_REDUCER -----> ", error)
-    );
+export const logoutUser = createAsyncThunk("CLEAR_USER",async()=>{
+  await AsyncStorage.clear()
 });
 
 export const userMe = createAsyncThunk("USER_ME", (token) => {
@@ -70,7 +64,7 @@ const userReducer = createReducer(initialState, {
     state.me = action.payload;
   },
   [logoutUser.fulfilled]: (state, action) => {
-    state.me = action.payload;
+    state.me = {};
   },
 });
 

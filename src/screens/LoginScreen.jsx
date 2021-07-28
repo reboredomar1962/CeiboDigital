@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView, Button } from "react-native";
 import Svg, { Rect } from 'react-native-svg';
 import LoginForm from '../components/LoginForm';
-import Login from './LoginFacebook';
 import { Provider, useDispatch, useSelector } from "react-redux";
 import MyAccountLoggedIn from './MyAccountLoggedIn';
 
@@ -13,7 +12,7 @@ const LoginScreen = ({navigation}) => {
     return (
       <SafeAreaView>
       
-        {me.id ? 
+        {me && me.id ? 
 
       <MyAccountLoggedIn />  
       
@@ -33,8 +32,6 @@ const LoginScreen = ({navigation}) => {
         <LoginForm navigation={navigation} />
         </View>
 
-        <Login />
-
         <Button
             title='Registrate'
             onPress={() => navigation.navigate('RegisterScreen')}
@@ -52,15 +49,17 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    /* flex: 1, */
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
     height:'100%',
     width:'100%',
+
   },
   textContainer: {
-    position:'absolute',/* 
+    /* position:'absolute', */
+    /* 
     transform:([{translateY:60}]), */
   },
   textTitle: {

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
-
+import Login from "../screens/LoginFacebook";
 import SelectMultiple from "react-native-select-multiple";
 import RNPickerSelect from "react-native-picker-select";
 
@@ -85,6 +85,11 @@ const LoginForm = ({navigation}) => {
             onPress={handleSubmit(onSubmit)}
           />
         </View>
+
+        <View>
+          <Login />
+        </View>
+        
       </View>
     </SafeAreaView>
   );

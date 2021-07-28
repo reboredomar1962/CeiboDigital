@@ -7,7 +7,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 //--------SCREENS IMPORT------------------
 import Home from "./Home";
-import MyAccount from "./MyAccount";
 import Events from "./Events";
 import CreateEvent from "./CreateEvent";
 import SearchScreen from "./SearchScreen";
@@ -36,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name="MyAccount"
+        name="LoginScreen"
         component={LoginScreen}
         options={{
           tabBarLabel: "My Account",
