@@ -47,7 +47,7 @@ const getPlanByFilters = (req, res, next) => {
   // Para filtro fecha, quiero todos los eventos en la fecha? antes de la fecha? despues de la fecha? en ese mes y año?
   // ver si tengo que hacer que el input fecha sea de alguna forma. al parecer es yyyy-mm-dd (https://mongoosejs.com/docs/tutorials/dates.html)
 
-  const {
+  let {
     planDate,
     planDateBefore,
     planDateAfter,
@@ -59,10 +59,22 @@ const getPlanByFilters = (req, res, next) => {
     free,
     afterFirstPrivate,
     afterFirstFree,
+    public,
+    paid,
+    afterFirstPublic,
+    afterFirstPaid,
+    //afterFirstRecommendation
   } = req.body;
 
   let priceRange = false;
-  if (priceMin && priceMax) priceRange = true;
+  if (priceMin && priceMax) {
+    if (priceMin > priceMax) {
+      auxPriceMin = priceMin;
+      priceMin = priceMax;
+      priceMax = auxPriceMin;
+    }
+    priceRange = true;
+  }
 
   let queryCond = {
     ...(planDate && { planDate }),
@@ -75,6 +87,8 @@ const getPlanByFilters = (req, res, next) => {
     ...(recommendation && { recommendation: { $gte: recommendation } }),
     ...(afterFirstPrivate && { private }),
     ...(afterFirstFree && { free }),
+    ...(afterFirstPublic && { private: false }),
+    ...(afterFirstPaid && { free: false }),
   };
 
   console.log("este es el queryCond", queryCond);
