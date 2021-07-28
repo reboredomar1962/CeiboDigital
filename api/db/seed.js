@@ -165,7 +165,7 @@ const planes = [
     description:
       "Temas a tratar: 1) Como ser innovador y no morir en el intento 2) Lider de sus mentes y sus corazones 3) Innovar liderando",
     recommendation: 4.0,
-    users: ["alejandro", "emilio", "daniel", "navila"],
+    users: [],
     private: 0,
     free: 0,
     img: [

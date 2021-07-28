@@ -32,7 +32,7 @@ const planSchema = new Schema({
     required: false, //camiar dsp a true
   },
   recommendation: Number,
-  users: Array, //[{ type: Schema.Types.ObjectId, ref: "user" }],
+  users: [{ type: Schema.Types.ObjectId, ref: "user" }],
   private: {
     type: Boolean,
     required: true,
