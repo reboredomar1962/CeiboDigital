@@ -1,4 +1,4 @@
-const { User } = require("../models/");
+const { User, Plan } = require("../models/");
 const jwt = require("jsonwebtoken");
 
 const accessTokenSecret = "ceiboDigital";
@@ -54,6 +54,26 @@ const addFriend = (req, res, next) => {
     })
     .then((user) => res.status(201).send(user))
     .catch((err) => console.log(err));
+};
+
+const addPlan = (req, res, next) => {
+  const { id } = req.user;
+  const planId = req.body.id;
+  const userPromise = User.findById(id);
+  const planPromise = Plan.findById(planId);
+
+  Promise.all([userPromise, planPromise])
+    .then((values) => {
+      const [user, plan] = values;
+      user.myPlans = user.myPlans.concat(plan);
+      plan.users = plan.users.concat(user);
+      user.save();
+      plan.save();
+      res.status(200).send("Plan agregado");
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
 const getOneUser = (req, res, next) => {
@@ -158,12 +178,11 @@ const getMe = (req, res, next) => {
 // });
 
 const logoutUser = (req, res, next) => {
-  const user = req.user
-  console.log('ESTAMOS EN LA RUTA DE LOGOUT',user)
-  user = null
-  res.status(200).json({})
+  const user = req.user;
+  console.log("ESTAMOS EN LA RUTA DE LOGOUT", user);
+  user = null;
+  res.status(200).json({});
 };
-
 
 module.exports = {
   getUser,
@@ -175,4 +194,5 @@ module.exports = {
   loginUser,
   logoutUser,
   getMe,
+  addPlan,
 };

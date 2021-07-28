@@ -12,6 +12,7 @@ const {
   loginUser,
   logoutUser,
   getMe,
+  addPlan,
 } = require("../controllers/userControllers");
 
 router.get("/me", authenticateJWT, getMe);
@@ -31,5 +32,7 @@ router.post("/register", postUser);
 router.put("/:id", authenticateJWT, updateUser);
 // delete a user
 router.delete("/:id", authenticateJWT, deleteUser);
+// add plan to user
+router.post("/planToAttend", authenticateJWT, addPlan);
 
 module.exports = router;
