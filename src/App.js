@@ -1,7 +1,10 @@
 //--------REACT & REDUX CONFIG-------------
-import React from "react";
-import { Provider } from "react-redux";
-import store from "./state/store";
+import React, { useEffect } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
+
+import { userMe } from "./state/user";
+import { AsyncStorage } from "react-native";
+import axios from "axios";
 
 //---------FONTS CONFIG----------------
 import AppLoading from "expo-app-loading";
@@ -63,66 +66,121 @@ const App = () => {
     Poppins_700Bold,
   });
 
+  const dispatch = useDispatch();
+  const { me } = useSelector((store) => store.user);
+
+  const readData = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem("token");
+      const nerToken = JSON.parse(userToken);
+      console.log("readData->", userToken);
+      if (nerToken !== null) {
+        dispatch(userMe(nerToken));
+      }
+    } catch (e) {
+      alert("Failed to fetch the data from storage");
+    }
+  };
+
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      alert("Storage successfully cleared!");
+    } catch (e) {
+      alert("Failed to clear the async storage.");
+    }
+  };
+
+  useEffect(() => {
+    readData();
+  }, []);
+
+  useEffect(() => {
+    if (me && me.name) return;
+    readData();
+    //AsyncStorage.clear();
+  }, [readData]);
+
+  console.log(me);
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
 
-      <Provider store={store}>
-        <SafeAreaProvider>
-          <PaperProvider>
-            <NavigationContainer>
-              <Stack.Navigator initialRouteName="HomeScreen">
-                <Stack.Screen
-                  name="HomeScreen"
-                  component={HomeScreen}
-                  options={{
-                    title: "El club del Plan",
-                    headerStyle: {
-                      backgroundColor: "#fff",
-                    },
-                    headerTintColor: "#23036A",
-                    headerTitleStyle: {
-                      fontFamily: "Poppins_700Bold",
-                      fontSize: 20,
-                      letterSpacing: 2,
-                      textAlign: "center",
-                      textTransform: "uppercase",
-                    },
-                  }}
-                />
-                <Stack.Screen name="Home" component={Home} />
-                <Stack.Screen name="Events" component={Events} />
-                <Stack.Screen name="MyAccount" component={MyAccount} />
-                <Stack.Screen name="Notifications" component={Notifications} />
-                <Stack.Screen name="CreateEvent" component={CreateEvent} />
-                <Stack.Screen name="SingleEvent" component={SingleEvent} options={({ route }) => ({ title: route.params.eventName, headerTintColor: "#23036A",
-                    headerTitleStyle: {
-                      fontFamily: "Poppins_500Medium",
-                      fontSize: 18,
-                    }, })} />
-                <Stack.Screen name="SearchScreen" component={SearchScreen} />
-                <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ title:'Registro', headerTintColor: "#23036A",
-                    headerTitleStyle: {
-                      fontFamily: "Poppins_500Medium",
-                      fontSize: 18,
-                    }, }} />
-                    <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title:'Iniciar Sesión', headerTintColor: "#23036A",
-                    headerTitleStyle: {
-                      fontFamily: "Poppins_500Medium",
-                      fontSize: 18,
-                    }, }} />
-                <Stack.Screen name="MyAccountLoggedIn" component={MyAccountLoggedIn} />
-                <Stack.Screen name="FilterDrawer" component={FilterDrawer} />
+      <SafeAreaProvider>
+        <PaperProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="HomeScreen">
+              <Stack.Screen
+                name="HomeScreen"
+                component={HomeScreen}
+                options={{
+                  title: "El club del Plan",
+                  headerStyle: {
+                    backgroundColor: "#fff",
+                  },
+                  headerTintColor: "#23036A",
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_700Bold",
+                    fontSize: 20,
+                    letterSpacing: 2,
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                  },
+                }}
+              />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Events" component={Events} />
+              <Stack.Screen name="MyAccount" component={MyAccount} />
+              <Stack.Screen name="Notifications" component={Notifications} />
+              <Stack.Screen name="CreateEvent" component={CreateEvent} />
+              <Stack.Screen
+                name="SingleEvent"
+                component={SingleEvent}
+                options={({ route }) => ({
+                  title: route.params.eventName,
+                  headerTintColor: "#23036A",
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_500Medium",
+                    fontSize: 18,
+                  },
+                })}
+              />
+              <Stack.Screen name="SearchScreen" component={SearchScreen} />
+              <Stack.Screen
+                name="RegisterScreen"
+                component={RegisterScreen}
+                options={{
+                  title: "Registro",
+                  headerTintColor: "#23036A",
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_500Medium",
+                    fontSize: 18,
+                  },
+                }}
+              />
+              <Stack.Screen
+                name="LoginScreen"
+                component={LoginScreen}
+                options={{
+                  title: "Iniciar Sesión",
+                  headerTintColor: "#23036A",
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_500Medium",
+                    fontSize: 18,
+                  },
+                }}
+              />
+              <Stack.Screen
+                name="MyAccountLoggedIn"
+                component={MyAccountLoggedIn}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PaperProvider>
+      </SafeAreaProvider>
 
-                
-
-
-              </Stack.Navigator>
-            </NavigationContainer>
-          </PaperProvider>
-        </SafeAreaProvider>
-      </Provider>
     );
   }
 };
