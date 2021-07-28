@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  AsyncStorage,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -27,8 +28,15 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    dispatch(loginUser(data));
-    console.log(data);
+    dispatch(loginUser(data))
+      .then((data) => data.payload.token)
+      .then((token) => {
+        AsyncStorage.setItem("token", JSON.stringify(token));
+        alert("Data successfully saved");
+      })
+      .catch((err) => {
+        alert("Failed to save the data to the storage");
+      });
   };
 
   return (

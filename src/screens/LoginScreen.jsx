@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, Button } from "react-native";
 import Svg, { Rect } from 'react-native-svg';
 import LoginForm from '../components/LoginForm';
 import Login from './LoginFacebook';
 
 
-const LoginScreen = () => {
+
+const LoginScreen = ({navigation}) => {
     return (
       <SafeAreaView>
       <ScrollView>
@@ -25,6 +26,11 @@ const LoginScreen = () => {
         </View>
 
         <Login />
+
+        <Button
+            title='Registrate'
+            onPress={() => navigation.navigate('RegisterScreen')}
+        ></Button>
 
       </View>
       </ScrollView>

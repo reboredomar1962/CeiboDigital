@@ -29,7 +29,7 @@ export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
 export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
-    .get(`http://10.0.2.2:3001/api/plan/${param}`)
+    .get(`http://${os}:3001/api/plan/${param}`)
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR EN SINGLE PLAN -----> ", error)
@@ -39,6 +39,7 @@ export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
 export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
   if (namePlan.fromModal) {
     return axios
+
       .post(`http://10.0.2.2:3001/api/plan/search/multipleFilter`, namePlan)
       .then((res) => {
         return res.data;
@@ -53,12 +54,13 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
         console.log("dentro del segundo, length", res.data.length);
         return res.data;
       })
+
       .catch((error) =>
         console.log("ACA ESTA EL ERROR EN SEARCH PLANS SEARCH-----> ", error)
       );
   } else if (namePlan.type) {
     return axios
-      .get(`http://10.0.2.2:3001/api/plan/category/${namePlan.type}`)
+      .get(`http://${os}:3001/api/plan/category/${namePlan.type}`)
       .then((res) => res.data)
       .catch((error) =>
         console.log("ACA ESTA EL ERROR EN SEARCH PLANS CATEGORY-----> ", error)

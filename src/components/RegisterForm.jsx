@@ -28,7 +28,6 @@ const RegisterForm = ({ navigation }) => {
 
   const onSubmit = (data) => {
     dispatch(createUser(data));
-    console.log(data);
     navigation.navigate("LoginScreen");
   };
 

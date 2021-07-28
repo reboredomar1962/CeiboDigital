@@ -11,7 +11,10 @@ const {
   deleteUser,
   loginUser,
   logoutUser,
+  getMe,
 } = require("../controllers/userControllers");
+
+router.get("/me", authenticateJWT, getMe);
 
 router.post("/login", loginUser);
 
