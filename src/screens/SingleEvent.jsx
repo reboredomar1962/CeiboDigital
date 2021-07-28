@@ -17,7 +17,7 @@ import { showSinglePlan } from "../state/plan";
 import { useDispatch, useSelector } from "react-redux";
 
 const SingleEvent = ({ route }) => {
-  /* console.log("ACA ESTA ID ------->>>>>", route); */
+  
 
   const { singlePlan } = useSelector((store) => store.plan);
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const SingleEvent = ({ route }) => {
   React.useEffect(() => {
     dispatch(showSinglePlan(route.params.id));
   }, []);
-  /* console.log("ACA ESTA SINGLE PLAN-------->", singlePlan); */
+  
 
   return (
     <SafeAreaView>

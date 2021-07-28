@@ -14,6 +14,7 @@ const initialState = {
   userRegister: {},
   userLogin: {},
   me: {},
+  savedPlans: []
 };
 
 export const createUser = createAsyncThunk("CREATE_USER", (user) => {
@@ -40,8 +41,8 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
     );
 });
 
-export const logoutUser = createAsyncThunk("CLEAR_USER",async()=>{
-  await AsyncStorage.clear()
+export const logoutUser = createAsyncThunk("CLEAR_USER", async () => {
+  await AsyncStorage.clear();
 });
 
 export const userMe = createAsyncThunk("USER_ME", (token) => {
@@ -52,6 +53,17 @@ export const userMe = createAsyncThunk("USER_ME", (token) => {
     })
     .then((res) => res.data);
 });
+
+export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.post(`http://${os}:3001/api/user/planToAttend`, plan, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    })
+    .then((res) => res.data);
+})
 
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
@@ -65,6 +77,9 @@ const userReducer = createReducer(initialState, {
   },
   [logoutUser.fulfilled]: (state, action) => {
     state.me = {};
+  },
+  [addPlan.fulfilled] : (state, action) => {
+    state.savedPlans = action.payload;
   },
 });
 

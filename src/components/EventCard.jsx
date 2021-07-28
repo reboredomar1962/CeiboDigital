@@ -7,39 +7,102 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
+import { addPlan, userMe } from "../state/user";
 
 //-------------Libraries Import--------------------------
-import { Card, Title, Paragraph } from "react-native-paper";
+import { Card, Title, Paragraph, FAB, Portal } from "react-native-paper";
+import { AntDesign } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
+import { Rating, AirbnbRating } from "react-native-elements";
 
 const EventCard = ({ navigation }) => {
+  const [state, setState] = React.useState({ open: false });
+
+  const onStateChange = ({ open }) => setState({ open });
+
+  const { open } = state;
+
+  const { me } = useSelector((store) => store.user);
+
   const { plans } = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
+
+  const handlePress = (plan) => {
+    dispatch(addPlan(plan));
+  };
 
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
 
-  const Item = ({ id, img, name, description }) => (
+  const Item = ({
+     item,
+  }) => (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("SingleEvent", {
-          id: id,
-          eventName: name,
+          id: item.id,
+          eventName: item.name,
         })
       }
     >
       <View style={styles.cardContainer}>
-        <Card style={styles.cardStyle} key={id}>
-          <Card.Cover source={{ uri: img[0] }} />
+        <Card style={styles.cardStyle} key={item.id}>
+          <Card.Cover source={{ uri: item.img[0] }} />
           <Card.Content style={{ marginTop: 5 }}>
-            <Title style={styles.titleTxt}>{name}</Title>
-            <Paragraph style={styles.paragTxt}>{description}</Paragraph>
+            <Title style={styles.titleTxt}>{item.name}</Title>
+            <Paragraph style={styles.paragTxt}>
+              {item.description.substr(0, 40) + "..."}
+            </Paragraph>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 5,
+                alignItems: "baseline",
+              }}
+            >
+              {item.price ? (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Foundation name="dollar" size={24} color="#23036A" />
+                  <Text>{item.price}</Text>
+                </View>
+              ) : (
+                <Text>Gratis</Text>
+              )}
+
+              <Rating
+                count={5}
+                startingValue={Math.round(item.recommendation)}
+                imageSize={20}
+                readonly
+              />
+
+              {me && me.id ?
+            
+              <TouchableOpacity
+                style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
+                onPress={() => handlePress(item)}
+              >
+                <AntDesign name="pluscircle" size={24} color="#23036A" />
+              </TouchableOpacity>
+
+              :
+
+              null
+            
+
+            }
+
+            </View>
           </Card.Content>
         </Card>
       </View>
@@ -48,10 +111,7 @@ const EventCard = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <Item
-      id={item.id}
-      img={item.img}
-      name={item.name}
-      description={item.description}
+      item={item}
     />
   );
 
