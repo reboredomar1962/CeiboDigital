@@ -61,9 +61,13 @@ const RegisterForm = ({ navigation }) => {
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
           style={{color:'black', borderBottomWidth:5, width:200,}}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
+            placeholder="Password"
+              placeholderTextColor="#23036A"
+              secureTextEntry={true}
+              textContentType="password"
+              value={value}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
           />
         )}
         name="lastName"
