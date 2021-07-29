@@ -32,7 +32,7 @@ const planes = [
     comments: [],
     description:
       "World known DJ Agrelo will host a private event at the Hotel Plaza. Invites only. Bring your best attitude!!",
-    recommendation: 0,
+    recommendation: 5,
     users: [],
     private: 1,
     free: 0,
@@ -76,7 +76,7 @@ const planes = [
     comments: [],
     description:
       "Master class a cargo del reconocido chef Ivan Moroni. Su trayectoria internacional y la dedicacion entregada en cada plato lo llevo a ser el chef mas joven con 5 estrellas Michelin. Degustacion al final de la clase incluida en el precio de la entrada.",
-    recommendation: 4.3,
+    recommendation: 4,
     users: [],
     private: 1,
     free: 0,
@@ -98,7 +98,7 @@ const planes = [
     comments: [],
     description:
       "Bota todas las calorias de fin de año con las clases grupales de Martina. Siendo coach nivel 1 de Crossfit, ella te llevara a sudar todo lo que no debiste comer en la cena. Apurante, cupos limitados! ",
-    recommendation: 4.5,
+    recommendation: 4,
     users: [],
     private: 0,
     free: 1,
@@ -119,7 +119,7 @@ const planes = [
     capacity: 200,
     comments: [],
     description: "Concierto a beneficiencia para la fundacion las Rosas.",
-    recommendation: 4.0,
+    recommendation: 3,
     users: [],
     private: 0,
     free: 0,
@@ -141,7 +141,7 @@ const planes = [
     comments: [],
     description:
       "Porque no todo en la vida es entrenar, ahora tambien podes tomar! No faltes a la fiesta del año",
-    recommendation: 4.0,
+    recommendation: 2,
     users: [],
     private: 0,
     free: 0,
@@ -185,7 +185,7 @@ const planes = [
     comments: [],
     description:
       "Ven a bailar bajo las estrellas! Discoteque con pista de baile principal destechada",
-    recommendation: 4.0,
+    recommendation: 1.0,
     users: [],
     private: 0,
     free: 1,
@@ -208,7 +208,7 @@ const planes = [
     comments: [],
     description:
       "Ven a relajarte y tomarte unos tragos para cerrar bien el ciclo! Nosotros ponemos el alcohol, vos la diversion",
-    recommendation: null,
+    recommendation: 3,
     users: [],
     private: 0,
     free: 0,
@@ -396,7 +396,7 @@ const planes = [
     capacity: 100,
     comments: [],
     description: "Jazz para todos",
-    recommendation: null,
+    recommendation: 2,
     users: [],
     private: 1,
     free: 0,
@@ -416,7 +416,7 @@ const planes = [
     capacity: 1000,
     comments: [],
     description: "Free and open concert in the memory of Chester",
-    recommendation: null,
+    recommendation: 1,
     users: [],
     private: 0,
     free: 0,
@@ -508,37 +508,85 @@ const users = [
   },
 ];
 
+// const deletingData = () => {
+//   const deletePlanPromise = Plan.deleteMany({});
+//   const deleteCategoryPromise = Category.deleteMany({});
+//   const deleteUserPromise = User.deleteMany({});
+
+//   Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
+//     .then((deleted) => console.log("Items deleted", deleted))
+//     .then(() => db.close())
+//     .catch((err) => console.log(err));
+// };
+
+// const insertingData = () => {
+//   const planPromise = Plan.insertMany(planes);
+//   const categoryPromise = Category.insertMany(categories);
+//   const userPromise = User.insertMany(users);
+
+//   Promise.all([planPromise, categoryPromise, userPromise])
+//     .then(() => console.log("Values inserted"))
+//     .then(() => db.close())
+//     .catch((err) => console.log(err));
+// };
+
+//Checking the database for any input, will only check plan and erase every collection if there is anything there
+// Plan.find({}).then((data) => {
+//   if (data.length) {
+//     deletingData()
+//       .then(() => insertingData())
+//       .then(() => console.log("Values erased and inserted"));
+//   }
+// });
+
 // Borrar todo lo que haya en base de datos
 
-/*  deletePlanPromise = Plan.deleteMany({});
- deleteCategoryPromise = Category.deleteMany({});
- deleteUserPromise = User.deleteMany({});
+// const deletePlanPromise = Plan.deleteMany({});
+// const deleteCategoryPromise = Category.deleteMany({});
+// const deleteUserPromise = User.deleteMany({});
 
- Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
-   .then((deleted) => console.log("Items deleted", deleted))
-   .then(() => db.close())
-   .catch((err) => console.log(err)); */
+//  Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
+//    .then((deleted) => console.log("Items deleted", deleted))
+//    .then(() => db.close())
+//    .catch((err) => console.log(err));
 
 // Ingresa todo lo que tenga en base de datos
 
-planPromise = Plan.insertMany(planes);
-categoryPromise = Category.insertMany(categories);
-userPromise = User.insertMany(users);
+// const planPromise = Plan.insertMany(planes);
+// const categoryPromise = Category.insertMany(categories);
+// const userPromise = User.insertMany(users);
 
-Promise.all([planPromise, categoryPromise, userPromise])
-  .then(() => console.log("Values inserted"))
-  .then(() => db.close())
-  .catch((err) => console.log(err));
+// Promise.all([planPromise, categoryPromise, userPromise])
+//   .then(() => console.log("Values inserted"))
+//   .then(() => db.close())
+//   .catch((err) => console.log(err));
+
+const manageDB = async () => {
+  let numPlans = await Plan.countDocuments({});
+  if (numPlans > 0) {
+    await Plan.deleteMany({});
+    await Category.deleteMany({});
+    await User.deleteMany({});
+  }
+
+  await Plan.insertMany(planes);
+  await Category.insertMany(categories);
+  await User.insertMany(users);
+
+  db.close();
+};
+
+manageDB();
 
 // Promise.all([deletePlanPromise, deleteCategoryPromise, deleteUserPromise])
 //   .then((deleted) => console.log("Items deleted", deleted))
-// .then(() => {
-//   Promise.all([planPromise, categoryPromise, userPromise])
-//     .then(() => console.log("Values inserted"))
-// .then(() => db.close());
-//     .catch((err) => console.log(err));
-// })
-// .catch((err) => console.log(err));
+//   .then(() => {
+//     Promise.all([planPromise, categoryPromise, userPromise])
+//       .then(() => console.log("Values inserted"))
+//       .then(() => db.close())
+//       .catch((err) => console.log(err));
+//   })
+//   .catch((err) => console.log(err));
 
 //Insertando cada categoria
 
