@@ -15,11 +15,15 @@ import { useDispatch } from "react-redux";
 import { createUser } from "../state/user";
 
 const RegisterForm = ({ navigation }) => {
-  const {
+  /* const {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ mode: "onBlur" }) */
+
+  const { control, handleSubmit, formState: { errors } } = useForm();
+
+  
 
   const dispatch = useDispatch();
 
@@ -30,102 +34,44 @@ const RegisterForm = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Nombre"
-              /* inlineImageLeft='' */
-              placeholderTextColor="#23036A"
-              textContentType="name"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
-        />
-
-        <Controller
-          style={{ marginBottom: 10 }}
-          control={control}
-          name="lastName"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Apellido"
-              placeholderTextColor="#23036A"
-              textContentType="familyName"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
-        />
-
-        <Controller
-          style={{ marginBottom: 10 }}
-          control={control}
-          name="age"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Edad"
-              placeholderTextColor="#23036A"
-              keyboardType="number-pad"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
-        />
-
-        <Controller
-          style={{ marginBottom: 10 }}
-          control={control}
-          name="email"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="E-mail"
-              placeholderTextColor="#23036A"
-              textContentType="emailAddress"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
-        />
-
-        <Controller
-          style={{ marginBottom: 10 }}
-          control={control}
-          name="password"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Password"
-              placeholderTextColor="#23036A"
-              secureTextEntry={true}
-              textContentType="password"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
-        />
-
-        <View style={styles.button}>
-          <Button
-            title="Enviar"
-            style={{ fontFamily: "Poppins_300Light" }}
-            color="#23036A"
-            onPress={handleSubmit(onSubmit)}
+      <View>
+      <Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={{color:'black', borderBottomWidth:5, width:200,}}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
           />
-        </View>
-      </View>
+        )}
+        name="firstName"
+        defaultValue=""
+      />
+      {errors.firstName && <Text>This is required.</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+         maxLength: 100,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+          style={{color:'black', borderBottomWidth:5, width:200,}}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="lastName"
+        defaultValue=""
+      />
+
+      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+    </View>
     </SafeAreaView>
   );
 };

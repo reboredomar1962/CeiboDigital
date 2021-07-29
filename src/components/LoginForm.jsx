@@ -28,7 +28,7 @@ const LoginForm = ({ navigation }) => {
 
   const onSubmit = (data) => {
     dispatch(loginUser(data))
-      .then(()=>navigation.navigate("Home"))
+      .then(()=>{ console.log('HAY ALGO POR AKI??'); return navigation.navigate("Home")})
       .catch((err) => alert("Failed to save the data to the storage"))
   };
 

@@ -30,7 +30,7 @@ const SingleEvent = ({ route }) => {
 
   return (
     <SafeAreaView>
-      {/* <ScrollView> */}
+      
         <View /* style={styles.container} */>
           <View /* style={styles.container} */>
             <ScrollView
@@ -50,7 +50,7 @@ const SingleEvent = ({ route }) => {
 
           <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
-          {/* <View style={styles.infoContainer}>
+          <View style={styles.infoContainer}>
             <Text style={styles.titleTxt}>Descripción</Text>
             <Text style={styles.paragTxt}>{singlePlan.description}</Text>
 
@@ -68,15 +68,13 @@ const SingleEvent = ({ route }) => {
             
             <Text style={styles.titleTxt}>Categoría</Text>
             <Text style={styles.paragTxt}>{singlePlan.category}</Text>
-          </View> */}
+          </View>
 
-            <View style={{height:300, backgroundColor:'red',}}>
-          <AccountInfo></AccountInfo>
-            </View>
+            
 
           
         </View>
-      {/* </ScrollView> */}
+      
     </SafeAreaView>
   );
 };
