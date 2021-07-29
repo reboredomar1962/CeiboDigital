@@ -31,7 +31,7 @@ const LoginScreen = ({ navigation }) => {
             <LoginForm />
           </View>
 
-          <Login />
+          {/* <Login /> */}
 
           <Button
             title="Registrate"
