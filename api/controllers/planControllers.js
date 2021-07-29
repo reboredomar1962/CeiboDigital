@@ -49,8 +49,6 @@ const getPlanByFilters = (req, res, next) => {
 
   let {
     planDate,
-    planDateBefore,
-    planDateAfter,
     address,
     priceMin,
     priceMax,
@@ -77,9 +75,7 @@ const getPlanByFilters = (req, res, next) => {
   }
 
   let queryCond = {
-    ...(planDate && { planDate }),
-    ...(planDateBefore && { planDate: { $lt: planDateBefore } }),
-    ...(planDateAfter && { planDate: { $gt: planDateAfter } }),
+    ...(planDate && { planDate: { $gte: new Date(planDate) } }),
     ...(address && { address }),
     ...(priceMin && { price: { $gte: priceMin } }),
     ...(priceMax && { price: { $lte: priceMax } }),
@@ -181,7 +177,7 @@ const postComments = (req, res, next) => {
       valoracion,
       comentario,
     });
-    /// PREGUNTAR A GUS
+
     newComment.save().then((comment) => {
       plan.comments = plan.comments.concat(comment);
       plan.save();

@@ -8,7 +8,8 @@ import {
   Modal,
   TouchableOpacity,
   TextInput,
-  LogBox
+  LogBox,
+  Button,
 } from "react-native";
 
 //-------------Redux Import------------------------------
@@ -20,6 +21,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { Switch } from "react-native-paper";
 import { Rating, AirbnbRating } from "react-native-elements";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 //------------Components Import-----------------------------
 import Search from "../components/Search";
@@ -28,7 +30,6 @@ import SearchedPlans from "../components/SearchedPlans";
 
 const SearchScreen = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => {
-
     return store.plan;
   });
 
@@ -40,15 +41,34 @@ const SearchScreen = ({ navigation }) => {
     afterFirstFree: false,
     afterFirstPublic: false,
     afterFirstPaid: false,
-    //afterFirstRecommendation: false,
     private: false,
     free: false,
     public: false,
     paid: false,
   };
+  //Date logic with local state
+  const [date, setDate] = React.useState(new Date());
+  const [show, setShow] = React.useState(false);
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    console.log(currentDate.toString());
+    let testDate = new Date();
+    console.log(testDate < currentDate);
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+    setFilter({
+      ...filter,
+      planDate: currentDate,
+    });
+  };
+
+  const showDate = () => {
+    setShow(true);
+  };
+
+  // Filter and modal logic managed in local states
   const [filter, setFilter] = React.useState(initialState);
-
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const data = [
@@ -66,7 +86,6 @@ const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwitchPrivate = () => {
-
     let auxPrivate = !filter.private;
     if (auxPrivate && filter.public)
       setFilter({
@@ -156,12 +175,10 @@ const SearchScreen = ({ navigation }) => {
     dispatch(searchPlans(filter));
   }, [filter]);
 
-
   //Para ignorar el error insoportable ese
   React.useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, [])
-
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -213,7 +230,6 @@ const SearchScreen = ({ navigation }) => {
                         !filter.afterFirstFree &&
                         !filter.afterFirstPublic &&
                         !filter.afterFirstPaid &&
-                        //!filter.afterFirstRecommendation &&
                         filterLen === iniStateLen
                       ) {
                         setFilter({
@@ -250,13 +266,11 @@ const SearchScreen = ({ navigation }) => {
                 <View style={styles.switchStyle}>
                   <Text>{data[8]}</Text>
                   <Switch value={filter.free} onValueChange={onSwitchFree} />
-
                 </View>
 
                 <View style={styles.switchStyle}>
                   <Text>{"Paid"}</Text>
                   <Switch value={filter.paid} onValueChange={onSwitchPaid} />
-
                 </View>
 
                 <View style={styles.switchStyle}>
@@ -286,21 +300,35 @@ const SearchScreen = ({ navigation }) => {
                     />
                   </View>
                 </View>
-
-                <View>
-                  <Text>{data[4]}</Text>
+                <View style={styles.switchStyle}>
+                  <Text>{"Rating"}</Text>
 
                   <Rating
                     type="star"
                     ratingCount={5}
                     imageSize={20}
                     ratingTextColor="black"
-
                     onFinishRating={(score) => {
                       onRatingSubmit(score);
                     }}
-
                   />
+                </View>
+                <View style={styles.switchStyle}>
+                  <Text>Fecha</Text>
+                  <TouchableOpacity onPress={showDate}>
+                    <AntDesign name="calendar" size={24} color="black" />
+                  </TouchableOpacity>
+
+                  {show && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={date}
+                      mode={"date"}
+                      is24Hour={true}
+                      display="default"
+                      onChange={onChange}
+                    />
+                  )}
                 </View>
               </View>
             </View>
@@ -332,7 +360,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     flexDirection: "column",
-    padding:20,
+    padding: 20,
   },
   modalContent: {
     width: "75%",
