@@ -3,15 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  FlatList,
   AsyncStorage,
   TouchableOpacity
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
-import AccountInfo from "../components/AccountInfo";
 import { logoutUser } from "../state/user";
 
 
@@ -51,9 +48,6 @@ const MyAccountLoggedIn = ({ navigation }) => {
         </Text>
       </View>
 
-      {/* <View>
-        <AccountInfo />
-      </View> */}
 
 <View style={{backgroundColor:'blue', width:150, height:50, }}>
 
@@ -61,7 +55,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
         style={{backgroundColor:'red'}}
         title='Cerrar sesión'
         onPress={()=>dispatch(logoutUser())}
-      ><Text>Boton</Text></TouchableOpacity>
+      ><Text>Cerrar Sesion</Text></TouchableOpacity>
 </View>
       
     </View>
