@@ -17,20 +17,20 @@ import { showSinglePlan } from "../state/plan";
 import { useDispatch, useSelector } from "react-redux";
 import AccountInfo from "../components/AccountInfo";
 
-const SingleEvent = ({ route }) => {
-  
+//-------------Components Import------------------------------
+import CreateComment from "../components/CreateComment";
 
+const SingleEvent = ({ route }) => {
   const { singlePlan } = useSelector((store) => store.plan);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(showSinglePlan(route.params.id));
   }, []);
-  
 
   return (
     <SafeAreaView>
-      {/* <ScrollView> */}
+      <ScrollView>
         <View /* style={styles.container} */>
           <View /* style={styles.container} */>
             <ScrollView
@@ -50,33 +50,35 @@ const SingleEvent = ({ route }) => {
 
           <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
-          {/* <View style={styles.infoContainer}>
+          <View style={styles.infoContainer}>
             <Text style={styles.titleTxt}>Descripción</Text>
             <Text style={styles.paragTxt}>{singlePlan.description}</Text>
 
             <Text style={styles.titleTxt}>Fecha</Text>
             <Text style={styles.paragTxt}>{singlePlan.planDate}</Text>
-            
+
             <Text style={styles.titleTxt}>Ubicación</Text>
             <Text style={styles.paragTxt}>{singlePlan.address}</Text>
-            
+
             <Text style={styles.titleTxt}>Precio</Text>
-            {singlePlan.price === 0 ? <Text style={styles.paragTxt}>El evento es gratuito</Text> : <Text style={styles.paragTxt}>${singlePlan.price}</Text>}
-            
+            {singlePlan.price === 0 ? (
+              <Text style={styles.paragTxt}>El evento es gratuito</Text>
+            ) : (
+              <Text style={styles.paragTxt}>${singlePlan.price}</Text>
+            )}
+
             <Text style={styles.titleTxt}>Anfitrión</Text>
             <Text style={styles.paragTxt}>{singlePlan.planOwner}</Text>
-            
+
             <Text style={styles.titleTxt}>Categoría</Text>
             <Text style={styles.paragTxt}>{singlePlan.category}</Text>
-          </View> */}
+          </View>
 
-            <View style={{height:300, backgroundColor:'red',}}>
-          <AccountInfo></AccountInfo>
-            </View>
-
-          
+          <View>
+            <CreateComment singlePlan = {singlePlan} />
+          </View>
         </View>
-      {/* </ScrollView> */}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -93,8 +95,8 @@ const styles = StyleSheet.create({
     /* flex: 1, */
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    marginLeft:10,
-    marginRight:10,
+    marginLeft: 10,
+    marginRight: 10,
     marginTop: 15,
   },
   cardContainer: {
@@ -118,12 +120,12 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_300Light",
     fontSize: 12,
     color: "#23036A",
-    marginBottom:10,
+    marginBottom: 10,
   },
 });
 
-
-{/* <View style={styles.infoContainer}>
+{
+  /* <View style={styles.infoContainer}>
 
 <List.Section>
   <List.Item
@@ -138,4 +140,5 @@ const styles = StyleSheet.create({
   />
 </List.Section>
 
-</View> */}
+</View> */
+}

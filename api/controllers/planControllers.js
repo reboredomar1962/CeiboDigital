@@ -2,9 +2,11 @@ const { Plan, Comments, User } = require("../models/");
 
 // get planes
 const getPlanes = (req, res, next) => {
-  Plan.find({}).then((planes) => {
-    res.json(planes);
-  });
+  Plan.find({})
+    .sort({ planDate: "asc" })
+    .then((planes) => {
+      res.json(planes);
+    });
 };
 
 // get one plan by id
@@ -28,6 +30,7 @@ const getOnePlan = (req, res, next) => {
 const getPlansByCategory = (req, res, next) => {
   const { category } = req.params;
   Plan.find({ category: category })
+    .sort({ planDate: "asc" })
     .then((allPlans) => {
       if (allPlans) {
         return res.json(allPlans);
@@ -90,6 +93,7 @@ const getPlanByFilters = (req, res, next) => {
   console.log("este es el queryCond", queryCond);
 
   Plan.find(queryCond)
+    .sort({ planDate: "asc" })
     .then((search) => {
       if (!search) res.status(404);
       res.status(200).json(search);
@@ -103,6 +107,7 @@ const getPlanByQuery = (req, res, next) => {
   const { name } = req.query;
 
   Plan.find({ name: { $regex: name, $options: "i" } })
+    .sort({ planDate: "asc" })
     .then((search) => {
       if (!search) res.status(404);
       res.status(200).json(search);
