@@ -12,9 +12,6 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-import SelectMultiple from "react-native-select-multiple";
-import RNPickerSelect from "react-native-picker-select";
-
 import { createUser } from "../state/user";
 
 const RegisterForm = ({ navigation }) => {

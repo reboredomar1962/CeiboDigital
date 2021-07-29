@@ -28,15 +28,11 @@ const LoginForm = ({ navigation }) => {
 
   const onSubmit = (data) => {
     dispatch(loginUser(data))
-      .then((data) => data.payload.token)
-      .then((token) => {
-        AsyncStorage.setItem("token", JSON.stringify(token));
-        navigation.navigate("Home");
-      })
-      .catch((err) => {
-        alert("Failed to save the data to the storage");
-      });
+      .then(()=>navigation.navigate("Home"))
+      .catch((err) => alert("Failed to save the data to the storage"))
   };
+
+  
 
   return (
     <SafeAreaView>
