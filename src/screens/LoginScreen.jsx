@@ -25,17 +25,14 @@ const LoginScreen = ({ navigation }) => {
           </Svg>
 
           <View style={styles.textContainer}>
-            <Text style={styles.textTitle}>Iniciá sesión</Text>
+            <Text style={styles.textTitle}>Nos alegra verte de nuevo!</Text>
           </View>
 
           <View>
             <LoginForm navigation={navigation} />
           </View>
 
-          <Button
-            title="Registrate"
-            onPress={() => navigation.navigate("RegisterScreen")}
-          ></Button>
+          
         </View>
       )}
     </SafeAreaView>

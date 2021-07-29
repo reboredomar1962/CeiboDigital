@@ -34,24 +34,27 @@ const Item = ({ age, email, myPlans, categories }) => (
     </View>
 );
 
-const renderItem = ({ item }) => (
+const renderItem = ({ item }) => {
+  return(
+
     <Item
       age={item.age}
       email={item.email}
       myPlans={item.myPlans}
       categories={item.categories}
     />
-  );
+  )
+};
 
 const AccountInfo = () => {
     return (
-        <SafeAreaView>
+        <View style={{backgroundColor:'blue'}}>
         <FlatList
             data={randomUser}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
         />
-        </SafeAreaView>
+        </View>
     )
 }
 

@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
   View,
+  Text,
   TextInput,
   Button,
   SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
   AsyncStorage,
+  TouchableOpacity
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import Login from "../screens/LoginFacebook";
-import SelectMultiple from "react-native-select-multiple";
-import RNPickerSelect from "react-native-picker-select";
+import { Divider } from 'react-native-elements';
+
 
 import { loginUser } from "../state/user";
 
-const LoginForm = ({navigation}) => {
+const LoginForm = ({ navigation }) => {
   const {
     control,
     handleSubmit,
@@ -32,7 +31,7 @@ const LoginForm = ({navigation}) => {
       .then((data) => data.payload.token)
       .then((token) => {
         AsyncStorage.setItem("token", JSON.stringify(token));
-        navigation.navigate('Home')
+        navigation.navigate("Home");
       })
       .catch((err) => {
         alert("Failed to save the data to the storage");
@@ -79,17 +78,44 @@ const LoginForm = ({navigation}) => {
 
         <View style={styles.button}>
           <Button
-            title="Enviar"
+            title="Iniciar sesion"
             style={{ fontFamily: "Poppins_300Light" }}
             color="#23036A"
             onPress={handleSubmit(onSubmit)}
           />
         </View>
 
+        <Text>
+        <Divider
+  orientation="horizontal"
+  subHeader="O"
+  subHeaderStyle={{ color: 'blue' }}
+  color='blue'
+  width={5}
+  style={{borderBottomWidth: 1, borderBottomColor: '#e1e8ee'}}
+
+/>
+
+        </Text>
+
+
         <View>
           <Login />
         </View>
-        
+
+        <View style={{flexDirection:'row'}}>
+
+          <Text>No tenes una cuenta?</Text>
+          <TouchableOpacity
+          onPress={() => navigation.navigate("RegisterScreen")}
+          >
+            <Text style={{ fontFamily: "Poppins_500Medium", color:"#23036A",}}>Registrate</Text>
+          </TouchableOpacity>
+        </View>
+
+
+
+      
       </View>
     </SafeAreaView>
   );
@@ -126,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: 10,
     color: "white",
-    width: 100,
+    width: 150,
     borderRadius: 50,
     overflow: "hidden",
   },

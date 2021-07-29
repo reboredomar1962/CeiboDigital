@@ -46,7 +46,7 @@ export default function Login() {
     <View style={styles.button}>
       <Button
       color="#23036A"
-      title="Login con Facebook" 
+      title="Iniciar sesion con Facebook" 
       onPress={logIn} />
     </View>
   );
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 15,
     color: 'white',
-    width: 200,
+    width: 250,
     borderRadius: 50,
     overflow: 'hidden'
   },

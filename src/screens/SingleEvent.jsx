@@ -15,6 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 //-------------Redux Import------------------------------
 import { showSinglePlan } from "../state/plan";
 import { useDispatch, useSelector } from "react-redux";
+import AccountInfo from "../components/AccountInfo";
 
 const SingleEvent = ({ route }) => {
   
@@ -29,9 +30,9 @@ const SingleEvent = ({ route }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.container}>
+      {/* <ScrollView> */}
+        <View /* style={styles.container} */>
+          <View /* style={styles.container} */>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -49,7 +50,7 @@ const SingleEvent = ({ route }) => {
 
           <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
-          <View style={styles.infoContainer}>
+          {/* <View style={styles.infoContainer}>
             <Text style={styles.titleTxt}>Descripción</Text>
             <Text style={styles.paragTxt}>{singlePlan.description}</Text>
 
@@ -67,11 +68,15 @@ const SingleEvent = ({ route }) => {
             
             <Text style={styles.titleTxt}>Categoría</Text>
             <Text style={styles.paragTxt}>{singlePlan.category}</Text>
-          </View>
+          </View> */}
+
+            <View style={{height:300, backgroundColor:'red',}}>
+          <AccountInfo></AccountInfo>
+            </View>
 
           
         </View>
-      </ScrollView>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };
@@ -79,13 +84,13 @@ export default SingleEvent;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    /* flex: 1, */
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
   },
   infoContainer: {
-    flex: 1,
+    /* flex: 1, */
     alignItems: "flex-start",
     justifyContent: "flex-start",
     marginLeft:10,
@@ -93,14 +98,14 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   cardContainer: {
-    flex: 1,
+    /* flex: 1, */
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     margin: 10,
   },
   cardStyle: {
-    flex: 1,
+    /* flex: 1, */
     margin: 15,
     width: 300,
   },
