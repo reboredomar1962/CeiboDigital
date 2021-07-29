@@ -19,6 +19,7 @@ import AccountInfo from "../components/AccountInfo";
 
 //-------------Components Import------------------------------
 import CreateComment from "../components/CreateComment";
+import ShowComments from "../components/ShowComments";
 
 const SingleEvent = ({ route }) => {
   const { singlePlan } = useSelector((store) => store.plan);
@@ -75,8 +76,13 @@ const SingleEvent = ({ route }) => {
           </View>
 
           <View>
+            <ShowComments planId = {singlePlan.id}/>
+          </View>
+          
+          <View>
             <CreateComment singlePlan = {singlePlan} />
           </View>
+
         </View>
       </ScrollView>
     </SafeAreaView>

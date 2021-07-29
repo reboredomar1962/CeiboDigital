@@ -5,20 +5,26 @@ import { Rating } from "react-native-elements";
 import { createComment } from "../state/comments";
 
 const CreateComment = ({ singlePlan }) => {
+
   const { id } = singlePlan;
   const [value, setValue] = React.useState("");
+  const [rating, setRating] = React.useState(3);
+
+
   const dispatch = useDispatch();
   const onSubmit = () => {
-    const commentObj = { planId: id, comentario: value };
+    console.log('ESPERO QUE LLEGUEMOS AKI PLIS')
+    const commentObj = { planId: id, comentario: value, valoracion: rating };
     dispatch(createComment(commentObj));
+    setValue("");
   };
 
   const onChange = (text) => {
     setValue(text);
   };
 
-  const clearScreen = () => {
-    setValue("");
+  const onRatingSubmit = (score) => {
+    setRating(score)
   };
 
   return (
@@ -28,7 +34,7 @@ const CreateComment = ({ singlePlan }) => {
           multiline={true}
           numberOfLines={3}
           placeholder={"Inserta un comentario"}
-          onEndEditing={clearScreen}
+          /* onEndEditing={clearScreen} */
           value={value}
           onChangeText={onChange}
         />
@@ -37,9 +43,9 @@ const CreateComment = ({ singlePlan }) => {
           ratingCount={5}
           imageSize={20}
           ratingTextColor="black"
-          // onFinishRating={(score) => {
-          //   onRatingSubmit(score);
-          // }}
+           onFinishRating={(score) => {
+             onRatingSubmit(score);
+           }}
         />
       </View>
       <View>
