@@ -14,7 +14,7 @@ const initialState = {
   userRegister: {},
   userLogin: {},
   me: {},
-  savedPlans: []
+  savedPlans: [],
 };
 
 export const createUser = createAsyncThunk("CREATE_USER", (user) => {
@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   console.log("esta llegando el loginUser", user);
   return axios
-    .post(`http://${os}:3001/api/user/login`, user)
+    .post(`http://10.0.2.2:3001/api/user/login`, user)
     .then((res) => res.data)
     .catch((error) =>
       //en el caso de usuario ya creado, llega el error 409. Como hacer que esto llegue al front?
@@ -59,11 +59,11 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
   return AsyncStorage.getItem("token")
     .then((token) => {
       return axios.post(`http://${os}:3001/api/user/planToAttend`, plan, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
       });
     })
     .then((res) => res.data);
-})
+});
 
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
@@ -78,7 +78,7 @@ const userReducer = createReducer(initialState, {
   [logoutUser.fulfilled]: (state, action) => {
     state.me = {};
   },
-  [addPlan.fulfilled] : (state, action) => {
+  [addPlan.fulfilled]: (state, action) => {
     state.savedPlans = action.payload;
   },
 });
