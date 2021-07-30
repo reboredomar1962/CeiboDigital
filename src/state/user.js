@@ -17,10 +17,13 @@ const initialState = {
   savedPlans: [],
 };
 
+const ip = "192.168.0.3"; //"10.0.2.2"
+
 export const createUser = createAsyncThunk("CREATE_USER", (user) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   console.log("esta llegando el user", user);
   return axios
+
 
     .post(`http://${os}:3001/api/user/register`, user)
 
@@ -35,6 +38,7 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   console.log("esta llegando el loginUser", user);
   return axios
+
 
     .post(`http://${os}:3001/api/user/login`, user)
 
@@ -57,7 +61,9 @@ export const userMe = createAsyncThunk("USER_ME", (token) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
 
+
     .get(`http://${os}:3001/api/user/me`, {
+
 
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -69,7 +75,9 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
   return AsyncStorage.getItem("token")
     .then((token) => {
 
+
       return axios.post(`http://${os}:3001/api/user/planToAttend`, plan, {
+
 
         headers: { Authorization: `Bearer ${JSON.parse(token)}` },
       });

@@ -19,11 +19,11 @@ import { AntDesign } from "@expo/vector-icons";
 import { Rating } from "react-native-elements";
 
 const EventCard = ({ navigation }) => {
-  const [state, setState] = React.useState({ open: false });
-  const [plusMinus, setPlusMinus] = React.useState(true);
-  const onStateChange = ({ open }) => setState({ open });
+  //const [state, setState] = React.useState({ open: false });
+  const [change, setChange] = React.useState(false);
+  //const onStateChange = ({ open }) => setState({ open });
 
-  const { open } = state;
+  //const { open } = state;
 
   const { me } = useSelector((store) => store.user);
 
@@ -32,18 +32,39 @@ const EventCard = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handlePressPlus = (plan) => {
-    dispatch(addPlan(plan));
-    setPlusMinus(!plusMinus);
+    const oldUsers = plan.users;
+    const oldPlan = { ...plan, users: [...oldUsers, me.id] };
+    const newPlan = Object.assign(plan);
+
+    //const newPlan = { ...plan, users: [...oldUsers, me.id] };
+    console.log("antes del dispatch", plans[8].users);
+    dispatch(addPlan(newPlan));
+    console.log("despues del dispatch", plans[8].users);
+    console.log(change);
+    setChange(!change);
+    //setPlusMinus(!plusMinus);
   };
 
   const handlePressMinus = (plan) => {
     dispatch(removePlan(plan));
-    setPlusMinus(!plusMinus);
+    setChange(!change);
+    console.log(change);
+    //setPlusMinus(!plusMinus);
   };
 
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
+
+  // React.useEffect(() => {
+  //   dispatch(showPlans());
+  // }, [dispatch]);
+
+  // React.useEffect(() => {
+  //   const allPlans =
+  //   console.log("llegue a este useEffect")
+  //   console.log("estos son los plans", plans);
+  // }, []);
 
   const Item = ({ item }) => (
     <TouchableOpacity
@@ -88,7 +109,7 @@ const EventCard = ({ navigation }) => {
               {!me || !me.id
                 ? null
                 : [
-                    plusMinus ? (
+                    !item.users.includes(me.id) ? ( //   //!me.myPlans.includes(item.id)
                       <TouchableOpacity
                         key={item.id}
                         style={{

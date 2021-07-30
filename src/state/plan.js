@@ -20,7 +20,9 @@ export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
 
+
     .get(`http://${os}:3001/api/plan`)
+
 
     .then((res) => res.data)
     .catch((error) =>
@@ -32,7 +34,9 @@ export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
 
+
     .get(`http://${os}:3001/api/plan/${param}`)
+
 
     .then((res) => res.data)
     .catch((error) =>
@@ -49,7 +53,9 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
     return axios
 
 
+
       .post(`http://${os}:3001/api/plan/search/multipleFilter`, namePlan)
+
 
       .then((res) => {
         return res.data;
@@ -60,7 +66,9 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
   } else if (namePlan.query !== "" && namePlan.fromSearch) {
     return axios
 
+
       .get(`http://${os}:3001/api/plan/search?name=${namePlan.query}`)
+
 
       .then((res) => {
         console.log("dentro del segundo, length", res.data.length);
@@ -72,6 +80,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
       );
   } else if (namePlan.type) {
     return axios
+
 
       .get(`http://${os}:3001/api/plan/category/${namePlan.type}`)
 
