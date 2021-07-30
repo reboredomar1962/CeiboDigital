@@ -21,13 +21,16 @@ const RegisterForm = ({ navigation }) => {
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" }) */
 
-  const { control, handleSubmit, formState: { errors } } = useForm();
-
-  
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
+    console.log("onSubmit ->", data);
     dispatch(createUser(data));
     navigation.navigate("LoginScreen");
   };
@@ -35,54 +38,114 @@ const RegisterForm = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
-      <Controller
-        control={control}
-        rules={{
-         required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={{color:'black', borderBottomWidth:5, width:200,}}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="firstName"
-        defaultValue=""
-      />
-      {errors.firstName && <Text>This is required.</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            pattern: /^[A-Za-z]+$/i,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="first Name"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="name"
+          defaultValue=""
+        />
+        {errors.name && <Text> is not a valid name</Text>}
 
-      <Controller
-        control={control}
-        rules={{
-         maxLength: 100,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-          style={{color:'black', borderBottomWidth:5, width:200,}}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="lastName"
-        defaultValue=""
-      />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            pattern: /^[A-Za-z]+$/i,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholderTextColor="#23036A"
+              placeholder="last Name"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="lastName"
+          defaultValue=""
+        />
+        {errors.lastName && <Text> is not a valid last name.</Text>}
 
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-    </View>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            pattern: /^\S+@\S+.\S+$/,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="E-mail"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="email"
+          defaultValue=""
+        />
+        {errors.email && <Text>is not a valid mail</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            minLength: 8,
+            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Password"
+              placeholderTextColor="#23036A"
+              secureTextEntry={true}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="password"
+          defaultValue=""
+        />
+        {errors.password && (
+          <Text>Must have one Uppercase, one Minuscule and 8 characters</Text>
+        )}
+
+        <Button
+          title="Register"
+          style={{ fontFamily: "Poppins_300Light" }}
+          color="#23036A"
+          onPress={handleSubmit(onSubmit)}
+        />
+      </View>
     </SafeAreaView>
   );
 };
 
 export default RegisterForm;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "flex-start",
+    marginTop: "60%",
+    marginBottom: "50%",
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",
@@ -101,9 +164,9 @@ const styles = StyleSheet.create({
   button: {
     fontFamily: "Poppins_300Light",
     fontSize: 15,
-    marginTop: 30,
+    marginTop: 10,
     color: "white",
-    width: 100,
+    width: 150,
     borderRadius: 50,
     overflow: "hidden",
   },
