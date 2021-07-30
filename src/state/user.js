@@ -17,11 +17,13 @@ const initialState = {
   savedPlans: [],
 };
 
+const ip = "192.168.0.3"; //"10.0.2.2"
+
 export const createUser = createAsyncThunk("CREATE_USER", (user) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   console.log("esta llegando el user", user);
   return axios
-    .post(`http://192.168.0.3:3001/api/user/register`, user)
+    .post(`http://10.0.2.2:3001/api/user/register`, user)
     .then((res) => res.data)
     .catch((error) =>
       //en el caso de usuario ya creado, llega el error 409. Como hacer que esto llegue al front?
@@ -33,7 +35,7 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   console.log("esta llegando el loginUser", user);
   return axios
-    .post(`http://192.168.0.3:3001/api/user/login`, user)
+    .post(`http://10.0.2.2:3001/api/user/login`, user)
     .then((res) => {
       AsyncStorage.setItem("token", JSON.stringify(res.data.token));
       return res.data.token;
@@ -52,7 +54,7 @@ export const logoutUser = createAsyncThunk("CLEAR_USER", async () => {
 export const userMe = createAsyncThunk("USER_ME", (token) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
-    .get(`http://192.168.0.3:3001/api/user/me`, {
+    .get(`http://10.0.2.2:3001/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => res.data);
@@ -62,7 +64,7 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return AsyncStorage.getItem("token")
     .then((token) => {
-      return axios.post(`http://192.168.0.3:3001/api/user/planToAttend`, plan, {
+      return axios.post(`http://10.0.2.2:3001/api/user/planToAttend`, plan, {
         headers: { Authorization: `Bearer ${JSON.parse(token)}` },
       });
     })
@@ -70,8 +72,8 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
 });
 
 export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
-  console.log("este es el plan removido", plan)
-  const {id} = plan
+  console.log("este es el plan removido", plan);
+  const { id } = plan;
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return AsyncStorage.getItem("token")
     .then((token) => {
