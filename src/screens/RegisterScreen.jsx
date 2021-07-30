@@ -11,7 +11,7 @@ const RegisterScreen = ({navigation}) => {
         <View style={styles.container}>
 
 
-          <Svg height="100%" width="100%" style={{position: 'absolute'}}>
+          <Svg height="170" width="100%">
               <Rect x="0" y="0" width="100%" height="170" fill="#23036A" />
           </Svg>
 
@@ -20,7 +20,7 @@ const RegisterScreen = ({navigation}) => {
             <Text style={styles.textTitle}>Creá tu cuenta</Text>
           </View>
 
-          <View>
+          <View style={{marginTop:25,}}>
           <RegisterForm navigation={navigation}/>
           </View>
         

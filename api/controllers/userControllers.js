@@ -185,6 +185,7 @@ const logoutUser = (req, res, next) => {
 };
 
 const removePlan = (req, res, next) => {
+
   console.log("LLEGUE A LA RUTAAASA !!!!! ");
   const { id } = req.user;
   const idPlan = req.params.id;
@@ -210,6 +211,7 @@ const removePlan = (req, res, next) => {
       next(err);
     });
 };
+
 
 module.exports = {
   getUser,

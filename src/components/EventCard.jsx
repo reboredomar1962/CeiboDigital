@@ -47,6 +47,7 @@ const EventCard = ({ navigation }) => {
 
   const Item = ({ item }) => (
     <TouchableOpacity
+      key={item.id}
       onPress={() =>
         navigation.navigate("SingleEvent", {
           id: item.id,
@@ -89,6 +90,7 @@ const EventCard = ({ navigation }) => {
                 : [
                     plusMinus ? (
                       <TouchableOpacity
+                        key={item.id}
                         style={{
                           justifyContent: "flex-end",
                           alignItems: "flex-end",
@@ -103,6 +105,7 @@ const EventCard = ({ navigation }) => {
                       </TouchableOpacity>
                     ) : (
                       <TouchableOpacity
+                        key={item.id}
                         style={{
                           justifyContent: "flex-end",
                           alignItems: "flex-end",
