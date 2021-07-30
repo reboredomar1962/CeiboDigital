@@ -71,6 +71,7 @@ const CreateComment = ({ singlePlan }) => {
             <Text style={styles.btnTxt}>Enviar</Text>
           </TouchableOpacity>
         </View>
+        
     </View>
   );
 };

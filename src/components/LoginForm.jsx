@@ -28,10 +28,7 @@ const LoginForm = ({ navigation }) => {
 
   const onSubmit = (data) => {
     dispatch(loginUser(data))
-
-      .then(() => navigation.navigate("Home"))
-      .catch((err) => alert("Failed to save the data to the storage"));
-
+    .then(() => navigation.navigate("Home"))
   };
 
   return (
@@ -124,11 +121,10 @@ export default LoginForm;
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
     alignItems: "center",
-    justifyContent: "center",
-    marginTop: 30,
+    justifyContent: "flex-start",
+    width:'100%',
+    height:'100%',
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",
