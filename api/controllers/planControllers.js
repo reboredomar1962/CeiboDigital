@@ -161,6 +161,7 @@ const getComments = (req, res, next) => {
 
 // post plan
 const postComments = (req, res, next) => {
+  console.log("LLEGAMOS AKI?????", req.body, req.user);
   const { comentario, valoracion } = req.body;
   const planId = req.params.id;
   const { id } = req.user;
