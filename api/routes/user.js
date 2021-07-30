@@ -34,7 +34,7 @@ router.get("/:id", getOneUser);
 // update a user
 router.put("/:id", authenticateJWT, updateUser);
 // remove a plan from user
-router.delete("/deletePlan/:id", authenticateJWT, removePlan);
+router.delete("/deletePlan/:id", removePlan);
 // delete a user
 router.delete("/:id", authenticateJWT, deleteUser);
 

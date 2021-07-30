@@ -184,7 +184,15 @@ const logoutUser = (req, res, next) => {
   res.status(200).json({});
 };
 
-const removePlan = (req, res, next) => {};
+const removePlan = (req, res, next) => {
+  const { id } = req.params;
+  Plan.findByIdAndDelete(id)
+    .then((result) => {
+      res.sendStatus(204).end();
+    })
+    .catch((error) => next(error));
+};
+
 
 module.exports = {
   getUser,
