@@ -4,15 +4,14 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   SafeAreaView,
-  ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
+//Redux import
 import { useDispatch } from "react-redux";
-
 import { createUser } from "../state/user";
+//Form library import
+import { useForm, Controller } from "react-hook-form";
 
 const RegisterForm = ({ navigation }) => {
   const {
@@ -117,13 +116,27 @@ const RegisterForm = ({ navigation }) => {
           )}
         />
 
-        <View style={styles.button}>
-          <Button
-            title="Enviar"
-            style={{ fontFamily: "Poppins_300Light" }}
-            color="#23036A"
+        <View>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#23036A",
+              padding: 7,
+              borderRadius: 20,
+              width: 150,
+              marginTop: 25,
+            }}
             onPress={handleSubmit(onSubmit)}
-          />
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins_300Light",
+                color: "#fff",
+                textAlign: "center",
+              }}
+            >
+              Registrarse
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -134,9 +147,11 @@ export default RegisterForm;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    marginTop: 20,
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",
@@ -145,20 +160,5 @@ const styles = StyleSheet.create({
     borderBottomColor: "#D4B5FA",
     width: 300,
     marginBottom: 15,
-  },
-  textTitle: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 15,
-    width: 300,
-    color: "#23036A",
-  },
-  button: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 15,
-    marginTop: 30,
-    color: "white",
-    width: 100,
-    borderRadius: 50,
-    overflow: "hidden",
   },
 });

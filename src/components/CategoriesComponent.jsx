@@ -22,7 +22,6 @@ const CategoriesComponent = () => {
     dispatch(searchPlans(category));
   };
 
-  /* console.log("ESTO ES CATEGORIES", categories); */
 
   return (
     <View style={styles.cardCont}>
