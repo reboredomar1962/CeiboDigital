@@ -185,12 +185,31 @@ const logoutUser = (req, res, next) => {
 };
 
 const removePlan = (req, res, next) => {
-  const { id } = req.params;
-  Plan.findByIdAndDelete(id)
-    .then((result) => {
-      res.sendStatus(204).end();
+
+  console.log("LLEGUE A LA RUTAAASA !!!!! ");
+  const { id } = req.user;
+  const idPlan = req.params.id;
+
+  const userPromise = User.findById(id);
+  const planPromise = Plan.findById(idPlan);
+
+  Promise.all([userPromise, planPromise])
+    .then((values) => {
+      const [user, plan] = values;
+      console.log("Antes Plan", plan.users);
+      console.log("Antes user", user.myPlans);
+      user.myPlans = user.myPlans.filter((planId) => planId != idPlan);
+      plan.users = plan.users.filter((user) => user != id);
+      user.save();
+      plan.save();
+
+      console.log("Despues Plan", plan.users);
+      console.log("Despues user", user.myPlans);
+      res.status(200).send("plan eliminado");
     })
-    .catch((error) => next(error));
+    .catch((err) => {
+      next(err);
+    });
 };
 
 

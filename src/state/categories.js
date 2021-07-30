@@ -14,6 +14,7 @@ export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
 
+
     .get(`http://${os}:3001/api/category`)
 
     .then((res) => res.data)
