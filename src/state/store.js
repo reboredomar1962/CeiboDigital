@@ -5,6 +5,7 @@ import logger from "redux-logger";
 import categoriesReducer from "./categories";
 import plansReducer from "./plan";
 import userReducer from "./user";
+import commentsReducer from "./comments";
 
 //middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     plan: plansReducer,
     categories: categoriesReducer,
     user: userReducer,
+    comments: commentsReducer,
   },
 });
 

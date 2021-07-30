@@ -1,10 +1,9 @@
 //--------REACT & REDUX CONFIG-------------
 import React, { useEffect } from "react";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { userMe } from "./state/user";
 import { AsyncStorage } from "react-native";
-import axios from "axios";
 
 //---------FONTS CONFIG----------------
 import AppLoading from "expo-app-loading";
@@ -36,8 +35,6 @@ import SearchScreen from "./screens/SearchScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import MyAccountLoggedIn from "./screens/MyAccountLoggedIn";
-import FilterDrawer from "./components/FilterDrawer";
-
 
 const Stack = createStackNavigator();
 
@@ -75,9 +72,7 @@ const App = () => {
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-
     return (
-
       <SafeAreaProvider>
         <PaperProvider>
           <NavigationContainer>
@@ -149,7 +144,6 @@ const App = () => {
           </NavigationContainer>
         </PaperProvider>
       </SafeAreaProvider>
-
     );
   }
 };

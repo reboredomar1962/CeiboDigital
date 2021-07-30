@@ -4,10 +4,7 @@ import React from "react";
 import {
   Text,
   TouchableOpacity,
-  ScrollView,
-  Button,
   View,
-  StyleSheet,
   Alert
 } from "react-native";
 import * as Facebook from "expo-facebook";
@@ -43,30 +40,16 @@ export default function Login() {
   }
 
   return (
-    <View style={styles.button}>
-      <Button
-      color="#23036A"
-      title="Iniciar sesion con Facebook" 
-      onPress={logIn} />
+
+    <View>
+          <TouchableOpacity
+          style={{ backgroundColor:"#23036A", padding:7, borderRadius:20, width:250, marginTop:5}}
+          onPress={logIn}
+          >
+            <Text style={{ fontFamily: "Poppins_300Light", color:'#fff', textAlign:'center' }}>Iniciar sesion con Facebook</Text>
+          </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#ecf0f1",
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  button: {
-    fontSize: 15,
-    color: 'white',
-    width: 250,
-    borderRadius: 50,
-    overflow: 'hidden'
-  },
-});
+

@@ -69,6 +69,20 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
     .then((res) => res.data);
 });
 
+export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
+  console.log("este es el plan removido", plan)
+  const {id} = plan
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.post(`http://${os}:3001/api/user/deletePlan/${id}`, plan, {
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+      });
+    })
+    .then((res) => res.data);
+  //console.log("llego aca");
+});
+
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
     state.userRegister = action.payload;
@@ -83,6 +97,10 @@ const userReducer = createReducer(initialState, {
     state.me = {};
   },
   [addPlan.fulfilled]: (state, action) => {
+    state.savedPlans = action.payload;
+  },
+  //revisar logica de aca, tengo que traer todos MENOS el plan que se saco
+  [removePlan.fulfilled]: (state, action) => {
     state.savedPlans = action.payload;
   },
 });

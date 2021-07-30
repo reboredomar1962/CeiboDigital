@@ -184,6 +184,8 @@ const logoutUser = (req, res, next) => {
   res.status(200).json({});
 };
 
+const removePlan = (req, res, next) => {};
+
 module.exports = {
   getUser,
   getOneUser,
@@ -195,4 +197,5 @@ module.exports = {
   logoutUser,
   getMe,
   addPlan,
+  removePlan,
 };
