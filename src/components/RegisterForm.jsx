@@ -29,9 +29,8 @@ const RegisterForm = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    console.log("onSubmit ->", data);
-    dispatch(createUser(data));
-    navigation.navigate("LoginScreen");
+    dispatch(createUser(data))
+    .then(() => navigation.navigate("LoginScreen"))
   };
 
   return (
@@ -46,7 +45,7 @@ const RegisterForm = ({ navigation }) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.textSubtitle}
-              placeholder="first Name"
+              placeholder="Nombre"
               placeholderTextColor="#23036A"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -68,7 +67,7 @@ const RegisterForm = ({ navigation }) => {
             <TextInput
               style={styles.textSubtitle}
               placeholderTextColor="#23036A"
-              placeholder="last Name"
+              placeholder="Apellido"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -125,7 +124,7 @@ const RegisterForm = ({ navigation }) => {
         )}
 
 
-        <View>
+        <View style={{alignItems:'center'}}>
           <TouchableOpacity
             style={{
               backgroundColor: "#23036A",
@@ -156,13 +155,10 @@ const RegisterForm = ({ navigation }) => {
 export default RegisterForm;
 const styles = StyleSheet.create({
   container: {
-
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     width: "100%",
     height: "100%",
-    marginTop: 20,
-
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",
