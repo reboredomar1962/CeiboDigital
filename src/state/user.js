@@ -78,13 +78,17 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
 });
 
 export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
-  console.log("este es el plan removido", plan)
-  const {id} = plan
+  console.log("este es el plan removido", plan);
+  const { id } = plan;
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return AsyncStorage.getItem("token")
     .then((token) => {
-      return axios.delete(`http://${os}:3001/api/user/deletePlan/${id}`, {
-        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+
+      console.log("axios token ->", JSON.parse(token));
+      let tokenParse = JSON.parse(token);
+      return axios.delete(`http://192.168.0.3:3001/api/user/deletePlan/${id}`, {
+        headers: { Authorization: `Bearer ${tokenParse}` },
+
       });
     })
     .then((res) => res.data);
