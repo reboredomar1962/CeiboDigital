@@ -13,7 +13,9 @@ const initialState = {
 export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
-    .get(`http://exp://192.168.200.22:3001/api/category`)
+
+    .get(`http://${os}:3001/api/category`)
+
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR DE CATEGORIES -----> ", error)
