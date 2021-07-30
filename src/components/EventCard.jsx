@@ -3,27 +3,24 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
-import { addPlan, userMe } from "../state/user";
+import { addPlan, userMe, removePlan } from "../state/user";
 
 //-------------Libraries Import--------------------------
-import { Card, Title, Paragraph, FAB, Portal } from "react-native-paper";
+import { Card, Title, Paragraph } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
-import { Foundation } from "@expo/vector-icons";
-import { Rating, AirbnbRating } from "react-native-elements";
+import { Rating } from "react-native-elements";
 
 const EventCard = ({ navigation }) => {
   const [state, setState] = React.useState({ open: false });
-
+  const [plusMinus, setPlusMinus] = React.useState(true);
   const onStateChange = ({ open }) => setState({ open });
 
   const { open } = state;
@@ -34,17 +31,21 @@ const EventCard = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handlePress = (plan) => {
+  const handlePressPlus = (plan) => {
     dispatch(addPlan(plan));
+    setPlusMinus(!plusMinus);
+  };
+
+  const handlePressMinus = (plan) => {
+    dispatch(removePlan(plan));
+    setPlusMinus(!plusMinus);
   };
 
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
 
-  const Item = ({
-     item,
-  }) => (
+  const Item = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("SingleEvent", {
@@ -66,17 +67,14 @@ const EventCard = ({ navigation }) => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
+                alignItems: "center",
                 marginTop: 5,
-                alignItems: "baseline",
               }}
             >
               {item.price ? (
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Foundation name="dollar" size={24} color="#23036A" />
-                  <Text>{item.price}</Text>
-                </View>
+                <Text style={styles.priceTxt}>${item.price}</Text>
               ) : (
-                <Text>Gratis</Text>
+                <Text style={styles.priceTxt}>Gratis</Text>
               )}
 
               <Rating
@@ -86,22 +84,39 @@ const EventCard = ({ navigation }) => {
                 readonly
               />
 
-              {me && me.id ?
-            
-              <TouchableOpacity
-                style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
-                onPress={() => handlePress(item)}
-              >
-                <AntDesign name="pluscircle" size={24} color="#23036A" />
-              </TouchableOpacity>
-
-              :
-
-              null
-            
-
-            }
-
+              {!me || !me.id
+                ? null
+                : [
+                    plusMinus ? (
+                      <TouchableOpacity
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressPlus(item)}
+                      >
+                        <AntDesign
+                          name="pluscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressMinus(item)}
+                      >
+                        <AntDesign
+                          name="minuscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ),
+                  ]}
             </View>
           </Card.Content>
         </Card>
@@ -109,14 +124,11 @@ const EventCard = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const renderItem = ({ item }) => (
-    <Item
-      item={item}
-    />
-  );
+  const renderItem = ({ item }) => <Item item={item} />;
 
   return (
     <SafeAreaView>
+      <Text style={styles.textSubtitle}>Eventos promocionados</Text>
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -131,16 +143,23 @@ const EventCard = ({ navigation }) => {
 export default EventCard;
 
 const styles = StyleSheet.create({
+  textSubtitle: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 18,
+    textAlign: "center",
+    color: "#23036A",
+    marginTop: 20,
+  },
   cardContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
   cardStyle: {
-    flex: 1,
-    margin: 15,
+    marginTop: 20,
+    marginLeft: 20,
     width: 300,
   },
   titleTxt: {
@@ -153,27 +172,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#23036A",
   },
+  priceTxt: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 13,
+    color: "#23036A",
+    textAlign: "center",
+  },
 });
-
-/*  
-ESTO ES UN SCROLLVIEW
-
-return (
-    
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-      <View style={styles.cardContainer} >
-        {
-          plans.map(event => (
-            <Card style={styles.cardStyle} key={event.id}>
-                <Card.Cover source={{uri: event.img}} />
-                <Card.Content style={{marginTop:5}}>
-                    <Title style={styles.titleTxt}>{event.name}</Title>
-                    <Paragraph style={styles.paragTxt} >{event.description}</Paragraph>
-                </Card.Content>
-            </Card>
-          ))
-        }
-      </View>
-    </ScrollView> 
-
-  ) */

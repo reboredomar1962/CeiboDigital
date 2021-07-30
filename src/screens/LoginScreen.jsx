@@ -21,7 +21,7 @@ const LoginScreen = ({ navigation }) => {
       ) : (
         <View style={styles.container}>
           <Svg height="100%" width="100%" style={{ position: "absolute" }}>
-            <Rect x="0" y="0" width="100%" height="30%" fill="#23036A" />
+            <Rect x="0" y="0" width="100%" height={170} fill="#23036A" />
           </Svg>
 
           <View style={styles.textContainer}>
@@ -43,7 +43,6 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    /* flex: 1, */
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
@@ -51,9 +50,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   textContainer: {
-    /* position:'absolute', */
-    /* 
-    transform:([{translateY:60}]), */
+    position:'absolute',
+    transform:([{translateY:70}]),
   },
   textTitle: {
     fontFamily: "Poppins_300Light",
