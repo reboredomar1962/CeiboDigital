@@ -13,7 +13,7 @@ import {
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
-import { addPlan, userMe } from "../state/user";
+import { addPlan, userMe, removePlan } from "../state/user";
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph, FAB, Portal } from "react-native-paper";
@@ -23,7 +23,7 @@ import { Rating, AirbnbRating } from "react-native-elements";
 
 const EventCard = ({ navigation }) => {
   const [state, setState] = React.useState({ open: false });
-
+  const [plusMinus, setPlusMinus] = React.useState(true);
   const onStateChange = ({ open }) => setState({ open });
 
   const { open } = state;
@@ -34,17 +34,21 @@ const EventCard = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handlePress = (plan) => {
+  const handlePressPlus = (plan) => {
     dispatch(addPlan(plan));
+    setPlusMinus(!plusMinus);
+  };
+
+  const handlePressMinus = (plan) => {
+    dispatch(removePlan(plan));
+    setPlusMinus(!plusMinus);
   };
 
   React.useEffect(() => {
     dispatch(showPlans());
   }, []);
 
-  const Item = ({
-     item,
-  }) => (
+  const Item = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("SingleEvent", {
@@ -86,22 +90,39 @@ const EventCard = ({ navigation }) => {
                 readonly
               />
 
-              {me && me.id ?
-            
-              <TouchableOpacity
-                style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
-                onPress={() => handlePress(item)}
-              >
-                <AntDesign name="pluscircle" size={24} color="#23036A" />
-              </TouchableOpacity>
-
-              :
-
-              null
-            
-
-            }
-
+              {!me || !me.id
+                ? null
+                : [
+                    plusMinus ? (
+                      <TouchableOpacity
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressPlus(item)}
+                      >
+                        <AntDesign
+                          name="pluscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressMinus(item)}
+                      >
+                        <AntDesign
+                          name="minuscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ),
+                  ]}
             </View>
           </Card.Content>
         </Card>
@@ -109,11 +130,7 @@ const EventCard = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const renderItem = ({ item }) => (
-    <Item
-      item={item}
-    />
-  );
+  const renderItem = ({ item }) => <Item item={item} />;
 
   return (
     <SafeAreaView>

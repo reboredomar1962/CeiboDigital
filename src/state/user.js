@@ -38,7 +38,7 @@ export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
       AsyncStorage.setItem("token", JSON.stringify(res.data.token));
       return res.data.token;
     })
-    .then((res)=>res)
+    .then((res) => res)
     .catch((error) =>
       //en el caso de usuario ya creado, llega el error 409. Como hacer que esto llegue al front?
       console.log("ACA ESTA EL ERROR EN LOGIN_USER -----> ", error)
@@ -69,6 +69,18 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
     .then((res) => res.data);
 });
 
+export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
+  // const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  // return AsyncStorage.getItem("token")
+  //   .then((token) => {
+  //     return axios.post(`http://${os}:3001/api/user/planToAttend`, plan, {
+  //       headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+  //     });
+  //   })
+  //   .then((res) => res.data);
+  console.log("llego aca");
+});
+
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
     state.userRegister = action.payload;
@@ -83,6 +95,10 @@ const userReducer = createReducer(initialState, {
     state.me = {};
   },
   [addPlan.fulfilled]: (state, action) => {
+    state.savedPlans = action.payload;
+  },
+  //revisar logica de aca, tengo que traer todos MENOS el plan que se saco
+  [removePlan.fulfilled]: (state, action) => {
     state.savedPlans = action.payload;
   },
 });
