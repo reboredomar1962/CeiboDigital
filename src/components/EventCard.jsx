@@ -3,11 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 
 //-------------Redux Import------------------------------
@@ -16,10 +14,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { addPlan, userMe, removePlan } from "../state/user";
 
 //-------------Libraries Import--------------------------
-import { Card, Title, Paragraph, FAB, Portal } from "react-native-paper";
+import { Card, Title, Paragraph } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
-import { Foundation } from "@expo/vector-icons";
-import { Rating, AirbnbRating } from "react-native-elements";
+import { Rating } from "react-native-elements";
 
 const EventCard = ({ navigation }) => {
   const [state, setState] = React.useState({ open: false });
@@ -70,17 +67,14 @@ const EventCard = ({ navigation }) => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
+                alignItems: "center",
                 marginTop: 5,
-                alignItems: "baseline",
               }}
             >
               {item.price ? (
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Foundation name="dollar" size={24} color="#23036A" />
-                  <Text>{item.price}</Text>
-                </View>
+                <Text style={styles.priceTxt}>${item.price}</Text>
               ) : (
-                <Text>Gratis</Text>
+                <Text style={styles.priceTxt}>Gratis</Text>
               )}
 
               <Rating
@@ -134,6 +128,7 @@ const EventCard = ({ navigation }) => {
 
   return (
     <SafeAreaView>
+      <Text style={styles.textSubtitle}>Eventos promocionados</Text>
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -148,16 +143,23 @@ const EventCard = ({ navigation }) => {
 export default EventCard;
 
 const styles = StyleSheet.create({
+  textSubtitle: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 18,
+    textAlign: "center",
+    color: "#23036A",
+    marginTop: 20,
+  },
   cardContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
   cardStyle: {
-    flex: 1,
-    margin: 15,
+    marginTop: 20,
+    marginLeft: 20,
     width: 300,
   },
   titleTxt: {
@@ -170,27 +172,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#23036A",
   },
+  priceTxt: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 13,
+    color: "#23036A",
+    textAlign: "center",
+  },
 });
-
-/*  
-ESTO ES UN SCROLLVIEW
-
-return (
-    
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-      <View style={styles.cardContainer} >
-        {
-          plans.map(event => (
-            <Card style={styles.cardStyle} key={event.id}>
-                <Card.Cover source={{uri: event.img}} />
-                <Card.Content style={{marginTop:5}}>
-                    <Title style={styles.titleTxt}>{event.name}</Title>
-                    <Paragraph style={styles.paragTxt} >{event.description}</Paragraph>
-                </Card.Content>
-            </Card>
-          ))
-        }
-      </View>
-    </ScrollView> 
-
-  ) */

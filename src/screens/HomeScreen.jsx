@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
+
 //----------NAVIGATION CONFIG----------------
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
@@ -10,9 +10,6 @@ import Home from "./Home";
 import Events from "./Events";
 import CreateEvent from "./CreateEvent";
 import SearchScreen from "./SearchScreen";
-import Notifications from "./Notifications";
-import SingleEvent from './SingleEvent';
-import FilterDrawer from "../components/FilterDrawer";
 import LoginScreen from "./LoginScreen";
 
 const Tab = createMaterialBottomTabNavigator();
@@ -30,7 +27,7 @@ const HomeScreen = ({ navigation }) => {
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: "Home",
+          tabBarLabel: "Inicio",
           tabBarIcon: () => <AntDesign name="home" size={20} color="white" />,
         }}
       />
@@ -38,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
         name="LoginScreen"
         component={LoginScreen}
         options={{
-          tabBarLabel: "My Account",
+          tabBarLabel: "Perfil",
           tabBarIcon: () => <AntDesign name="user" size={20} color="white" />,
         }}
       />
@@ -46,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         name="CreateEvent"
         component={CreateEvent}
         options={{
-          tabBarLabel: "Create event",
+          tabBarLabel: "Crear evento",
           tabBarIcon: () => (
             <Ionicons name="add-circle" size={26} color="white" />
           ),
@@ -56,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
         name="Events"
         component={Events}
         options={{
-          tabBarLabel: "Events",
+          tabBarLabel: "Eventos",
           tabBarIcon: () => (
             <AntDesign name="calendar" size={20} color="white" />
           ),
@@ -66,16 +63,13 @@ const HomeScreen = ({ navigation }) => {
         name="SearchScreen"
         component={SearchScreen}
         options={{
-          tabBarLabel: "Search",
+          tabBarLabel: "Buscar",
           tabBarIcon: () => (
             <AntDesign name="search1" size={20} color="white" />
           ),
-          
         }}
       />
-      
     </Tab.Navigator>
-    
   );
 };
 

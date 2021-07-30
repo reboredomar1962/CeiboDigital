@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   TextInput,
   LogBox,
-  Button,
 } from "react-native";
 
 //-------------Redux Import------------------------------
@@ -18,9 +17,8 @@ import { searchPlans } from "../state/plan";
 
 //-------------Libraries Import--------------------------
 import { AntDesign } from "@expo/vector-icons";
-
 import { Switch } from "react-native-paper";
-import { Rating, AirbnbRating } from "react-native-elements";
+import { Rating } from "react-native-elements";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 //------------Components Import-----------------------------
@@ -243,42 +241,47 @@ const SearchScreen = ({ navigation }) => {
                       setModalVisible(!modalVisible);
                     }}
                   >
-                    <AntDesign name="close" size={24} color="black" />
+                    <AntDesign name="close" size={24} color="#985EFF" />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text>{data[7]}</Text>
+                  <Text style={styles.categoryTxt}>Privado</Text>
                   <Switch
+                    color="#985EFF"
                     value={filter.private}
                     onValueChange={onSwitchPrivate}
                   />
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text>{"Public"}</Text>
+                  <Text style={styles.categoryTxt}>Publico</Text>
                   <Switch
+                    color="#985EFF"
                     value={filter.public}
                     onValueChange={onSwitchPublic}
                   />
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text>{data[8]}</Text>
-                  <Switch value={filter.free} onValueChange={onSwitchFree} />
+                  <Text style={styles.categoryTxt}>Gratis</Text>
+                  <Switch color="#985EFF" value={filter.free} onValueChange={onSwitchFree} />
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text>{"Paid"}</Text>
-                  <Switch value={filter.paid} onValueChange={onSwitchPaid} />
+                  <Text style={styles.categoryTxt}>Pago</Text>
+                  <Switch color="#985EFF" value={filter.paid} onValueChange={onSwitchPaid} />
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text>Precio</Text>
+                  <Text style={styles.categoryTxt}>Precio</Text>
 
                   <View style={styles.inputStyle}>
                     <TextInput
                       style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "#23036A",
+                        borderBottomColor:"#985EFF",
                         borderBottomWidth: 0.5,
                         height: 25,
                         width: 60,
@@ -287,9 +290,12 @@ const SearchScreen = ({ navigation }) => {
                       placeholder={data[4]}
                       onEndEditing={onEditMin}
                     />
-                    <Text> - </Text>
+                    <Text style={styles.categoryTxt}> - </Text>
                     <TextInput
                       style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "#23036A",
+                        borderBottomColor:"#985EFF",
                         borderBottomWidth: 0.5,
                         height: 25,
                         width: 60,
@@ -301,22 +307,26 @@ const SearchScreen = ({ navigation }) => {
                   </View>
                 </View>
                 <View style={styles.switchStyle}>
-                  <Text>{"Rating"}</Text>
+                  <Text style={styles.categoryTxt}>Rating</Text>
 
                   <Rating
+                    style={{marginRight:10}}
                     type="star"
                     ratingCount={5}
                     imageSize={20}
                     ratingTextColor="black"
+                    startingValue={1}
                     onFinishRating={(score) => {
                       onRatingSubmit(score);
                     }}
                   />
+
                 </View>
+
                 <View style={styles.switchStyle}>
-                  <Text>Fecha</Text>
-                  <TouchableOpacity onPress={showDate}>
-                    <AntDesign name="calendar" size={24} color="black" />
+                  <Text style={styles.categoryTxt}>Fecha</Text>
+                  <TouchableOpacity style={{marginRight:10}} onPress={showDate}>
+                    <AntDesign name="calendar" size={24} color="#985EFF" />
                   </TouchableOpacity>
 
                   {show && (
@@ -357,37 +367,44 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: "transparent",
-    alignItems: "flex-start",
+    alignItems: "flex-end",
     justifyContent: "center",
-    flexDirection: "column",
-    padding: 20,
   },
   modalContent: {
-    width: "75%",
-    height: "80%",
+    width: "70%",
+    height: "84%",
     backgroundColor: "#fff",
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "column",
-    borderRadius: 10,
   },
   iconStyle: {
     justifyContent: "flex-end",
     alignItems: "flex-end",
     width: "100%",
     height: 30,
-    marginRight: 10,
+    marginRight: 20,
+    marginTop:5,
   },
   switchStyle: {
+    backgroundColor: "#fff",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    height: 35,
+    height: 45,
+    marginBottom: 5,
   },
   inputStyle: {
     flexDirection: "row",
     alignItems: "center",
+    marginRight:10,
+  },
+  categoryTxt: {
+    fontFamily: "Poppins_500Medium",
+    color: "#23036A",
+    fontSize: 14,
+    marginLeft: 10,
   },
   textSubtitle: {
     fontFamily: "Poppins_500Medium",

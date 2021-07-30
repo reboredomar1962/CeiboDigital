@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { View, TextInput, Button } from "react-native";
+import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import { Rating } from "react-native-elements";
 import { createComment } from "../state/comments";
 
@@ -13,7 +14,6 @@ const CreateComment = ({ singlePlan }) => {
 
   const dispatch = useDispatch();
   const onSubmit = () => {
-    console.log('ESPERO QUE LLEGUEMOS AKI PLIS')
     const commentObj = { planId: id, comentario: value, valoracion: rating };
     dispatch(createComment(commentObj));
     setValue("");
@@ -28,31 +28,88 @@ const CreateComment = ({ singlePlan }) => {
   };
 
   return (
-    <View>
-      <View>
+    <View style={{backgroundColor:'#fff', width:'100%'}}>
+
+    <Text style={styles.titleTxt}>Ya fuiste?</Text>
+
+      <View style={styles.itemsStyle}>
+      <AntDesign name="edit" size={24} color="#985EFF" />
         <TextInput
+          style={styles.paragTxt}
           multiline={true}
           numberOfLines={3}
           placeholder={"Inserta un comentario"}
-          /* onEndEditing={clearScreen} */
           value={value}
           onChangeText={onChange}
         />
-        <Rating
-          type="star"
-          ratingCount={5}
-          imageSize={20}
-          ratingTextColor="black"
-           onFinishRating={(score) => {
-             onRatingSubmit(score);
-           }}
-        />
       </View>
-      <View>
-        <Button title={"Enviar"} onPress={onSubmit} />
+
+
+      <View style={styles.itemsStyle}>
+      <AntDesign name="smileo" size={24} color="#985EFF" />
+          <Rating
+              type="star"
+              style={{marginLeft:15}}
+              ratingCount={5}
+              imageSize={20}
+              ratingTextColor="black"
+              startingValue={1}
+              onFinishRating={(score) => {
+              onRatingSubmit(score);
+              }}
+          />
+
       </View>
+
+
+
+      <View style={{justifyContent:'center', alignItems:'center',}}>
+          <TouchableOpacity
+            style={styles.btnStyle}
+            onPress={onSubmit}
+          >
+            <Text style={styles.btnTxt}>Enviar</Text>
+          </TouchableOpacity>
+        </View>
     </View>
   );
 };
 
 export default CreateComment;
+
+const styles = StyleSheet.create({
+  itemsStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    marginBottom:10,
+    width:'100%',
+  },
+  titleTxt: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 15,
+    color: "#23036A",
+    marginBottom:10,
+    marginTop:10,
+    textAlign:'center',
+  },
+  paragTxt: {
+    fontFamily: "Poppins_300Light",
+    fontSize: 13,
+    color: "#23036A",
+    marginLeft:15,
+  },
+  btnStyle:{
+    backgroundColor: "#23036A",
+    padding: 7,
+    borderRadius: 20,
+    width: 150,
+    marginTop: 20,
+    marginBottom:10,
+  },
+  btnTxt:{
+    fontFamily: "Poppins_300Light",
+    color: "#fff",
+    textAlign: "center",
+  },
+});
