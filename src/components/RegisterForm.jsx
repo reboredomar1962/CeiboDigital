@@ -14,107 +14,116 @@ import { createUser } from "../state/user";
 import { useForm, Controller } from "react-hook-form";
 
 const RegisterForm = ({ navigation }) => {
-  const {
+  /* const {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ mode: "onBlur" }) */
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
+    console.log("onSubmit ->", data);
     dispatch(createUser(data));
     navigation.navigate("LoginScreen");
   };
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
+      <View>
         <Controller
           control={control}
+          rules={{
+            required: true,
+            pattern: /^[A-Za-z]+$/i,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="first Name"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
           name="name"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Nombre"
-              /* inlineImageLeft='' */
-              placeholderTextColor="#23036A"
-              textContentType="name"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
+          defaultValue=""
         />
+        {errors.name && <Text> is not a valid name</Text>}
 
         <Controller
-          style={{ marginBottom: 10 }}
           control={control}
+          rules={{
+            required: true,
+            pattern: /^[A-Za-z]+$/i,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholderTextColor="#23036A"
+              placeholder="last Name"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
           name="lastName"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Apellido"
-              placeholderTextColor="#23036A"
-              textContentType="familyName"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
+          defaultValue=""
         />
+        {errors.lastName && <Text> is not a valid last name.</Text>}
 
         <Controller
-          style={{ marginBottom: 10 }}
           control={control}
-          name="age"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Edad"
-              placeholderTextColor="#23036A"
-              keyboardType="number-pad"
-              value={value}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-            />
-          )}
-        />
-
-        <Controller
-          style={{ marginBottom: 10 }}
-          control={control}
-          name="email"
-          render={({ field: { onChange, value, onBlur } }) => (
+          rules={{
+            required: true,
+            pattern: /^\S+@\S+.\S+$/,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.textSubtitle}
               placeholder="E-mail"
               placeholderTextColor="#23036A"
-              textContentType="emailAddress"
-              value={value}
               onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
+              onChangeText={onChange}
+              value={value}
             />
           )}
+          name="email"
+          defaultValue=""
         />
+        {errors.email && <Text>is not a valid mail</Text>}
 
         <Controller
-          style={{ marginBottom: 10 }}
           control={control}
-          name="password"
-          render={({ field: { onChange, value, onBlur } }) => (
+          rules={{
+            minLength: 8,
+            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.textSubtitle}
               placeholder="Password"
               placeholderTextColor="#23036A"
               secureTextEntry={true}
-              textContentType="password"
-              value={value}
               onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
+              onChangeText={onChange}
+              value={value}
             />
           )}
+          name="password"
+          defaultValue=""
         />
+        {errors.password && (
+          <Text>Must have one Uppercase, one Minuscule and 8 characters</Text>
+        )}
+
 
         <View>
           <TouchableOpacity
@@ -138,20 +147,22 @@ const RegisterForm = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
+
       </View>
     </SafeAreaView>
   );
 };
 
 export default RegisterForm;
-
 const styles = StyleSheet.create({
   container: {
+
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     height: "100%",
     marginTop: 20,
+
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",
@@ -161,4 +172,6 @@ const styles = StyleSheet.create({
     width: 300,
     marginBottom: 15,
   },
+
+
 });

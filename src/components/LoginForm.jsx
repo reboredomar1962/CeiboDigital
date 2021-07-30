@@ -28,8 +28,10 @@ const LoginForm = ({ navigation }) => {
 
   const onSubmit = (data) => {
     dispatch(loginUser(data))
+
       .then(() => navigation.navigate("Home"))
       .catch((err) => alert("Failed to save the data to the storage"));
+
   };
 
   return (

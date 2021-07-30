@@ -24,9 +24,11 @@ const SingleEvent = ({ route }) => {
 
   return (
     <SafeAreaView>
+
       <ScrollView>
         <View style={{ backgroundColor: "#fff" }}>
           <View>
+
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -45,6 +47,7 @@ const SingleEvent = ({ route }) => {
           <View style={styles.infoContainer}>
             <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
+
             <View style={styles.itemsStyle}>
               <AntDesign name="infocirlceo" size={24} color="#985EFF" />
               <Text style={styles.paragTxt}>{singlePlan.description}</Text>
@@ -59,6 +62,7 @@ const SingleEvent = ({ route }) => {
               <Ionicons name="location-outline" size={28} color="#985EFF" />
               <Text style={styles.paragTxt}>{singlePlan.address}</Text>
             </View>
+
 
             <View style={styles.itemsStyle}>
               <Feather name="dollar-sign" size={24} color="#985EFF" />
@@ -89,7 +93,9 @@ const SingleEvent = ({ route }) => {
             </View>
           </View>
         </View>
+
       </ScrollView>
+
     </SafeAreaView>
   );
 };
