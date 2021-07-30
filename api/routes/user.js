@@ -13,6 +13,7 @@ const {
   logoutUser,
   getMe,
   addPlan,
+  removePlan,
 } = require("../controllers/userControllers");
 
 router.get("/me", authenticateJWT, getMe);
@@ -24,15 +25,17 @@ router.post("/logout", authenticateJWT, logoutUser);
 router.get("/", getUser);
 //add a friend to a list
 router.post("/add", authenticateJWT, addFriend);
-// select user by id
-router.get("/:id", getOneUser);
-// create a new user
-router.post("/register", postUser);
-// update a user
-router.put("/:id", authenticateJWT, updateUser);
-// delete a user
-router.delete("/:id", authenticateJWT, deleteUser);
 // add plan to user
 router.post("/planToAttend", authenticateJWT, addPlan);
+// create a new user
+router.post("/register", postUser);
+// select user by id
+router.get("/:id", getOneUser);
+// update a user
+router.put("/:id", authenticateJWT, updateUser);
+// remove a plan from user
+router.delete("/deletePlan/:id", authenticateJWT, removePlan);
+// delete a user
+router.delete("/:id", authenticateJWT, deleteUser);
 
 module.exports = router;

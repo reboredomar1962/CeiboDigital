@@ -70,15 +70,17 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
 });
 
 export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
-  // const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
-  // return AsyncStorage.getItem("token")
-  //   .then((token) => {
-  //     return axios.post(`http://${os}:3001/api/user/planToAttend`, plan, {
-  //       headers: { Authorization: `Bearer ${JSON.parse(token)}` },
-  //     });
-  //   })
-  //   .then((res) => res.data);
-  console.log("llego aca");
+  console.log("este es el plan removido", plan)
+  const {id} = plan
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.post(`http://${os}:3001/api/user/deletePlan/${id}`, plan, {
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+      });
+    })
+    .then((res) => res.data);
+  //console.log("llego aca");
 });
 
 const userReducer = createReducer(initialState, {

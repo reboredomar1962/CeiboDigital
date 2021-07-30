@@ -11,17 +11,16 @@ import {
 //----------------LIBRARIES CONFIG--------------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
 import { Rating } from "react-native-elements";
+import { AntDesign } from "@expo/vector-icons";
 //-----------------REDUX CONFIG-----------------------------------
 import { useSelector } from "react-redux";
 
-
 const SearchedPlans = ({ navigation }) => {
-
   const { searchedPlans } = useSelector((store) => store.plan);
   const { me } = useSelector((store) => store.user);
-  
+
   //FlatList config------------------------------------------------
-  
+
   const Item = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
@@ -49,9 +48,7 @@ const SearchedPlans = ({ navigation }) => {
               }}
             >
               {item.price ? (
-                
                 <Text style={styles.priceTxt}>${item.price}</Text>
-                
               ) : (
                 <Text style={styles.priceTxt}>Gratis</Text>
               )}
@@ -72,7 +69,6 @@ const SearchedPlans = ({ navigation }) => {
                 </TouchableOpacity>
               ) : null}
             </View>
-
           </Card.Content>
         </Card>
       </View>
@@ -128,6 +124,6 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_500Medium",
     fontSize: 13,
     color: "#23036A",
-    textAlign:'center',
+    textAlign: "center",
   },
 });
