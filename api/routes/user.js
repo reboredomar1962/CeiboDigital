@@ -27,14 +27,14 @@ router.get("/", getUser);
 router.post("/add", authenticateJWT, addFriend);
 // add plan to user
 router.post("/planToAttend", authenticateJWT, addPlan);
+// remove a plan from user
+router.delete("/deletePlan/:id", authenticateJWT, removePlan);
 // create a new user
 router.post("/register", postUser);
 // select user by id
 router.get("/:id", getOneUser);
 // update a user
 router.put("/:id", authenticateJWT, updateUser);
-// remove a plan from user
-router.delete("/deletePlan/:id", authenticateJWT, removePlan);
 // delete a user
 router.delete("/:id", authenticateJWT, deleteUser);
 

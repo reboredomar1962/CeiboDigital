@@ -76,6 +76,7 @@ const EventCard = ({ navigation }) => {
 
   const Item = ({ item }) => (
     <TouchableOpacity
+      key={item.id}
       onPress={() =>
         navigation.navigate("SingleEvent", {
           id: item.id,
