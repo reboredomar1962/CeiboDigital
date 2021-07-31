@@ -20,8 +20,9 @@ import { Rating } from "react-native-elements";
 
 const EventCard = ({ navigation }) => {
   //const [state, setState] = React.useState({ open: false });
-  const [change, setChange] = React.useState(false);
+  //const [change, setChange] = React.useState(false);
   //const onStateChange = ({ open }) => setState({ open });
+  const [localPlans, setLocalPlans] = React.useState([]);
 
   //const { open } = state;
 
@@ -34,26 +35,33 @@ const EventCard = ({ navigation }) => {
   const handlePressPlus = (plan) => {
     const oldUsers = plan.users;
     const oldPlan = { ...plan, users: [...oldUsers, me.id] };
-    const newPlan = Object.assign(plan);
+    // const newPlan = Object.assign(plan);
+    const auxLocalPlans = localPlans.filter(
+      (singlePlan) => singlePlan.id !== plan.id
+    );
 
     //const newPlan = { ...plan, users: [...oldUsers, me.id] };
-    console.log("antes del dispatch", plans[8].users);
-    dispatch(addPlan(newPlan));
-    console.log("despues del dispatch", plans[8].users);
-    console.log(change);
-    setChange(!change);
+    //console.log("antes del dispatch", plans[8].users);
+    setLocalPlans([...auxLocalPlans, oldPlan]);
+    console.log("este es el plan", plan);
+    console.log("este es el oldPlan", plan);
+    dispatch(addPlan(plan));
+    //console.log("despues del dispatch", plans[8].users);
+    //console.log(change);
+    //setChange(!change);
     //setPlusMinus(!plusMinus);
   };
 
   const handlePressMinus = (plan) => {
     dispatch(removePlan(plan));
-    setChange(!change);
-    console.log(change);
+    //setChange(!change);
+    //console.log(change);
     //setPlusMinus(!plusMinus);
   };
 
   React.useEffect(() => {
     dispatch(showPlans());
+    setLocalPlans(plans);
   }, []);
 
   // React.useEffect(() => {
@@ -155,7 +163,7 @@ const EventCard = ({ navigation }) => {
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        data={plans}
+        data={localPlans} //data={plans}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
