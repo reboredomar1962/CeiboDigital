@@ -451,7 +451,6 @@ const planes = [
   },
 ];
 
-
 const users = [
   {
     name: "Ale",
@@ -459,8 +458,7 @@ const users = [
     age: 31,
     img: null,
     email: "ale@ale.com",
-    password: allPass,
-    salt: allSalt,
+    password: "Al123456",
     contacts: [],
     myPlans: [],
     categories: [],
@@ -471,8 +469,7 @@ const users = [
     age: 31,
     img: null,
     email: "ivan@ivan.com",
-    password: allPass,
-    salt: allSalt,
+    password: "Al123456",
     contacts: [],
     myPlans: [],
     categories: [],
@@ -483,8 +480,8 @@ const users = [
     age: 31,
     img: null,
     email: "marti@marti.com",
-    password: allPass,
-    salt: allSalt,
+    password: "Al123456",
+
     contacts: [],
     myPlans: [],
     categories: [],
@@ -495,8 +492,8 @@ const users = [
     age: 31,
     img: null,
     email: "alezu@alezu.com",
-    password: allPass,
-    salt: allSalt,
+    password: "Al123456",
+
     contacts: [],
     myPlans: [],
     categories: [],
@@ -507,8 +504,8 @@ const users = [
     age: 31,
     img: null,
     email: "eri@eri.com",
-    password: allPass,
-    salt: allSalt,
+    password: "Al123456",
+
     contacts: [],
     myPlans: [],
     categories: [],
