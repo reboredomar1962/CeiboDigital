@@ -21,7 +21,7 @@ import _ from "lodash";
 
 const EventCard = ({ navigation }) => {
   //const [state, setState] = React.useState({ open: false });
-  const [change, setChange] = React.useState(false);
+  //const [change, setChange] = React.useState(false);
   //const onStateChange = ({ open }) => setState({ open });
   //const [localPlans, setLocalPlans] = React.useState([]);
   const [includedPlans, setIncludedPlans] = React.useState([]);
@@ -30,7 +30,7 @@ const EventCard = ({ navigation }) => {
 
   const { me } = useSelector((store) => store.user);
 
-  const { plans } = useSelector((store) => store.plan, _.isEqual);
+  const { plans } = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
 
@@ -50,8 +50,8 @@ const EventCard = ({ navigation }) => {
     setIncludedPlans([...includedPlans, plan.id]);
     console.log("al apretar el mas, este es includedPlans", includedPlans);
     console.log("se incluyo este al final", plan.id);
-    setChange(!change);
-    console.log(change);
+    //setChange(!change);
+    //console.log(change);
     dispatch(addPlan(plan));
     //console.log("despues del dispatch", plans[8].users);
 
@@ -66,7 +66,7 @@ const EventCard = ({ navigation }) => {
     console.log("esto son los included plans del Minus", auxRemovePlans);
     setIncludedPlans(auxRemovePlans);
     dispatch(removePlan(plan));
-    setChange(!change);
+    //setChange(!change);
     //console.log(change);
     //setPlusMinus(!plusMinus);
   };
@@ -191,7 +191,7 @@ const EventCard = ({ navigation }) => {
         data={plans} //data={localPlans} //
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        extraData={change}
+        //extraData={change}
       />
     </SafeAreaView>
   );
