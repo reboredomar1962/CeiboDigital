@@ -1,4 +1,4 @@
-const { User, Plan, Category} = require("../models/");
+const { User, Plan, Category } = require("../models/");
 const jwt = require("jsonwebtoken");
 
 const accessTokenSecret = "ceiboDigital";
@@ -11,8 +11,6 @@ const getUser = (req, res, next) => {
       res.json(users);
     });
 };
-
-
 
 const addPlan = (req, res, next) => {
   const { id } = req.user;
@@ -122,9 +120,9 @@ const getMe = (req, res, next) => {
     .populate("contacts", {
       name: 1,
       lastName: 1,
-      email:1,
+      email: 1,
     })
-    .populate("categories" , {
+    .populate("categories", {
       type: 1,
     })
 
@@ -194,7 +192,6 @@ const removePlan = (req, res, next) => {
     });
 };
 
-
 const addFriend = (req, res, next) => {
   const { id } = req.user;
   const friendId = req.body.id;
@@ -226,8 +223,8 @@ const removeFriend = (req, res, next) => {
       user.contacts = user.contacts.filter((friendId) => friendId != idFriend);
       user.save();
       res.status(200).send("amigo eliminado");
-      console.log("user", user)
-      console.log("friend", friend)
+      console.log("user", user);
+      console.log("friend", friend);
     })
     .catch((err) => {
       next(err);
@@ -252,25 +249,26 @@ const addCategory = (req, res, next) => {
     });
 };
 
-const removeCategory = (req,res,next)=>{
-
+const removeCategory = (req, res, next) => {
   const { id } = req.user;
   const categoryId = req.body.id;
   const userPromise = User.findById(id);
   const categoryPromise = Category.findById(categoryId);
 
   Promise.all([userPromise, categoryPromise])
-  .then ((values)=>{
-    const [user, category] = values;
-    console.log("user y category", user, category);
-    user.categories = user.categories.filter(category=> category != categoryId)
-    user.save();
-    res.status(200).send("categoria eliminada")
-  })
-  .catch((err) => {
-    next(err);
-  });
-}
+    .then((values) => {
+      const [user, category] = values;
+      console.log("user y category", user, category);
+      user.categories = user.categories.filter(
+        (category) => category != categoryId
+      );
+      user.save();
+      res.status(200).send("categoria eliminada");
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
 
 module.exports = {
   getUser,
@@ -286,5 +284,5 @@ module.exports = {
   addFriend,
   removeFriend,
   addCategory,
-  removeCategory
+  removeCategory,
 };
