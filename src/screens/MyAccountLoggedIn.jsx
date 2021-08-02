@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../state/user";
 import { showSinglePlan } from "../state/plan";
 //Libraries imports
-import { Avatar } from "react-native-elements";
+import { Avatar, ListItem } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
 import * as ImagePicker from 'expo-image-picker';
 //Icons import
@@ -103,7 +103,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
           <Text style={styles.paragTxt}>{me.email}</Text>
         </View>
 
-        <View style={styles.itemsStyle}>
+        {/* <View style={styles.itemsStyle}>
           <MaterialCommunityIcons
             name="calendar-heart"
             size={24}
@@ -111,14 +111,19 @@ const MyAccountLoggedIn = ({ navigation }) => {
           />
           {me.myPlans.length ? 
 
-              <Text>Hay planes</Text>
+              <View>
+              {me.myPlans.map(plan => (
+                  <Text key={plan.id} style={styles.paragTxt}>{plan.name}</Text>))}
+                
+              
+                </View>
         
           : 
           
             (<Text style={styles.paragTxt}>No hay planes guardados</Text>)
 
           }
-        </View>
+        </View> */}
 
         <View style={styles.itemsStyle}>
           <AntDesign name="contacts" size={24} color="#985EFF" />

@@ -15,7 +15,7 @@ export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
   const ip = "192.168.0.3";
   return axios
 
-    .get(`http://${ip}:3001/api/category`)
+    .get(`http://${os}:3001/api/category`)
 
     .then((res) => res.data)
     .catch((error) =>
