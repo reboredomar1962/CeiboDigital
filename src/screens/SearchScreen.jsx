@@ -6,30 +6,28 @@ import {
   ScrollView,
   SafeAreaView,
   Modal,
-  Pressable,
   TouchableOpacity,
   TextInput,
+  LogBox,
 } from "react-native";
+
 //-------------Redux Import------------------------------
 import { useSelector, useDispatch } from "react-redux";
-import { showCategories } from "../state/categories";
-//-------------Libraries Import--------------------------
-import { Card, Title, Paragraph } from "react-native-paper";
-import { AntDesign } from "@expo/vector-icons";
+import { searchPlans } from "../state/plan";
 
-import { Switch } from 'react-native-paper';
-import { Rating, AirbnbRating } from 'react-native-elements';
+//-------------Libraries Import--------------------------
+import { AntDesign } from "@expo/vector-icons";
+import { Switch } from "react-native-paper";
+import { Rating } from "react-native-elements";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 //------------Components Import-----------------------------
 import Search from "../components/Search";
 import CategoriesComponent from "../components/CategoriesComponent";
 import SearchedPlans from "../components/SearchedPlans";
-import { compose } from "redux";
-import { searchPlans } from "../state/plan";
 
 const SearchScreen = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => {
-
     return store.plan;
   });
 
@@ -39,16 +37,39 @@ const SearchScreen = ({ navigation }) => {
     query: "",
     afterFirstPrivate: false,
     afterFirstFree: false,
+    afterFirstPublic: false,
+    afterFirstPaid: false,
     private: false,
     free: false,
+    public: false,
+    paid: false,
+  };
+  //Date logic with local state
+  const [date, setDate] = React.useState(new Date());
+  const [show, setShow] = React.useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    console.log(currentDate.toString());
+    let testDate = new Date();
+    console.log(testDate < currentDate);
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+    setFilter({
+      ...filter,
+      planDate: currentDate,
+    });
   };
 
-  const [filter, setFilter] = React.useState(initialState);
+  const showDate = () => {
+    setShow(true);
+  };
 
+  // Filter and modal logic managed in local states
+  const [filter, setFilter] = React.useState(initialState);
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const data = [
-
     "planDate",
     "planDateBefore",
     "planDateAfter",
@@ -61,14 +82,65 @@ const SearchScreen = ({ navigation }) => {
   ];
 
   const dispatch = useDispatch();
-  const onSwitchPrivate = (e) => {
+
+  const onSwitchPrivate = () => {
     let auxPrivate = !filter.private;
-    setFilter({ ...filter, private: auxPrivate, afterFirstPrivate: true });
+    if (auxPrivate && filter.public)
+      setFilter({
+        ...filter,
+        private: auxPrivate,
+        afterFirstPrivate: true,
+        public: false,
+        afterFirstPublic: false,
+      });
+    else if (!auxPrivate && !filter.public)
+      setFilter({ ...filter, private: auxPrivate, afterFirstPrivate: false });
+    else setFilter({ ...filter, private: auxPrivate, afterFirstPrivate: true });
+  };
+
+  const onSwitchPublic = () => {
+    let auxPublic = !filter.public;
+    if (auxPublic && filter.private)
+      setFilter({
+        ...filter,
+        public: auxPublic,
+        afterFirstPublic: true,
+        private: false,
+        afterFirstPrivate: false,
+      });
+    else if (!auxPublic && !filter.private)
+      setFilter({ ...filter, public: auxPublic, afterFirstPublic: false });
+    else setFilter({ ...filter, public: auxPublic, afterFirstPublic: true });
   };
 
   const onSwitchFree = () => {
     let auxFree = !filter.free;
-    setFilter({ ...filter, free: auxFree, afterFirstFree: true });
+    if (auxFree && filter.paid)
+      setFilter({
+        ...filter,
+        free: auxFree,
+        afterFirstFree: true,
+        paid: false,
+        afterFirstPaid: false,
+      });
+    else if (!auxFree && !filter.paid)
+      setFilter({ ...filter, free: auxFree, afterFirstFree: false });
+    else setFilter({ ...filter, free: auxFree, afterFirstFree: true });
+  };
+
+  const onSwitchPaid = () => {
+    let auxPaid = !filter.paid;
+    if (auxPaid && filter.free)
+      setFilter({
+        ...filter,
+        paid: auxPaid,
+        afterFirstPaid: true,
+        free: false,
+        afterFirstFree: false,
+      });
+    else if (!auxPaid && !filter.free)
+      setFilter({ ...filter, paid: auxPaid, afterFirstPaid: false });
+    else setFilter({ ...filter, paid: auxPaid, afterFirstPaid: true });
   };
 
   const onEditMin = (e) => {
@@ -89,10 +161,22 @@ const SearchScreen = ({ navigation }) => {
     }
   };
 
+  const onRatingSubmit = (score) => {
+    setFilter({
+      ...filter,
+      recommendation: Number(score),
+      afterFirstRecommendation: true,
+    });
+  };
+
   React.useEffect(() => {
     dispatch(searchPlans(filter));
   }, [filter]);
 
+  //Para ignorar el error insoportable ese
+  React.useEffect(() => {
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -136,34 +220,68 @@ const SearchScreen = ({ navigation }) => {
               <View style={styles.modalContent}>
                 <View style={styles.iconStyle}>
                   <TouchableOpacity
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => {
+                      filterLen = Object.keys(filter).length;
+                      iniStateLen = Object.keys(initialState).length;
+                      if (
+                        !filter.afterFirstPrivate &&
+                        !filter.afterFirstFree &&
+                        !filter.afterFirstPublic &&
+                        !filter.afterFirstPaid &&
+                        filterLen === iniStateLen
+                      ) {
+                        setFilter({
+                          ...initialState,
+                          fromModal: false,
+                          fromSearch: false,
+                          query: "",
+                        });
+                      }
+
+                      setModalVisible(!modalVisible);
+                    }}
                   >
-                    <AntDesign name="close" size={24} color="black" />
+                    <AntDesign name="close" size={24} color="#985EFF" />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.switchStyle}>
-
-                  <Text>{data[7]}</Text>
+                  <Text style={styles.categoryTxt}>Privado</Text>
                   <Switch
+                    color="#985EFF"
                     value={filter.private}
                     onValueChange={onSwitchPrivate}
                   />
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text>{data[8]}</Text>
-                  <Switch value={filter.free} onValueChange={onSwitchFree} />
-
+                  <Text style={styles.categoryTxt}>Publico</Text>
+                  <Switch
+                    color="#985EFF"
+                    value={filter.public}
+                    onValueChange={onSwitchPublic}
+                  />
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text>Precio</Text>
+                  <Text style={styles.categoryTxt}>Gratis</Text>
+                  <Switch color="#985EFF" value={filter.free} onValueChange={onSwitchFree} />
+                </View>
+
+                <View style={styles.switchStyle}>
+                  <Text style={styles.categoryTxt}>Pago</Text>
+                  <Switch color="#985EFF" value={filter.paid} onValueChange={onSwitchPaid} />
+                </View>
+
+                <View style={styles.switchStyle}>
+                  <Text style={styles.categoryTxt}>Precio</Text>
 
                   <View style={styles.inputStyle}>
-
                     <TextInput
                       style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "#23036A",
+                        borderBottomColor:"#985EFF",
                         borderBottomWidth: 0.5,
                         height: 25,
                         width: 60,
@@ -172,9 +290,12 @@ const SearchScreen = ({ navigation }) => {
                       placeholder={data[4]}
                       onEndEditing={onEditMin}
                     />
-                    <Text> - </Text>
+                    <Text style={styles.categoryTxt}> - </Text>
                     <TextInput
                       style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "#23036A",
+                        borderBottomColor:"#985EFF",
                         borderBottomWidth: 0.5,
                         height: 25,
                         width: 60,
@@ -183,26 +304,42 @@ const SearchScreen = ({ navigation }) => {
                       placeholder={data[5]}
                       onEndEditing={onEditMax}
                     />
-
                   </View>
                 </View>
-
-
-                <View>
-                  <Text>{data[4]}</Text>
+                <View style={styles.switchStyle}>
+                  <Text style={styles.categoryTxt}>Rating</Text>
 
                   <Rating
-                    type='star'
+                    style={{marginRight:10}}
+                    type="star"
                     ratingCount={5}
                     imageSize={20}
-                    ratingTextColor='black'
-                    /* onFinishRating={} */
+                    ratingTextColor="black"
+                    startingValue={1}
+                    onFinishRating={(score) => {
+                      onRatingSubmit(score);
+                    }}
                   />
+
                 </View>
 
-                
+                <View style={styles.switchStyle}>
+                  <Text style={styles.categoryTxt}>Fecha</Text>
+                  <TouchableOpacity style={{marginRight:10}} onPress={showDate}>
+                    <AntDesign name="calendar" size={24} color="#985EFF" />
+                  </TouchableOpacity>
 
-
+                  {show && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={date}
+                      mode={"date"}
+                      is24Hour={true}
+                      display="default"
+                      onChange={onChange}
+                    />
+                  )}
+                </View>
               </View>
             </View>
           </Modal>
@@ -221,53 +358,58 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "red",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    flexDirection: "column",
-  },
-  modalContent: {
-    width: "75%",
-    height: "80%",
-    backgroundColor: "blue",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "column",
-    borderRadius: 10,
-  },
-  iconStyle: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    width: "100%",
-    height: 30,
-    marginRight: 10,
-  },
-  switchStyle: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    height: 35,
-  },
-  inputStyle: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  textSubtitle: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 15,
-    color: "#23036A",
-    paddingTop: 15,
-  },
   categoriesCont: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
-  searchPlanCont: {
-    backgroundColor: "red",
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "transparent",
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  modalContent: {
+    width: "70%",
+    height: "84%",
+    backgroundColor: "#fff",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  iconStyle: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    width: "100%",
+    height: 30,
+    marginRight: 20,
+    marginTop:5,
+  },
+  switchStyle: {
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    height: 45,
+    marginBottom: 5,
+  },
+  inputStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight:10,
+  },
+  categoryTxt: {
+    fontFamily: "Poppins_500Medium",
+    color: "#23036A",
+    fontSize: 14,
+    marginLeft: 10,
+  },
+  textSubtitle: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 15,
+    color: "#23036A",
+    paddingTop: 15,
   },
 });

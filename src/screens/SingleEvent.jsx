@@ -1,37 +1,34 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 //-------------Libraries Import--------------------------
-import { Card, List } from "react-native-paper";
+import { Card } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 //-------------Redux Import------------------------------
 import { showSinglePlan } from "../state/plan";
 import { useDispatch, useSelector } from "react-redux";
 
-const SingleEvent = ({ route }) => {
-  /* console.log("ACA ESTA ID ------->>>>>", route); */
+//-------------Components Import------------------------------
+import CreateComment from "../components/CreateComment";
+import ShowComments from "../components/ShowComments";
 
+const SingleEvent = ({ route }) => {
   const { singlePlan } = useSelector((store) => store.plan);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(showSinglePlan(route.params.id));
   }, []);
-  /* console.log("ACA ESTA SINGLE PLAN-------->", singlePlan); */
 
   return (
     <SafeAreaView>
+
       <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.container}>
+        <View style={{ backgroundColor: "#fff" }}>
+          <View>
+
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -47,90 +44,97 @@ const SingleEvent = ({ route }) => {
             </ScrollView>
           </View>
 
-          <Text style={styles.titleTxt}>{singlePlan.name}</Text>
-
           <View style={styles.infoContainer}>
-            <Text style={styles.titleTxt}>Descripción</Text>
-            <Text style={styles.paragTxt}>{singlePlan.description}</Text>
+            <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
-            <Text style={styles.titleTxt}>Fecha</Text>
-            <Text style={styles.paragTxt}>{singlePlan.planDate}</Text>
-            
-            <Text style={styles.titleTxt}>Ubicación</Text>
-            <Text style={styles.paragTxt}>{singlePlan.address}</Text>
-            
-            <Text style={styles.titleTxt}>Precio</Text>
-            {singlePlan.price === 0 ? <Text style={styles.paragTxt}>El evento es gratuito</Text> : <Text style={styles.paragTxt}>${singlePlan.price}</Text>}
-            
-            <Text style={styles.titleTxt}>Anfitrión</Text>
-            <Text style={styles.paragTxt}>{singlePlan.planOwner}</Text>
-            
-            <Text style={styles.titleTxt}>Categoría</Text>
-            <Text style={styles.paragTxt}>{singlePlan.category}</Text>
+
+            <View style={styles.itemsStyle}>
+              <AntDesign name="infocirlceo" size={24} color="#985EFF" />
+              <Text style={styles.paragTxt}>{singlePlan.description}</Text>
+            </View>
+
+            <View style={styles.itemsStyle}>
+              <AntDesign name="calendar" size={24} color="#985EFF" />
+              <Text style={styles.paragTxt}>{singlePlan.planDate}</Text>
+            </View>
+
+            <View style={styles.itemsStyle}>
+              <Ionicons name="location-outline" size={28} color="#985EFF" />
+              <Text style={styles.paragTxt}>{singlePlan.address}</Text>
+            </View>
+
+
+            <View style={styles.itemsStyle}>
+              <Feather name="dollar-sign" size={24} color="#985EFF" />
+              {singlePlan.price === 0 ? (
+                <Text style={styles.paragTxt}>El evento es gratuito</Text>
+              ) : (
+                <Text style={styles.paragTxt}>${singlePlan.price}</Text>
+              )}
+            </View>
+
+            <View style={styles.itemsStyle}>
+              <AntDesign name="user" size={24} color="#985EFF" />
+              <Text style={styles.paragTxt}>{singlePlan.planOwner}</Text>
+            </View>
+
+            <View style={styles.itemsStyle}>
+              <AntDesign name="profile" size={24} color="#985EFF" />
+              <Text style={styles.paragTxt}>{singlePlan.category}</Text>
+            </View>
+
+            <View style={styles.itemsStyle}>
+              <AntDesign name="message1" size={24} color="#985EFF" />
+              <ShowComments planId={singlePlan.id} />
+            </View>
+
+            <View style={styles.itemsStyle}>
+              <CreateComment singlePlan={singlePlan} />
+            </View>
           </View>
-
-          
         </View>
+
       </ScrollView>
+
     </SafeAreaView>
   );
 };
 export default SingleEvent;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  infoContainer: {
-    flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    marginLeft:10,
-    marginRight:10,
-    marginTop: 15,
-  },
   cardContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    marginRight: 15,
+    marginBottom: 20,
   },
   cardStyle: {
-    flex: 1,
-    margin: 15,
+    marginTop: 20,
+    marginLeft: 20,
     width: 300,
+  },
+  infoContainer: {
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   titleTxt: {
     fontFamily: "Poppins_500Medium",
-    fontSize: 14,
+    fontSize: 15,
     color: "#23036A",
+    marginBottom: 15,
   },
   paragTxt: {
     fontFamily: "Poppins_300Light",
-    fontSize: 12,
+    fontSize: 13,
     color: "#23036A",
-    marginBottom:10,
+    marginLeft: 15,
+  },
+  itemsStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: 300,
+    marginBottom: 10,
   },
 });
-
-
-{/* <View style={styles.infoContainer}>
-
-<List.Section>
-  <List.Item
-    title="First Item"
-    left={() => <AntDesign name="search1" size={20} color="black" />}
-  />
-  <List.Item
-    title="Second Item"
-    left={() => <AntDesign name="search1" size={20} color="blue" />}
-    titleStyle={{ color: "black", fontSize: 12 }}
-    titleNumberOfLines={0}
-  />
-</List.Section>
-
-</View> */}

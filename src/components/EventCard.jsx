@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
@@ -12,57 +11,187 @@ import {
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
+import { addPlan, userMe, removePlan } from "../state/user";
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
+import { AntDesign } from "@expo/vector-icons";
+import { Rating } from "react-native-elements";
+import _ from "lodash";
 
 const EventCard = ({ navigation }) => {
+  //const [state, setState] = React.useState({ open: false });
+  //const [change, setChange] = React.useState(false);
+  //const onStateChange = ({ open }) => setState({ open });
+  //const [localPlans, setLocalPlans] = React.useState([]);
+  const [includedPlans, setIncludedPlans] = React.useState([]);
+
+  //const { open } = state;
+
+  const { me } = useSelector((store) => store.user);
+
   const { plans } = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
 
+  const handlePressPlus = (plan) => {
+    // const oldUsers = plan.users;
+    // const oldPlan = { ...plan, users: [...oldUsers, me.id] };
+    // // const newPlan = Object.assign(plan);
+    // const auxLocalPlans = localPlans.filter(
+    //   (singlePlan) => singlePlan.id !== plan.id
+    // );
+
+    //const newPlan = { ...plan, users: [...oldUsers, me.id] };
+    //console.log("antes del dispatch", plans[8].users);
+    //setLocalPlans([...auxLocalPlans, oldPlan]);
+    //console.log("este es el plan", plan);
+    //console.log("este es el oldPlan", plan);
+    setIncludedPlans([...includedPlans, plan.id]);
+    console.log("al apretar el mas, este es includedPlans", includedPlans);
+    console.log("se incluyo este al final", plan.id);
+    //setChange(!change);
+    //console.log(change);
+    dispatch(addPlan(plan));
+    //console.log("despues del dispatch", plans[8].users);
+
+    //setPlusMinus(!plusMinus);
+  };
+
+  const handlePressMinus = (plan) => {
+    const auxRemovePlans = includedPlans.filter((planToRemove) => {
+      console.log("los removed plans por id", planToRemove);
+      return planToRemove !== plan.id;
+    });
+    console.log("esto son los included plans del Minus", auxRemovePlans);
+    setIncludedPlans(auxRemovePlans);
+    dispatch(removePlan(plan));
+    //setChange(!change);
+    //console.log(change);
+    //setPlusMinus(!plusMinus);
+  };
+
   React.useEffect(() => {
+    if (me && me.id) {
+      const usersPlans = me.myPlans;
+      console.log("estos son los planes cargados al inc", usersPlans);
+      setIncludedPlans([...includedPlans, ...usersPlans]);
+    }
     dispatch(showPlans());
   }, []);
 
-  const Item = ({ id, img, name, description }) => (
+  // React.useEffect(() => {
+
+  // }, [setLocalPlans]);
+
+  // React.useEffect(() => {
+  //   dispatch(showPlans());
+  // }, [dispatch]);
+
+  // React.useEffect(() => {
+  //   const allPlans =
+  //   console.log("llegue a este useEffect")
+  //   console.log("estos son los plans", plans);
+  // }, []);
+
+  const Item = ({ item }) => (
     <TouchableOpacity
+      key={item.id}
       onPress={() =>
         navigation.navigate("SingleEvent", {
-          id: id,
-          eventName: name,
+          id: item.id,
+          eventName: item.name,
         })
       }
     >
       <View style={styles.cardContainer}>
-        <Card style={styles.cardStyle} key={id}>
-          <Card.Cover source={{ uri: img[0] }} />
+        <Card style={styles.cardStyle} key={item.id}>
+          <Card.Cover source={{ uri: item.img[0] }} />
           <Card.Content style={{ marginTop: 5 }}>
-            <Title style={styles.titleTxt}>{name}</Title>
-            <Paragraph style={styles.paragTxt}>{description}</Paragraph>
+            <Title style={styles.titleTxt}>{item.name}</Title>
+            <Paragraph style={styles.paragTxt}>
+              {item.description.substr(0, 40) + "..."}
+            </Paragraph>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: 5,
+              }}
+            >
+              {item.price ? (
+                <Text style={styles.priceTxt}>${item.price}</Text>
+              ) : (
+                <Text style={styles.priceTxt}>Gratis</Text>
+              )}
+
+              <Rating
+                count={5}
+                startingValue={Math.round(item.recommendation)}
+                imageSize={20}
+                readonly
+              />
+
+              {!me || !me.id
+                ? null
+                : [
+                    //!item.users.includes(me.id) ||
+                    !includedPlans.includes(item.id) ? ( //   //!me.myPlans.includes(item.id)
+                      <TouchableOpacity
+                        key={item.id}
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressPlus(item)}
+                      >
+                        <AntDesign
+                          name="pluscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        key={item.id}
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressMinus(item)}
+                      >
+                        <AntDesign
+                          name="minuscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ),
+                  ]}
+            </View>
           </Card.Content>
         </Card>
       </View>
     </TouchableOpacity>
   );
 
-  const renderItem = ({ item }) => (
-    <Item
-      id={item.id}
-      img={item.img}
-      name={item.name}
-      description={item.description}
-    />
-  );
+  const renderItem = ({ item }) => <Item item={item} />;
 
   return (
     <SafeAreaView>
+      <Text style={styles.textSubtitle}>Eventos promocionados</Text>
+      {/* {console.log("estos son los LocalPlans", localPlans[0])}
+      {console.log("estos son los plans", plans[0])} */}
+      {console.log("rerenders")}
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        data={plans}
+        data={plans} //data={localPlans} //
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        //extraData={change}
       />
     </SafeAreaView>
   );
@@ -71,16 +200,23 @@ const EventCard = ({ navigation }) => {
 export default EventCard;
 
 const styles = StyleSheet.create({
+  textSubtitle: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 18,
+    textAlign: "center",
+    color: "#23036A",
+    marginTop: 20,
+  },
   cardContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
   cardStyle: {
-    flex: 1,
-    margin: 15,
+    marginTop: 20,
+    marginLeft: 20,
     width: 300,
   },
   titleTxt: {
@@ -93,27 +229,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#23036A",
   },
+  priceTxt: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 13,
+    color: "#23036A",
+    textAlign: "center",
+  },
 });
-
-/*  
-ESTO ES UN SCROLLVIEW
-
-return (
-    
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-      <View style={styles.cardContainer} >
-        {
-          plans.map(event => (
-            <Card style={styles.cardStyle} key={event.id}>
-                <Card.Cover source={{uri: event.img}} />
-                <Card.Content style={{marginTop:5}}>
-                    <Title style={styles.titleTxt}>{event.name}</Title>
-                    <Paragraph style={styles.paragTxt} >{event.description}</Paragraph>
-                </Card.Content>
-            </Card>
-          ))
-        }
-      </View>
-    </ScrollView> 
-
-  ) */

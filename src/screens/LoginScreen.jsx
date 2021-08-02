@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import {
   StyleSheet,
@@ -10,35 +8,34 @@ import {
   Button,
 } from "react-native";
 import Svg, { Rect } from "react-native-svg";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import LoginForm from "../components/LoginForm";
-import Login from "./LoginFacebook";
+import MyAccountLoggedIn from "./MyAccountLoggedIn";
 
 const LoginScreen = ({ navigation }) => {
-  
+  const { me } = useSelector((store) => store.user);
   return (
     <SafeAreaView>
-      <ScrollView>
+      {me && me.id ? (
+        <MyAccountLoggedIn />
+      ) : (
         <View style={styles.container}>
-          <Svg height="100%" width="100%" style={{ position: "absolute" }}>
-            <Rect x="0" y="0" width="100%" height="30%" fill="#23036A" />
+
+
+          <Svg height={170} width="100%">
+            <Rect x="0" y="0" width="100%" height={170} fill="#23036A" />
           </Svg>
 
           <View style={styles.textContainer}>
-            <Text style={styles.textTitle}>Iniciá sesión</Text>
+            <Text style={styles.textTitle}>Nos alegra verte de nuevo!</Text>
           </View>
 
-          <View>
-            <LoginForm />
+          <View style={{marginTop:25,}}>
+            <LoginForm navigation={navigation} />
           </View>
 
-          {/* <Login /> */}
-
-          <Button
-            title="Registrate"
-            onPress={() => navigation.navigate("RegisterScreen")}
-          ></Button>
         </View>
-      </ScrollView>
+      )}
     </SafeAreaView>
   );
 };
@@ -47,17 +44,15 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
-    height: "100%",
-    width: "100%",
-    paddingBottom: 100,
+    width:'100%',
+    height:'100%',
   },
   textContainer: {
-    position: "absolute",
-    transform: [{ translateY: 60 }],
+    position:'absolute',
+    transform:([{translateY:70}]),
   },
   textTitle: {
     fontFamily: "Poppins_300Light",

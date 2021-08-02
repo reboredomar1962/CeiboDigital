@@ -7,24 +7,25 @@ import RegisterForm from '../components/RegisterForm';
 const RegisterScreen = ({navigation}) => {
     return (
       <SafeAreaView>
-        <ScrollView>
 
         <View style={styles.container}>
 
-          <Svg height="100%" width="100%" style={{position: 'absolute'}}>
-              <Rect x="0" y="0" width="100%" height="30%" fill="#23036A" />
+
+          <Svg height="170" width="100%">
+              <Rect x="0" y="0" width="100%" height="170" fill="#23036A" />
           </Svg>
+
 
           <View style={styles.textContainer}>
             <Text style={styles.textTitle}>Creá tu cuenta</Text>
           </View>
 
-          <View style={{position:'relative', transform:([{translateY:200}])}}>
+          <View style={{marginTop:25,}}>
           <RegisterForm navigation={navigation}/>
           </View>
+        
 
         </View>
-        </ScrollView>
         </SafeAreaView>
     )
 }
@@ -33,23 +34,19 @@ export default RegisterScreen;
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: "#fff",
       alignItems: "center",
       justifyContent: "flex-start",
-      height:550,
+      height:'100%',
+      width:'100%',
     },
     textContainer: {
       position:'absolute',
-      transform:([{translateY:60}]),
+      transform:([{translateY:70}]),
     },
     textTitle: {
       fontFamily: 'Poppins_300Light',
       fontSize: 18,
       color: '#fff',
-    },
-    formContainer: {
-      position:'absolute',
-      transform:([{translateY:60}]),
     },
   });

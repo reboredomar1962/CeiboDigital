@@ -2,9 +2,12 @@ const { Plan, Comments, User } = require("../models/");
 
 // get planes
 const getPlanes = (req, res, next) => {
-  Plan.find({}).then((planes) => {
-    res.json(planes);
-  });
+  Plan.find({})
+    .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
+    .sort({ planDate: "asc" })
+    .then((planes) => {
+      res.json(planes);
+    });
 };
 
 // get one plan by id
@@ -14,6 +17,7 @@ const getOnePlan = (req, res, next) => {
     .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
     .then((plan) => {
       if (plan) {
+        console.log("plan ->", plan);
         return res.json(plan);
       } else {
         res.status(404);
@@ -28,6 +32,7 @@ const getOnePlan = (req, res, next) => {
 const getPlansByCategory = (req, res, next) => {
   const { category } = req.params;
   Plan.find({ category: category })
+    .sort({ planDate: "asc" })
     .then((allPlans) => {
       if (allPlans) {
         return res.json(allPlans);
@@ -47,10 +52,8 @@ const getPlanByFilters = (req, res, next) => {
   // Para filtro fecha, quiero todos los eventos en la fecha? antes de la fecha? despues de la fecha? en ese mes y año?
   // ver si tengo que hacer que el input fecha sea de alguna forma. al parecer es yyyy-mm-dd (https://mongoosejs.com/docs/tutorials/dates.html)
 
-  const {
+  let {
     planDate,
-    planDateBefore,
-    planDateAfter,
     address,
     priceMin,
     priceMax,
@@ -59,15 +62,25 @@ const getPlanByFilters = (req, res, next) => {
     free,
     afterFirstPrivate,
     afterFirstFree,
+    public,
+    paid,
+    afterFirstPublic,
+    afterFirstPaid,
+    //afterFirstRecommendation
   } = req.body;
 
   let priceRange = false;
-  if (priceMin && priceMax) priceRange = true;
+  if (priceMin && priceMax) {
+    if (priceMin > priceMax) {
+      auxPriceMin = priceMin;
+      priceMin = priceMax;
+      priceMax = auxPriceMin;
+    }
+    priceRange = true;
+  }
 
   let queryCond = {
-    ...(planDate && { planDate }),
-    ...(planDateBefore && { planDate: { $lt: planDateBefore } }),
-    ...(planDateAfter && { planDate: { $gt: planDateAfter } }),
+    ...(planDate && { planDate: { $gte: new Date(planDate) } }),
     ...(address && { address }),
     ...(priceMin && { price: { $gte: priceMin } }),
     ...(priceMax && { price: { $lte: priceMax } }),
@@ -75,11 +88,14 @@ const getPlanByFilters = (req, res, next) => {
     ...(recommendation && { recommendation: { $gte: recommendation } }),
     ...(afterFirstPrivate && { private }),
     ...(afterFirstFree && { free }),
+    ...(afterFirstPublic && { private: false }),
+    ...(afterFirstPaid && { free: false }),
   };
 
   console.log("este es el queryCond", queryCond);
 
   Plan.find(queryCond)
+    .sort({ planDate: "asc" })
     .then((search) => {
       if (!search) res.status(404);
       res.status(200).json(search);
@@ -93,6 +109,7 @@ const getPlanByQuery = (req, res, next) => {
   const { name } = req.query;
 
   Plan.find({ name: { $regex: name, $options: "i" } })
+    .sort({ planDate: "asc" })
     .then((search) => {
       if (!search) res.status(404);
       res.status(200).json(search);
@@ -146,6 +163,7 @@ const getComments = (req, res, next) => {
 
 // post plan
 const postComments = (req, res, next) => {
+  console.log("LLEGAMOS AKI?????", req.body, req.user);
   const { comentario, valoracion } = req.body;
   const planId = req.params.id;
   const { id } = req.user;
@@ -167,7 +185,7 @@ const postComments = (req, res, next) => {
       valoracion,
       comentario,
     });
-    /// PREGUNTAR A GUS
+
     newComment.save().then((comment) => {
       plan.comments = plan.comments.concat(comment);
       plan.save();

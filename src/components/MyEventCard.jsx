@@ -24,7 +24,7 @@ const MyEventCard = () => (
         {myEvents.map(event => (
             <Card style={styles.cardStyle} key={event.id}>
                 <Card.Cover source={{uri: event.image}} />
-                <Card.Content style={{marginTop:5}}>
+                <Card.Content style={{marginTop:5,}}>
                     <Title style={styles.titleTxt}>{event.title}</Title>
                     <Paragraph style={styles.paragTxt} >{event.paragraph}</Paragraph>
                 </Card.Content>
