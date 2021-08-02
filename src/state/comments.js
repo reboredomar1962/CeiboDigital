@@ -6,7 +6,7 @@ const initialState = {
   comments: [],
 };
 
-const ip = "192.168.0.3";
+const ip = "10.0.2.2";
 
 export const createComment = createAsyncThunk(
   "CREATE_COMMENT",

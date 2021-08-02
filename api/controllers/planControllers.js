@@ -54,6 +54,7 @@ const getPlanByFilters = (req, res, next) => {
 
   let {
     planDate,
+    planDateEnd,
     address,
     priceMin,
     priceMax,
