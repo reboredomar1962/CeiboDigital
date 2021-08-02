@@ -6,20 +6,25 @@ const initialState = {
   comments: [],
 };
 
-
-export const createComment = createAsyncThunk("CREATE_COMMENT", (commentObj) => {
-  const {planId} = commentObj
-  console.log('LLEGAMOS AKKIIIII', commentObj)
-  return AsyncStorage.getItem("token")
-    .then((token) => {
-      return axios.post(`http://10.0.2.2:3001/api/plan/${planId}/comments`, commentObj, {
-        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
-      });
-    })
-    .then((res) => res.data)
-    .catch((err) => console.log("este es el error desde comments --->", err));
-});
-
+export const createComment = createAsyncThunk(
+  "CREATE_COMMENT",
+  (commentObj) => {
+    const { planId } = commentObj;
+    console.log("LLEGAMOS AKKIIIII", commentObj);
+    return AsyncStorage.getItem("token")
+      .then((token) => {
+        return axios.post(
+          `http://10.0.2.2:3001/api/plan/${planId}/comments`,
+          commentObj,
+          {
+            headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+          }
+        );
+      })
+      .then((res) => res.data)
+      .catch((err) => console.log("este es el error desde comments --->", err));
+  }
+);
 
 export const showComments = createAsyncThunk("SHOW_COMMENTS", (planId) => {
   return AsyncStorage.getItem("token")
@@ -35,8 +40,9 @@ export const showComments = createAsyncThunk("SHOW_COMMENTS", (planId) => {
 });
 
 const commentsReducer = createReducer(initialState, {
+  // Recordar destructurar el "crearComentarios" para poder traer los comentarios anteriores 
   [createComment.fulfilled]: (state, action) => {
-    action.payload;
+    state.comments = [...state.comments, action.payload];
   },
   [showComments.fulfilled]: (state, action) => {
     state.comments = action.payload;

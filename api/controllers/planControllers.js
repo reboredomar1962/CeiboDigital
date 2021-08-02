@@ -154,17 +154,19 @@ const deletePlan = (req, res, next) => {
 
 // get planes
 const getComments = (req, res, next) => {
-  Comments.find({}).then((comments) => {
+  const planId = req.params.id;
+  Comments.find({ planId }).then((comments) => {
     res.json(comments);
   });
 };
 
 // post plan
 const postComments = (req, res, next) => {
-  console.log("LLEGAMOS AKI?????", req.body, req.user);
   const { comentario, valoracion } = req.body;
   const planId = req.params.id;
   const { id } = req.user;
+
+  console.log("tipo de planId", typeof planId);
 
   if (!comentario) {
     return res.status(400).json({
@@ -182,6 +184,7 @@ const postComments = (req, res, next) => {
       userId: user,
       valoracion,
       comentario,
+      planId,
     });
 
     newComment.save().then((comment) => {
