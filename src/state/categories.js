@@ -12,10 +12,10 @@ const initialState = {
 
 export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  const ip = "192.168.0.3";
   return axios
 
-
-    .get(`http://${os}:3001/api/category`)
+    .get(`http://${ip}:3001/api/category`)
 
     .then((res) => res.data)
     .catch((error) =>
