@@ -1,5 +1,6 @@
 const { Plan, Category, User } = require("../models");
 const db = require("../db");
+const bcrypt = require("bcrypt");
 
 const categories = [
   {
@@ -457,7 +458,7 @@ const users = [
     age: 31,
     img: null,
     email: "ale@ale.com",
-    password: "123",
+    password: "Al123456",
     contacts: [],
     myPlans: [],
     categories: [],
@@ -468,7 +469,7 @@ const users = [
     age: 31,
     img: null,
     email: "ivan@ivan.com",
-    password: "123",
+    password: "Al123456",
     contacts: [],
     myPlans: [],
     categories: [],
@@ -479,7 +480,8 @@ const users = [
     age: 31,
     img: null,
     email: "marti@marti.com",
-    password: "123",
+    password: "Al123456",
+
     contacts: [],
     myPlans: [],
     categories: [],
@@ -490,7 +492,8 @@ const users = [
     age: 31,
     img: null,
     email: "alezu@alezu.com",
-    password: "123",
+    password: "Al123456",
+
     contacts: [],
     myPlans: [],
     categories: [],
@@ -501,7 +504,8 @@ const users = [
     age: 31,
     img: null,
     email: "eri@eri.com",
-    password: "123",
+    password: "Al123456",
+
     contacts: [],
     myPlans: [],
     categories: [],

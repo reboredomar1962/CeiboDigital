@@ -16,7 +16,6 @@ import { useForm, Controller } from "react-hook-form";
 //Screen import
 import Login from "../screens/LoginFacebook";
 
-
 const LoginForm = ({ navigation }) => {
   const {
     control,
@@ -27,8 +26,7 @@ const LoginForm = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    dispatch(loginUser(data))
-    .then(() => navigation.navigate("Home"))
+    dispatch(loginUser(data)).then(() => navigation.navigate("Home"));
   };
 
   return (
@@ -92,18 +90,26 @@ const LoginForm = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{marginTop:4}}>
-        <Text style={{ fontFamily: "Poppins_500Medium", color: "#23036A", textAlign:'center' }}>o</Text>
-
+        <View style={{ marginTop: 4 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins_500Medium",
+              color: "#23036A",
+              textAlign: "center",
+            }}
+          >
+            o
+          </Text>
         </View>
-
 
         <View>
           <Login />
         </View>
 
         <View style={{ flexDirection: "row", marginTop: 20 }}>
-          <Text style={{ fontFamily: "Poppins_300Light", color: "#23036A" }}>No tenes una cuenta? </Text>
+          <Text style={{ fontFamily: "Poppins_300Light", color: "#23036A" }}>
+            No tenes una cuenta?{" "}
+          </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate("RegisterScreen")}
           >
@@ -123,8 +129,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "flex-start",
-    width:'100%',
-    height:'100%',
+    width: "100%",
+    height: "100%",
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",

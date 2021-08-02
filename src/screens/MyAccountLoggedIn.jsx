@@ -57,7 +57,9 @@ const MyAccountLoggedIn = ({ navigation }) => {
           />
           {me.myPlans.length ? (
             me.myPlans.map((plan) => (
-              <Text style={styles.paragTxt}>{plan}</Text>
+              <Text key={plan.id} style={styles.paragTxt}>
+                {plan}
+              </Text>
             ))
           ) : (
             <Text style={styles.paragTxt}>No hay planes guardados</Text>

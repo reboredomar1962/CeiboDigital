@@ -17,11 +17,14 @@ import { addPlan, userMe, removePlan } from "../state/user";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { Rating } from "react-native-elements";
+import _ from "lodash";
 
 const EventCard = ({ navigation }) => {
   //const [state, setState] = React.useState({ open: false });
-  const [change, setChange] = React.useState(false);
+  //const [change, setChange] = React.useState(false);
   //const onStateChange = ({ open }) => setState({ open });
+  //const [localPlans, setLocalPlans] = React.useState([]);
+  const [includedPlans, setIncludedPlans] = React.useState([]);
 
   //const { open } = state;
 
@@ -32,29 +35,54 @@ const EventCard = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handlePressPlus = (plan) => {
-    const oldUsers = plan.users;
-    const oldPlan = { ...plan, users: [...oldUsers, me.id] };
-    const newPlan = Object.assign(plan);
+    // const oldUsers = plan.users;
+    // const oldPlan = { ...plan, users: [...oldUsers, me.id] };
+    // // const newPlan = Object.assign(plan);
+    // const auxLocalPlans = localPlans.filter(
+    //   (singlePlan) => singlePlan.id !== plan.id
+    // );
 
     //const newPlan = { ...plan, users: [...oldUsers, me.id] };
-    console.log("antes del dispatch", plans[8].users);
-    dispatch(addPlan(newPlan));
-    console.log("despues del dispatch", plans[8].users);
-    console.log(change);
-    setChange(!change);
+    //console.log("antes del dispatch", plans[8].users);
+    //setLocalPlans([...auxLocalPlans, oldPlan]);
+    //console.log("este es el plan", plan);
+    //console.log("este es el oldPlan", plan);
+    setIncludedPlans([...includedPlans, plan.id]);
+    console.log("al apretar el mas, este es includedPlans", includedPlans);
+    console.log("se incluyo este al final", plan.id);
+    //setChange(!change);
+    //console.log(change);
+    dispatch(addPlan(plan));
+    //console.log("despues del dispatch", plans[8].users);
+
     //setPlusMinus(!plusMinus);
   };
 
   const handlePressMinus = (plan) => {
+    const auxRemovePlans = includedPlans.filter((planToRemove) => {
+      console.log("los removed plans por id", planToRemove);
+      return planToRemove !== plan.id;
+    });
+    console.log("esto son los included plans del Minus", auxRemovePlans);
+    setIncludedPlans(auxRemovePlans);
     dispatch(removePlan(plan));
-    setChange(!change);
-    console.log(change);
+    //setChange(!change);
+    //console.log(change);
     //setPlusMinus(!plusMinus);
   };
 
   React.useEffect(() => {
+    if (me && me.id) {
+      const usersPlans = me.myPlans;
+      console.log("estos son los planes cargados al inc", usersPlans);
+      setIncludedPlans([...includedPlans, ...usersPlans]);
+    }
     dispatch(showPlans());
   }, []);
+
+  // React.useEffect(() => {
+
+  // }, [setLocalPlans]);
 
   // React.useEffect(() => {
   //   dispatch(showPlans());
@@ -109,7 +137,8 @@ const EventCard = ({ navigation }) => {
               {!me || !me.id
                 ? null
                 : [
-                    !item.users.includes(me.id) ? ( //   //!me.myPlans.includes(item.id)
+                    //!item.users.includes(me.id) ||
+                    !includedPlans.includes(item.id) ? ( //   //!me.myPlans.includes(item.id)
                       <TouchableOpacity
                         key={item.id}
                         style={{
@@ -153,12 +182,16 @@ const EventCard = ({ navigation }) => {
   return (
     <SafeAreaView>
       <Text style={styles.textSubtitle}>Eventos promocionados</Text>
+      {/* {console.log("estos son los LocalPlans", localPlans[0])}
+      {console.log("estos son los plans", plans[0])} */}
+      {console.log("rerenders")}
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        data={plans}
+        data={plans} //data={localPlans} //
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        //extraData={change}
       />
     </SafeAreaView>
   );

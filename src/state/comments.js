@@ -24,9 +24,7 @@ export const createComment = createAsyncThunk("CREATE_COMMENT", (commentObj) => 
 export const showComments = createAsyncThunk("SHOW_COMMENTS", (planId) => {
   return AsyncStorage.getItem("token")
     .then((token) => {
-
       return axios.get(`http://10.0.2.2:3001/api/plan/${planId}/comments`, {
-
         headers: { Authorization: `Bearer ${JSON.parse(token)}` },
       });
     })
