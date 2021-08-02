@@ -3,6 +3,7 @@ const { Plan, Comments, User } = require("../models/");
 // get planes
 const getPlanes = (req, res, next) => {
   Plan.find({})
+    .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
     .sort({ planDate: "asc" })
     .then((planes) => {
       res.json(planes);
@@ -16,6 +17,7 @@ const getOnePlan = (req, res, next) => {
     .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
     .then((plan) => {
       if (plan) {
+        console.log("plan ->", plan);
         return res.json(plan);
       } else {
         res.status(404);

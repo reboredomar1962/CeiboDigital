@@ -42,7 +42,13 @@ userSchema.set("toJSON", {
 // Validacion de password
 
 userSchema.methods.isValidPassword = function (password) {
-  return bcrypt.compare(password, this.password).then((res) => res);
+  // return bcrypt.compare(password, this.password).then((res) => res);
+  return bcrypt
+    .hash(password, this.salt)
+    .then((result) => {
+      return result === this.password;
+    })
+    .catch((err) => console.log(err));
 };
 
 // Anadiendo un hook que me guarde el salt

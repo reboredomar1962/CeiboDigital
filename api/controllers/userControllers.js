@@ -79,6 +79,12 @@ const addPlan = (req, res, next) => {
 const getOneUser = (req, res, next) => {
   const { id } = req.params;
   User.findById(id)
+    .populate("plan", {
+      name: 1,
+      price: 1,
+      capacity: 1,
+      address: 1,
+    })
     .then((user) => {
       if (user.name) {
         return res.json(user);
@@ -132,6 +138,7 @@ const loginUser = async (req, res, next) => {
     return res.status(400).json({ msg: "Usuario no encontrado" });
   }
   const validate = await user.isValidPassword(password);
+  console.log("Validate -> ", validate);
 
   if (!validate) {
     return res.status(401).json({ msg: "Password invalido" });
@@ -146,7 +153,16 @@ const getMe = (req, res, next) => {
   const { id } = req.user;
 
   User.findById(id)
+    .populate("myPlans", {
+      name: 1,
+      creationDate: 1,
+      planDate: 1,
+      address: 1,
+      price: 1,
+      img: 1,
+    })
     .then((user) => {
+      console.log("user->", user);
       if (user.name) {
         return res.json(user);
       } else {
@@ -185,7 +201,6 @@ const logoutUser = (req, res, next) => {
 };
 
 const removePlan = (req, res, next) => {
-
   console.log("LLEGUE A LA RUTAAASA !!!!! ");
   const { id } = req.user;
   const idPlan = req.params.id;
@@ -211,7 +226,6 @@ const removePlan = (req, res, next) => {
       next(err);
     });
 };
-
 
 module.exports = {
   getUser,
