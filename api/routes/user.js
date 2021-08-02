@@ -15,6 +15,7 @@ const {
   removePlan,
   addFriend,
   removeFriend,
+  addCategory
 } = require("../controllers/userControllers");
 
 router.get("/me", authenticateJWT, getMe);
@@ -30,6 +31,8 @@ router.get("/", getUser);
 router.post("/planToAttend", authenticateJWT, addPlan);
 // add friend to user
 router.post("/friend", authenticateJWT, addFriend);
+// add category to user
+router.post("/category", authenticateJWT, addCategory);
 // remove a plan from user
 router.delete("/deletePlan/:id", authenticateJWT, removePlan);
 // remove a plan from user

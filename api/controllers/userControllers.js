@@ -1,4 +1,4 @@
-const { User, Plan } = require("../models/");
+const { User, Plan, Category} = require("../models/");
 const jwt = require("jsonwebtoken");
 
 const accessTokenSecret = "ceiboDigital";
@@ -124,6 +124,9 @@ const getMe = (req, res, next) => {
       lastName: 1,
       email:1,
     })
+    .populate("categories" , {
+      type: 1,
+    })
 
     .then((user) => {
       console.log("user->", user);
@@ -231,6 +234,24 @@ const removeFriend = (req, res, next) => {
     });
 };
 
+const addCategory = (req, res, next) => {
+  const { id } = req.user;
+  const categoryId = req.body.id;
+  const userPromise = User.findById(id);
+  const categoryPromise = Category.findById(categoryId);
+
+  Promise.all([userPromise, categoryPromise])
+    .then((values) => {
+      const [user, category] = values;
+      user.categories = user.categories.concat(category);
+      user.save();
+      res.status(200).send("categoria agregada");
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 module.exports = {
   getUser,
   getOneUser,
@@ -243,5 +264,6 @@ module.exports = {
   addPlan,
   removePlan,
   addFriend,
-  removeFriend
+  removeFriend,
+  addCategory
 };
