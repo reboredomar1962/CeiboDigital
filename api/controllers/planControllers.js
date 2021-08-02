@@ -17,7 +17,6 @@ const getOnePlan = (req, res, next) => {
     .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
     .then((plan) => {
       if (plan) {
-        console.log("plan ->", plan);
         return res.json(plan);
       } else {
         res.status(404);
@@ -189,6 +188,7 @@ const postComments = (req, res, next) => {
     newComment.save().then((comment) => {
       plan.comments = plan.comments.concat(comment);
       plan.save();
+      plan.average();
       res.json(comment);
     });
   });
