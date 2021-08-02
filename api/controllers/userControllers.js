@@ -252,6 +252,26 @@ const addCategory = (req, res, next) => {
     });
 };
 
+const removeCategory = (req,res,next)=>{
+
+  const { id } = req.user;
+  const categoryId = req.body.id;
+  const userPromise = User.findById(id);
+  const categoryPromise = Category.findById(categoryId);
+
+  Promise.all([userPromise, categoryPromise])
+  .then ((values)=>{
+    const [user, category] = values;
+    console.log("user y category", user, category);
+    user.categories = user.categories.filter(category=> category != categoryId)
+    user.save();
+    res.status(200).send("categoria eliminada")
+  })
+  .catch((err) => {
+    next(err);
+  });
+}
+
 module.exports = {
   getUser,
   getOneUser,
@@ -265,5 +285,6 @@ module.exports = {
   removePlan,
   addFriend,
   removeFriend,
-  addCategory
+  addCategory,
+  removeCategory
 };
