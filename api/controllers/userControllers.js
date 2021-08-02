@@ -12,49 +12,7 @@ const getUser = (req, res, next) => {
     });
 };
 
-const addFriend = (req, res, next) => {
-  //tengo la info del usuario loggeado. Como llega desde el front?
-  const loggedUser = {
-    contacts: [],
-    myPlans: [],
-    categories: [],
-    name: "marti",
-    lastName: "rebo",
-    age: 19,
-    img: "vnjgvo",
-    email: "mar@mar.com",
-    password: "$2b$16$N.pGRb2hb3yh0DgrV4PBL.jYUTNDgQXvK5JyEfASjayaTmuUhvcUO",
-    salt: "$2b$16$N.pGRb2hb3yh0DgrV4PBL.",
-    id: "60f5c3a7e0cd0625e37f5382",
-  }; //ver de donde sacar el logged user
 
-  // que informacion nos llega desde el front al momento de
-  // no se que nos va a pasar el apretar boton
-  const userFriend = {
-    contacts: [],
-    myPlans: [],
-    categories: [],
-    name: "alejandro",
-    lastName: "ro",
-    age: 31,
-    img: "lala",
-    email: "lala@lala.com",
-    password: "$2b$16$6FRF5AeFJ2PesLiBbmt2leTnOnTIQXFPv2.YdxNYU0VwJUGbEnBFW",
-    salt: "$2b$16$6FRF5AeFJ2PesLiBbmt2le",
-    id: "60f5c383e0cd0625e37f5380",
-  };
-
-  User.findById(loggedUser.id)
-    .then((user) => {
-      if (!user.contacts.includes(userFriend.id)) {
-        user.contacts = user.contacts.concat(userFriend.id);
-        user.save();
-      }
-      return user;
-    })
-    .then((user) => res.status(201).send(user))
-    .catch((err) => console.log(err));
-};
 
 const addPlan = (req, res, next) => {
   const { id } = req.user;
@@ -231,10 +189,49 @@ const removePlan = (req, res, next) => {
     });
 };
 
+
+const addFriend = (req, res, next) => {
+  const { id } = req.user;
+  const friendId = req.body.id;
+  const userPromise = User.findById(id);
+  const friendPromise = User.findById(friendId);
+
+  Promise.all([userPromise, friendPromise])
+    .then((values) => {
+      const [user, friend] = values;
+      user.contacts = user.contacts.concat(friend);
+      user.save();
+      res.status(200).send("amigo agregado");
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+const removeFriend = (req, res, next) => {
+  const { id } = req.user;
+  const idFriend = req.body.id;
+
+  const userPromise = User.findById(id);
+  const friendPromise = User.findById(idFriend);
+
+  Promise.all([userPromise, friendPromise])
+    .then((values) => {
+      const [user, friend] = values;
+      user.contacts = user.contacts.filter((friendId) => friendId != idFriend);
+      user.save();
+      res.status(200).send("amigo eliminado");
+      console.log("user", user)
+      console.log("friend", friend)
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 module.exports = {
   getUser,
   getOneUser,
-  addFriend,
   postUser,
   updateUser,
   deleteUser,
@@ -243,4 +240,6 @@ module.exports = {
   getMe,
   addPlan,
   removePlan,
+  addFriend,
+  removeFriend
 };
