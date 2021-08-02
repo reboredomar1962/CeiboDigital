@@ -12,49 +12,7 @@ const getUser = (req, res, next) => {
     });
 };
 
-const addFriend = (req, res, next) => {
-  //tengo la info del usuario loggeado. Como llega desde el front?
-  const loggedUser = {
-    contacts: [],
-    myPlans: [],
-    categories: [],
-    name: "marti",
-    lastName: "rebo",
-    age: 19,
-    img: "vnjgvo",
-    email: "mar@mar.com",
-    password: "$2b$16$N.pGRb2hb3yh0DgrV4PBL.jYUTNDgQXvK5JyEfASjayaTmuUhvcUO",
-    salt: "$2b$16$N.pGRb2hb3yh0DgrV4PBL.",
-    id: "60f5c3a7e0cd0625e37f5382",
-  }; //ver de donde sacar el logged user
 
-  // que informacion nos llega desde el front al momento de
-  // no se que nos va a pasar el apretar boton
-  const userFriend = {
-    contacts: [],
-    myPlans: [],
-    categories: [],
-    name: "alejandro",
-    lastName: "ro",
-    age: 31,
-    img: "lala",
-    email: "lala@lala.com",
-    password: "$2b$16$6FRF5AeFJ2PesLiBbmt2leTnOnTIQXFPv2.YdxNYU0VwJUGbEnBFW",
-    salt: "$2b$16$6FRF5AeFJ2PesLiBbmt2le",
-    id: "60f5c383e0cd0625e37f5380",
-  };
-
-  User.findById(loggedUser.id)
-    .then((user) => {
-      if (!user.contacts.includes(userFriend.id)) {
-        user.contacts = user.contacts.concat(userFriend.id);
-        user.save();
-      }
-      return user;
-    })
-    .then((user) => res.status(201).send(user))
-    .catch((err) => console.log(err));
-};
 
 const addPlan = (req, res, next) => {
   const { id } = req.user;
@@ -79,6 +37,12 @@ const addPlan = (req, res, next) => {
 const getOneUser = (req, res, next) => {
   const { id } = req.params;
   User.findById(id)
+    .populate("plan", {
+      name: 1,
+      price: 1,
+      capacity: 1,
+      address: 1,
+    })
     .then((user) => {
       if (user.name) {
         return res.json(user);
@@ -132,6 +96,7 @@ const loginUser = async (req, res, next) => {
     return res.status(400).json({ msg: "Usuario no encontrado" });
   }
   const validate = await user.isValidPassword(password);
+  console.log("Validate -> ", validate);
 
   if (!validate) {
     return res.status(401).json({ msg: "Password invalido" });
@@ -146,7 +111,22 @@ const getMe = (req, res, next) => {
   const { id } = req.user;
 
   User.findById(id)
+    .populate("myPlans", {
+      name: 1,
+      creationDate: 1,
+      planDate: 1,
+      address: 1,
+      price: 1,
+      img: 1,
+    })
+    .populate("contacts", {
+      name: 1,
+      lastName: 1,
+      email:1,
+    })
+
     .then((user) => {
+      console.log("user->", user);
       if (user.name) {
         return res.json(user);
       } else {
@@ -185,7 +165,6 @@ const logoutUser = (req, res, next) => {
 };
 
 const removePlan = (req, res, next) => {
-
   console.log("LLEGUE A LA RUTAAASA !!!!! ");
   const { id } = req.user;
   const idPlan = req.params.id;
@@ -213,10 +192,48 @@ const removePlan = (req, res, next) => {
 };
 
 
+const addFriend = (req, res, next) => {
+  const { id } = req.user;
+  const friendId = req.body.id;
+  const userPromise = User.findById(id);
+  const friendPromise = User.findById(friendId);
+
+  Promise.all([userPromise, friendPromise])
+    .then((values) => {
+      const [user, friend] = values;
+      user.contacts = user.contacts.concat(friend);
+      user.save();
+      res.status(200).send("amigo agregado");
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+const removeFriend = (req, res, next) => {
+  const { id } = req.user;
+  const idFriend = req.body.id;
+
+  const userPromise = User.findById(id);
+  const friendPromise = User.findById(idFriend);
+
+  Promise.all([userPromise, friendPromise])
+    .then((values) => {
+      const [user, friend] = values;
+      user.contacts = user.contacts.filter((friendId) => friendId != idFriend);
+      user.save();
+      res.status(200).send("amigo eliminado");
+      console.log("user", user)
+      console.log("friend", friend)
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 module.exports = {
   getUser,
   getOneUser,
-  addFriend,
   postUser,
   updateUser,
   deleteUser,
@@ -225,4 +242,6 @@ module.exports = {
   getMe,
   addPlan,
   removePlan,
+  addFriend,
+  removeFriend
 };
