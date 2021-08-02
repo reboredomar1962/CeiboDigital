@@ -146,6 +146,7 @@ const getMe = (req, res, next) => {
   const { id } = req.user;
 
   User.findById(id)
+    .populate("plan", {name:1, planDate:1, price:1, address:1, category:1})
     .then((user) => {
       if (user.name) {
         return res.json(user);
@@ -156,6 +157,8 @@ const getMe = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+
+    
 };
 // router.post("/login", async (req, res, next) => {
 //   const { email, password } = req.body;
