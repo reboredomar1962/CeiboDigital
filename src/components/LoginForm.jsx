@@ -102,9 +102,9 @@ const LoginForm = ({ navigation }) => {
           </Text>
         </View>
 
-        <View>
+        {/* <View>
           <Login />
-        </View>
+        </View> */}
 
         <View style={{ flexDirection: "row", marginTop: 20 }}>
           <Text style={{ fontFamily: "Poppins_300Light", color: "#23036A" }}>

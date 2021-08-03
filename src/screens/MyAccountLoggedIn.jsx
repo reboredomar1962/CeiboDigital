@@ -16,7 +16,6 @@ import { logoutUser } from "../state/user";
 import { Avatar } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
 import * as ImagePicker from 'expo-image-picker';
-import { Divider } from 'react-native-paper';
 //Icons import
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -95,7 +94,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
           <Text style={styles.paragTxt}>{me.email}</Text>
         </View>
 
-        <Divider style={{borderBottomWidth:5}} />
+        
 
           <TouchableOpacity style={styles.itemsStyle}>
         
