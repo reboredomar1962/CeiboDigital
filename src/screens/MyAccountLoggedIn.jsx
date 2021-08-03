@@ -12,34 +12,24 @@ import {
 //Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../state/user";
-import { showSinglePlan } from "../state/plan";
 //Libraries imports
-import { Avatar, ListItem } from "react-native-elements";
+import { Avatar } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
 import * as ImagePicker from 'expo-image-picker';
+import { Divider } from 'react-native-paper';
 //Icons import
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 const MyAccountLoggedIn = ({ navigation }) => {
+
   const { me } = useSelector((store) => store.user);
-  const { singlePlan } = useSelector(store => store.plan)
   const dispatch = useDispatch();
-  const [userPlans, setUserPlans] = React.useState([])
   const [image, setImage] = React.useState(null);
+
   console.log("myAccount", me);
 
-  React.useEffect(() => {
-    let mounted = true;
-    if(me.myPlans.length){
-      for(let i = 0; i < me.myPlans.length; i++){
-        if (mounted) setUserPlans(me.myPlans[i])
-      }
-    }
-    return () => mounted = false;
-  }, [me.myPlans])
 
   React.useEffect(() => {
     (async () => {
@@ -66,6 +56,8 @@ const MyAccountLoggedIn = ({ navigation }) => {
       setImage(result.uri);
     }
   };
+
+  
 
   return (
     <View style={styles.container}>
@@ -103,48 +95,21 @@ const MyAccountLoggedIn = ({ navigation }) => {
           <Text style={styles.paragTxt}>{me.email}</Text>
         </View>
 
-        {/* <View style={styles.itemsStyle}>
-          <MaterialCommunityIcons
-            name="calendar-heart"
-            size={24}
-            color="#985EFF"
-          />
-          {me.myPlans.length ? 
+        <Divider style={{borderBottomWidth:5}} />
 
-              <View>
-              {me.myPlans.map(plan => (
-                  <Text key={plan.id} style={styles.paragTxt}>{plan.name}</Text>))}
-                
-              
-                </View>
+          <TouchableOpacity style={styles.itemsStyle}>
         
-          : 
-          
-            (<Text style={styles.paragTxt}>No hay planes guardados</Text>)
-
-          }
-        </View> */}
-
-        <View style={styles.itemsStyle}>
           <AntDesign name="contacts" size={24} color="#985EFF" />
-          {me.contacts.length ? (
-            me.contacts.map((contact) => (
-              <Text style={styles.paragTxt}>{contact}</Text>
-            ))
-          ) : (
-            <Text style={styles.paragTxt}>No hay contactos</Text>
-          )}
-        </View>
+          <Text style={styles.paragTxt}>Contactos</Text>
+          <AntDesign name="right" size={18} color="#985EFF" style={{marginLeft:180}}/>
+        
+          </TouchableOpacity>
+
+          
 
         <View style={styles.itemsStyle}>
           <Ionicons name="list-outline" size={24} color="#985EFF" />
-          {me.categories.length ? (
-            me.categories.map((category) => (
-              <Text style={styles.paragTxt}>{category}</Text>
-            ))
-          ) : (
-            <Text style={styles.paragTxt}>No hay categorias guardadas</Text>
-          )}
+            <Text style={styles.paragTxt}>Categorias</Text>
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
