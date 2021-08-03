@@ -7,12 +7,23 @@ import {
     FlatList,
     TouchableOpacity,
   } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 const NextEvents = () => {
+    const { me } = useSelector((store) => store.user);
+
     return (
-        <View>
-            <Text>Next events</Text>
-        </View>
+        <SafeAreaView>
+            {me && me.id ?
+            
+            <Text>Estas logueado</Text>
+
+            :
+
+            <Text>No estas logueado</Text>
+
+            }
+        </SafeAreaView>
     )
 }
 

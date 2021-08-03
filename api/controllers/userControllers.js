@@ -137,6 +137,8 @@ const getMe = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+
+    
 };
 // router.post("/login", async (req, res, next) => {
 //   const { email, password } = req.body;
