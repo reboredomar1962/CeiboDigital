@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Mongoose } = require("mongoose");
 
 const planSchema = new Schema({
   name: {
@@ -53,6 +53,16 @@ planSchema.set("toJSON", {
     delete returnedObject.__v;
   },
 });
+
+planSchema.methods.average = function () {
+  console.log(this.comments);
+  let total = 0;
+  this.comments.map((comment) => {
+    total += parseInt(comment.valoracion);
+  });
+  let resultado = total / this.comments.length;
+  this.recommendation = resultado;
+};
 
 const Plan = model("plan", planSchema);
 
