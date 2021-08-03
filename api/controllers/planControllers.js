@@ -80,8 +80,16 @@ const getPlanByFilters = (req, res, next) => {
     priceRange = true;
   }
 
+  let dateRange = false;
+
+  if (planDate && planDateEnd) priceRange = true;
+
   let queryCond = {
     ...(planDate && { planDate: { $gte: new Date(planDate) } }),
+    ...(planDate && { planDate: { $lte: new Date(planDateEnd) } }),
+    ...(dateRange && {
+      planDate: { $gte: new Date(planDate), $lte: new Date(planDateEnd) },
+    }),
     ...(address && { address }),
     ...(priceMin && { price: { $gte: priceMin } }),
     ...(priceMax && { price: { $lte: priceMax } }),
