@@ -16,7 +16,16 @@ const NextEvents = () => {
         <SafeAreaView>
             {me && me.id ?
             
-            <Text>Estas logueado</Text>
+            (
+                <View>
+
+                    {me.myPlans.map(plan=>(
+                        <View>
+                            <Text>{plan}</Text>
+                        </View>
+                    ))}
+                </View>
+            )
 
             :
 

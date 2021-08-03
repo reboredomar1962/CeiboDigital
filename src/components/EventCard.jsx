@@ -75,6 +75,7 @@ const EventCard = ({ navigation }) => {
   };
 
   React.useEffect(() => {
+    
     if (me && me.id) {
       const usersPlans = me.myPlans;
       const auxIdPlans = usersPlans.map((plan) => {

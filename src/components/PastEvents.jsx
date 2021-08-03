@@ -9,10 +9,11 @@ import {
   } from "react-native";
 
 const PastEvents = () => {
+    
     return (
-        <View>
-            <Text>Past events</Text>
-        </View>
+        <SafeAreaView>
+            
+        </SafeAreaView>
     )
 }
 
