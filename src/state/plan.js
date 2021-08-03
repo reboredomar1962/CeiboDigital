@@ -14,8 +14,9 @@ const initialState = {
   plans: [],
   singlePlan: {},
   searchedPlans: [],
+  addedAllPlans: [],
 };
-const ip ="10.0.2.2"
+const ip = "10.0.2.2";
 const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
 
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
@@ -70,6 +71,8 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
   } else return [];
 });
 
+export const addedPlans = createAction("ADDED_PLANS");
+
 const plansReducer = createReducer(initialState, {
   [showPlans.fulfilled]: (state, action) => {
     state.plans = action.payload;
@@ -79,6 +82,9 @@ const plansReducer = createReducer(initialState, {
   },
   [searchPlans.fulfilled]: (state, action) => {
     state.searchedPlans = action.payload;
+  },
+  [addedPlans]: (state, action) => {
+    state.addedAllPlans = [...state.addedAllPlans, action.payload];
   },
 });
 

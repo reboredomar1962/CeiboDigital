@@ -12,6 +12,7 @@ import {
 import { showPlans, showSinglePlan } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
 import { addPlan, userMe, removePlan } from "../state/user";
+import { addedPlans } from "../state/plan";
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
@@ -31,6 +32,7 @@ const EventCard = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
 
   const { plans } = useSelector((store) => store.plan);
+  const { addedAllPlans } = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
 
@@ -53,6 +55,7 @@ const EventCard = ({ navigation }) => {
     //setChange(!change);
     //console.log(change);
     dispatch(addPlan(plan));
+    dispatch(addedPlans(plan.id));
     //console.log("despues del dispatch", plans[8].users);
 
     //setPlusMinus(!plusMinus);
@@ -74,10 +77,15 @@ const EventCard = ({ navigation }) => {
   React.useEffect(() => {
     if (me && me.id) {
       const usersPlans = me.myPlans;
-      console.log("estos son los planes cargados al inc", usersPlans);
-      setIncludedPlans([...includedPlans, ...usersPlans]);
+      const auxIdPlans = usersPlans.map((plan) => {
+        return plan.id;
+      });
+
+      setIncludedPlans(auxIdPlans);
+      dispatch(addedPlans(auxIdPlans));
     }
     dispatch(showPlans());
+    console.log("estos son los addedAllPlans", addedAllPlans);
   }, []);
 
   // React.useEffect(() => {
@@ -138,7 +146,7 @@ const EventCard = ({ navigation }) => {
                 ? null
                 : [
                     //!item.users.includes(me.id) ||
-                    !includedPlans.includes(item.id) ? ( //   //!me.myPlans.includes(item.id)
+                    !addedAllPlans.includes(item.id) ? ( //   //!me.myPlans.includes(item.id)
                       <TouchableOpacity
                         key={item.id}
                         style={{
@@ -181,6 +189,7 @@ const EventCard = ({ navigation }) => {
 
   return (
     <SafeAreaView>
+      {console.log("estos son los planes cargados al included", includedPlans)}
       <Text style={styles.textSubtitle}>Eventos promocionados</Text>
       {/* {console.log("estos son los LocalPlans", localPlans[0])}
       {console.log("estos son los plans", plans[0])} */}

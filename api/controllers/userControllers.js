@@ -109,7 +109,6 @@ const getMe = (req, res, next) => {
   const { id } = req.user;
 
   User.findById(id)
-
     .populate("myPlans", {
       name: 1,
       creationDate: 1,

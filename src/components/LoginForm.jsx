@@ -14,7 +14,7 @@ import { loginUser } from "../state/user";
 //Form library import
 import { useForm, Controller } from "react-hook-form";
 //Screen import
-import Login from "../screens/LoginFacebook";
+// import Login from "../screens/LoginFacebook";
 
 const LoginForm = ({ navigation }) => {
   const {
