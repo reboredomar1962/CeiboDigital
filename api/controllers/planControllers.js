@@ -199,8 +199,8 @@ const postComments = (req, res, next) => {
 
     newComment.save().then((comment) => {
       plan.comments = plan.comments.concat(comment);
-      plan.save();
       plan.average();
+      plan.save();
       res.json(comment);
     });
   });
