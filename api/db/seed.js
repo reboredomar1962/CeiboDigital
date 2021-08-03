@@ -1,6 +1,5 @@
-const { Plan, Category, User } = require("../models");
-const db = require("../db");
-const bcrypt = require("bcrypt");
+const { Plan, Category, User, Comments } = require("../models");
+
 
 const categories = [
   {
@@ -571,6 +570,8 @@ const manageDB = async () => {
     await Plan.deleteMany({});
     await Category.deleteMany({});
     await User.deleteMany({});
+    await Comments.deleteMany({});
+
   }
 
   await Plan.insertMany(planes);

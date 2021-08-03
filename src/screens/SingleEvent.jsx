@@ -5,6 +5,7 @@ import { Card } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { showComments } from "../state/comments";
 
 //-------------Redux Import------------------------------
 import { showSinglePlan } from "../state/plan";
@@ -20,15 +21,14 @@ const SingleEvent = ({ route }) => {
 
   React.useEffect(() => {
     dispatch(showSinglePlan(route.params.id));
+    
   }, []);
 
   return (
     <SafeAreaView>
-
       <ScrollView>
         <View style={{ backgroundColor: "#fff" }}>
           <View>
-
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -47,7 +47,6 @@ const SingleEvent = ({ route }) => {
           <View style={styles.infoContainer}>
             <Text style={styles.titleTxt}>{singlePlan.name}</Text>
 
-
             <View style={styles.itemsStyle}>
               <AntDesign name="infocirlceo" size={24} color="#985EFF" />
               <Text style={styles.paragTxt}>{singlePlan.description}</Text>
@@ -62,7 +61,6 @@ const SingleEvent = ({ route }) => {
               <Ionicons name="location-outline" size={28} color="#985EFF" />
               <Text style={styles.paragTxt}>{singlePlan.address}</Text>
             </View>
-
 
             <View style={styles.itemsStyle}>
               <Feather name="dollar-sign" size={24} color="#985EFF" />
@@ -85,17 +83,16 @@ const SingleEvent = ({ route }) => {
 
             <View style={styles.itemsStyle}>
               <AntDesign name="message1" size={24} color="#985EFF" />
-              <ShowComments planId={singlePlan.id} />
+              {console.log("este es el singlePlan ID", singlePlan.id)}
+              <ShowComments />
             </View>
 
             <View style={styles.itemsStyle}>
-              <CreateComment singlePlan={singlePlan} />
+              <CreateComment />
             </View>
           </View>
         </View>
-
       </ScrollView>
-
     </SafeAreaView>
   );
 };

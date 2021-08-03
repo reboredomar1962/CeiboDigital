@@ -20,6 +20,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Switch } from "react-native-paper";
 import { Rating } from "react-native-elements";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import dateFormat from "../utils/utils";
 
 //------------Components Import-----------------------------
 import Search from "../components/Search";
@@ -46,13 +47,12 @@ const SearchScreen = ({ navigation }) => {
   };
   //Date logic with local state
   const [date, setDate] = React.useState(new Date());
+  const [dateEnd, setDateEnd] = React.useState(new Date());
   const [show, setShow] = React.useState(false);
+  const [showEnd, setShowEnd] = React.useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    console.log(currentDate.toString());
-    let testDate = new Date();
-    console.log(testDate < currentDate);
     setShow(Platform.OS === "ios");
     setDate(currentDate);
     setFilter({
@@ -61,8 +61,22 @@ const SearchScreen = ({ navigation }) => {
     });
   };
 
+  const onChangeEnd = (event, selectedDate) => {
+    const currentDate = selectedDate || dateEnd;
+    setShowEnd(Platform.OS === "ios");
+    setDateEnd(currentDate);
+    setFilter({
+      ...filter,
+      planDateEnd: currentDate,
+    });
+  };
+
   const showDate = () => {
     setShow(true);
+  };
+
+  const showDateEnd = () => {
+    setShowEnd(true);
   };
 
   // Filter and modal logic managed in local states
@@ -265,12 +279,20 @@ const SearchScreen = ({ navigation }) => {
 
                 <View style={styles.switchStyle}>
                   <Text style={styles.categoryTxt}>Gratis</Text>
-                  <Switch color="#985EFF" value={filter.free} onValueChange={onSwitchFree} />
+                  <Switch
+                    color="#985EFF"
+                    value={filter.free}
+                    onValueChange={onSwitchFree}
+                  />
                 </View>
 
                 <View style={styles.switchStyle}>
                   <Text style={styles.categoryTxt}>Pago</Text>
-                  <Switch color="#985EFF" value={filter.paid} onValueChange={onSwitchPaid} />
+                  <Switch
+                    color="#985EFF"
+                    value={filter.paid}
+                    onValueChange={onSwitchPaid}
+                  />
                 </View>
 
                 <View style={styles.switchStyle}>
@@ -281,7 +303,7 @@ const SearchScreen = ({ navigation }) => {
                       style={{
                         fontFamily: "Poppins_500Medium",
                         color: "#23036A",
-                        borderBottomColor:"#985EFF",
+                        borderBottomColor: "#985EFF",
                         borderBottomWidth: 0.5,
                         height: 25,
                         width: 60,
@@ -295,7 +317,7 @@ const SearchScreen = ({ navigation }) => {
                       style={{
                         fontFamily: "Poppins_500Medium",
                         color: "#23036A",
-                        borderBottomColor:"#985EFF",
+                        borderBottomColor: "#985EFF",
                         borderBottomWidth: 0.5,
                         height: 25,
                         width: 60,
@@ -310,7 +332,7 @@ const SearchScreen = ({ navigation }) => {
                   <Text style={styles.categoryTxt}>Rating</Text>
 
                   <Rating
-                    style={{marginRight:10}}
+                    style={{ marginRight: 10 }}
                     type="star"
                     ratingCount={5}
                     imageSize={20}
@@ -320,13 +342,19 @@ const SearchScreen = ({ navigation }) => {
                       onRatingSubmit(score);
                     }}
                   />
-
                 </View>
 
                 <View style={styles.switchStyle}>
-                  <Text style={styles.categoryTxt}>Fecha</Text>
-                  <TouchableOpacity style={{marginRight:10}} onPress={showDate}>
-                    <AntDesign name="calendar" size={24} color="#985EFF" />
+                  <Text style={styles.categoryTxt}>Desde</Text>
+                  <TouchableOpacity
+                    style={{ marginRight: 10 }}
+                    onPress={showDate}
+                  >
+                    {!filter.planDate ? (
+                      <AntDesign name="calendar" size={24} color="#985EFF" />
+                    ) : (
+                      <Text>{dateFormat(filter.planDate)}</Text>
+                    )}
                   </TouchableOpacity>
 
                   {show && (
@@ -337,6 +365,31 @@ const SearchScreen = ({ navigation }) => {
                       is24Hour={true}
                       display="default"
                       onChange={onChange}
+                    />
+                  )}
+                </View>
+
+                <View style={styles.switchStyle}>
+                  <Text style={styles.categoryTxt}>Hasta</Text>
+                  <TouchableOpacity
+                    style={{ marginRight: 10 }}
+                    onPress={showDateEnd}
+                  >
+                    {!filter.planDateEnd ? (
+                      <AntDesign name="calendar" size={24} color="#985EFF" />
+                    ) : (
+                      <Text>{dateFormat(filter.planDateEnd)}</Text>
+                    )}
+                  </TouchableOpacity>
+
+                  {showEnd && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={dateEnd}
+                      mode={"date"}
+                      is24Hour={true}
+                      display="default"
+                      onChange={onChangeEnd}
                     />
                   )}
                 </View>
@@ -384,7 +437,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 30,
     marginRight: 20,
-    marginTop:5,
+    marginTop: 5,
   },
   switchStyle: {
     backgroundColor: "#fff",
@@ -398,7 +451,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight:10,
+    marginRight: 10,
   },
   categoryTxt: {
     fontFamily: "Poppins_500Medium",
