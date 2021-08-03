@@ -43,8 +43,9 @@ export const showComments = createAsyncThunk("SHOW_COMMENTS", (planId) => {
 });
 
 const commentsReducer = createReducer(initialState, {
+  // Recordar destructurar el "crearComentarios" para poder traer los comentarios anteriores 
   [createComment.fulfilled]: (state, action) => {
-    action.payload;
+    state.comments = [...state.comments, action.payload];
   },
   [showComments.fulfilled]: (state, action) => {
     state.comments = action.payload;

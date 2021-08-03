@@ -17,7 +17,6 @@ const getOnePlan = (req, res, next) => {
     .populate("comments", { userId: 1, valoracion: 1, comentario: 1 })
     .then((plan) => {
       if (plan) {
-        console.log("plan ->", plan);
         return res.json(plan);
       } else {
         res.status(404);
@@ -54,6 +53,7 @@ const getPlanByFilters = (req, res, next) => {
 
   let {
     planDate,
+    planDateEnd,
     address,
     priceMin,
     priceMax,
@@ -79,8 +79,16 @@ const getPlanByFilters = (req, res, next) => {
     priceRange = true;
   }
 
+  let dateRange = false;
+
+  if (planDate && planDateEnd) priceRange = true;
+
   let queryCond = {
     ...(planDate && { planDate: { $gte: new Date(planDate) } }),
+    ...(planDate && { planDate: { $lte: new Date(planDateEnd) } }),
+    ...(dateRange && {
+      planDate: { $gte: new Date(planDate), $lte: new Date(planDateEnd) },
+    }),
     ...(address && { address }),
     ...(priceMin && { price: { $gte: priceMin } }),
     ...(priceMax && { price: { $lte: priceMax } }),
@@ -156,17 +164,19 @@ const deletePlan = (req, res, next) => {
 
 // get planes
 const getComments = (req, res, next) => {
-  Comments.find({}).then((comments) => {
+  const planId = req.params.id;
+  Comments.find({ planId }).then((comments) => {
     res.json(comments);
   });
 };
 
 // post plan
 const postComments = (req, res, next) => {
-  console.log("LLEGAMOS AKI?????", req.body, req.user);
   const { comentario, valoracion } = req.body;
   const planId = req.params.id;
   const { id } = req.user;
+
+  console.log("tipo de planId", typeof planId);
 
   if (!comentario) {
     return res.status(400).json({
@@ -184,11 +194,13 @@ const postComments = (req, res, next) => {
       userId: user,
       valoracion,
       comentario,
+      planId,
     });
 
     newComment.save().then((comment) => {
       plan.comments = plan.comments.concat(comment);
       plan.save();
+      plan.average();
       res.json(comment);
     });
   });

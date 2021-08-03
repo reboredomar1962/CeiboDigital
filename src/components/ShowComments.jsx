@@ -3,17 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { View, Text, StyleSheet } from "react-native";
 import { showComments } from "../state/comments";
 
-const ShowComments = ({ planId }) => {
+const ShowComments = () => {
   const { comments } = useSelector((store) => store.comments);
-  console.log("ESTO ES COMMENTS", comments);
+  const { singlePlan } = useSelector((store) => store.plan);
+  //console.log("ESTO ES COMMENTS", comments);
+
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch(showComments(planId));
-  }, []);
+    console.log("este planId llega a showComments", singlePlan.id);
+    dispatch(showComments(singlePlan.id));
+  }, [singlePlan]);
 
   return (
     <View>
-      {comments ? (
+      {comments.length !== 0 ? (
         comments.map((comment) => (
           <View key={comment.id}>
             <Text style={styles.paragTxt}>"{comment.comentario}"</Text>
