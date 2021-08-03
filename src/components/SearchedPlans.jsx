@@ -13,11 +13,44 @@ import { Card, Title, Paragraph } from "react-native-paper";
 import { Rating } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 //-----------------REDUX CONFIG-----------------------------------
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addPlan, removePlan } from "../state/user";
+import { addedPlans } from "../state/plan";
 
 const SearchedPlans = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => store.plan);
   const { me } = useSelector((store) => store.user);
+  const [includedPlans, setIncludedPlans] = React.useState([]);
+  const { addedAllPlans } = useSelector((store) => store.plan);
+  const dispatch = useDispatch();
+
+  const handlePressPlus = (plan) => {
+    //revisar que le llega desde searchedPlans
+    setIncludedPlans([...includedPlans, plan.id]);
+    dispatch(addPlan(plan));
+    dispatch(addedPlans(plan.id));
+  };
+  const handlePressMinus = (plan) => {
+    const auxRemovePlans = includedPlans.filter((planToRemove) => {
+      console.log("los removed plans por id", planToRemove);
+      return planToRemove !== plan.id;
+    });
+    setIncludedPlans(auxRemovePlans);
+    dispatch(removePlan(plan));
+  };
+
+  React.useEffect(() => {
+    if (me && me.id) {
+      const usersPlans = me.myPlans;
+      const auxIdPlans = usersPlans.map((plan) => {
+        return plan.id;
+      });
+
+      setIncludedPlans(auxIdPlans);
+      dispatch(addedPlans(auxIdPlans));
+    }
+    console.log("estos son los addedAllPlans", addedAllPlans);
+  }, []);
 
   //FlatList config------------------------------------------------
 
@@ -60,14 +93,49 @@ const SearchedPlans = ({ navigation }) => {
                 readonly
               />
 
-              {me && me.id ? (
+              {/* {me && me.id ? (
                 <TouchableOpacity
                   style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
                   onPress={() => handlePress(item)}
                 >
                   <AntDesign name="pluscircle" size={24} color="#23036A" />
                 </TouchableOpacity>
-              ) : null}
+              ) : null} */}
+              {!me || !me.id
+                ? null
+                : [
+                    !addedAllPlans.includes(item.id) ? ( //!includedPlans.includes(item.id)
+                      <TouchableOpacity
+                        key={item.id}
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressPlus(item)}
+                      >
+                        <AntDesign
+                          name="pluscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        key={item.id}
+                        style={{
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                        onPress={() => handlePressMinus(item)}
+                      >
+                        <AntDesign
+                          name="minuscircle"
+                          size={24}
+                          color="#23036A"
+                        />
+                      </TouchableOpacity>
+                    ),
+                  ]}
             </View>
           </Card.Content>
         </Card>

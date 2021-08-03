@@ -1,25 +1,71 @@
-import React from "react";
+import * as React from "react";
 import {
   StyleSheet,
   Text,
   View,
   AsyncStorage,
   TouchableOpacity,
+  Platform,
+  Image,
+  Alert
 } from "react-native";
+//Redux imports
 import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../state/user";
+import { showSinglePlan } from "../state/plan";
+//Libraries imports
 import { Avatar } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
+import * as ImagePicker from 'expo-image-picker';
+//Icons import
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { logoutUser } from "../state/user";
 
 const MyAccountLoggedIn = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
+  const { singlePlan } = useSelector(store => store.plan)
   const dispatch = useDispatch();
-
+  const [userPlans, setUserPlans] = React.useState([])
+  const [image, setImage] = React.useState(null);
   console.log("myAccount", me);
+
+  React.useEffect(() => {
+    let mounted = true;
+    if(me.myPlans.length){
+      for(let i = 0; i < me.myPlans.length; i++){
+        if (mounted) setUserPlans(me.myPlans[i])
+      }
+    }
+    return () => mounted = false;
+  }, [me.myPlans])
+
+  React.useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Necesitamos permiso para poder acceder a tus fotos');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -31,10 +77,18 @@ const MyAccountLoggedIn = ({ navigation }) => {
         size={110}
         rounded
         title={(me.name[0] + me.lastName[0]).toUpperCase()}
-        avatarStyle={{ borderRadius: 10 }}
+        source={
+          image
+            ? {
+                uri: image
+              }
+            : {uri: 'no-image'}
+        }
         containerStyle={styles.avatar}
+        placeholderStyle={{backgroundColor: "#D4B5FA"}}
+        
       >
-        <Avatar.Accessory name="pencil-alt" type="font-awesome-5" size={20} />
+        <Avatar.Accessory name="pencil-alt" type="font-awesome-5" size={20} onPress={pickImage}/>
       </Avatar>
 
       <View style={styles.textContainer}>
@@ -55,15 +109,15 @@ const MyAccountLoggedIn = ({ navigation }) => {
             size={24}
             color="#985EFF"
           />
-          {me.myPlans.length ? (
-            me.myPlans.map((plan) => (
-              <Text key={plan.id} style={styles.paragTxt}>
-                {plan}
-              </Text>
-            ))
-          ) : (
-            <Text style={styles.paragTxt}>No hay planes guardados</Text>
-          )}
+          {me.myPlans.length ? 
+
+              <Text>Hay planes</Text>
+        
+          : 
+          
+            (<Text style={styles.paragTxt}>No hay planes guardados</Text>)
+
+          }
         </View>
 
         <View style={styles.itemsStyle}>
@@ -112,7 +166,6 @@ const styles = StyleSheet.create({
   },
   avatar: {
     position: "absolute",
-    backgroundColor: "#D4B5FA",
     transform: [{ translateY: 15 }],
   },
   textTitle: {

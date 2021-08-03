@@ -14,7 +14,7 @@ import { loginUser } from "../state/user";
 //Form library import
 import { useForm, Controller } from "react-hook-form";
 //Screen import
-import Login from "../screens/LoginFacebook";
+// import Login from "../screens/LoginFacebook";
 
 const LoginForm = ({ navigation }) => {
   const {
@@ -102,9 +102,9 @@ const LoginForm = ({ navigation }) => {
           </Text>
         </View>
 
-        <View>
+        {/* <View>
           <Login />
-        </View>
+        </View> */}
 
         <View style={{ flexDirection: "row", marginTop: 20 }}>
           <Text style={{ fontFamily: "Poppins_300Light", color: "#23036A" }}>

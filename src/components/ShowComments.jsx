@@ -10,6 +10,12 @@ const ShowComments = () => {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
+    console.log("existe singlePlan", singlePlan);
+    console.log("estos son los comments", comments);
+    dispatch(showComments(singlePlan.id));
+  }, []);
+
+  React.useEffect(() => {
     console.log("este planId llega a showComments", singlePlan.id);
     dispatch(showComments(singlePlan.id));
   }, [singlePlan]);

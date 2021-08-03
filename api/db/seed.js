@@ -1,5 +1,5 @@
 const { Plan, Category, User, Comments } = require("../models");
-
+const db = require("./index");
 
 const categories = [
   {
@@ -571,7 +571,6 @@ const manageDB = async () => {
     await Category.deleteMany({});
     await User.deleteMany({});
     await Comments.deleteMany({});
-
   }
 
   await Plan.insertMany(planes);
