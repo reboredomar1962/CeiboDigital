@@ -30,7 +30,8 @@ const RegisterForm = ({ navigation }) => {
 
   const onSubmit = (data) => {
     dispatch(createUser(data))
-    .then(() => navigation.navigate("LoginScreen"))
+      //.then(() => navigation.navigate("LoginScreen"))
+      .then(() => navigation.goBack());
   };
 
   return (
@@ -123,8 +124,7 @@ const RegisterForm = ({ navigation }) => {
           <Text>Must have one Uppercase, one Minuscule and 8 characters</Text>
         )}
 
-
-        <View style={{alignItems:'center'}}>
+        <View style={{ alignItems: "center" }}>
           <TouchableOpacity
             style={{
               backgroundColor: "#23036A",
@@ -146,7 +146,6 @@ const RegisterForm = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-
       </View>
     </SafeAreaView>
   );
@@ -168,6 +167,4 @@ const styles = StyleSheet.create({
     width: 300,
     marginBottom: 15,
   },
-
-
 });
