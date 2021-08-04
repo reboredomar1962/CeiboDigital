@@ -11,8 +11,13 @@ import {
 //-------------Redux Import------------------------------
 import { showPlans, showSinglePlan } from "../state/plan";
 import { useSelector, useDispatch } from "react-redux";
-import { addPlan, userMe, removePlan } from "../state/user";
-import { addedPlans, removedPlans } from "../state/plan";
+import {
+  addPlan,
+  userMe,
+  removePlan,
+  addedPlans,
+  removedPlans,
+} from "../state/user";
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
@@ -34,7 +39,7 @@ const EventCard = ({ navigation }) => {
   const { savedPlans } = useSelector((store) => store.user);
 
   const { plans } = useSelector((store) => store.plan);
-  const { addedAllPlans } = useSelector((store) => store.plan);
+  const { addedAllPlans } = useSelector((store) => store.user);
 
   const dispatch = useDispatch();
 
@@ -80,7 +85,6 @@ const EventCard = ({ navigation }) => {
   };
 
   React.useEffect(() => {
-    
     if (me && me.id) {
       const usersPlans = me.myPlans.map((plan) => {
         return plan.id;
