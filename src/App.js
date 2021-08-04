@@ -35,6 +35,7 @@ import SearchScreen from "./screens/SearchScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import MyAccountLoggedIn from "./screens/MyAccountLoggedIn";
+import Contacts from "./screens/Contacts";
 
 const Stack = createStackNavigator();
 
@@ -139,6 +140,18 @@ const App = () => {
               <Stack.Screen
                 name="MyAccountLoggedIn"
                 component={MyAccountLoggedIn}
+              />
+              <Stack.Screen
+                name="Contacts"
+                component={Contacts}
+                options={{
+                  title: "Contactos",
+                  headerTintColor: "#23036A",
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_500Medium",
+                    fontSize: 18,
+                  },
+                }}
               />
             </Stack.Navigator>
           </NavigationContainer>
