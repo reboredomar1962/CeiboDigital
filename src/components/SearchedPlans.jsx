@@ -15,7 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 //-----------------REDUX CONFIG-----------------------------------
 import { useSelector, useDispatch } from "react-redux";
 import { addPlan, removePlan } from "../state/user";
-import { addedPlans } from "../state/plan";
+import { addedPlans, removedPlans } from "../state/plan";
 
 const SearchedPlans = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => store.plan);
@@ -31,25 +31,36 @@ const SearchedPlans = ({ navigation }) => {
     dispatch(addedPlans(plan.id));
   };
   const handlePressMinus = (plan) => {
-    const auxRemovePlans = includedPlans.filter((planToRemove) => {
-      console.log("los removed plans por id", planToRemove);
-      return planToRemove !== plan.id;
-    });
-    setIncludedPlans(auxRemovePlans);
+    // const auxRemovePlans = includedPlans.filter((planToRemove) => {
+    //   console.log("los removed plans por id", planToRemove);
+    //   return planToRemove !== plan.id;
+    // });
+    // setIncludedPlans(auxRemovePlans);
     dispatch(removePlan(plan));
+    dispatch(removedPlans(plan.id));
   };
+
+  // React.useEffect(() => {
+  //   if (me && me.id) {
+  //     const usersPlans = me.myPlans;
+  //     const auxIdPlans = usersPlans.map((plan) => {
+  //       return plan.id;
+  //     });
+
+  //     setIncludedPlans(auxIdPlans);
+  //     dispatch(addedPlans(auxIdPlans));
+  //   }
+  //   console.log("estos son los addedAllPlans", addedAllPlans);
+  // }, []);
 
   React.useEffect(() => {
     if (me && me.id) {
-      const usersPlans = me.myPlans;
-      const auxIdPlans = usersPlans.map((plan) => {
+      const usersPlans = me.myPlans.map((plan) => {
         return plan.id;
       });
-
-      setIncludedPlans(auxIdPlans);
-      dispatch(addedPlans(auxIdPlans));
+      console.log("este es el usersPlan", usersPlans);
+      dispatch(addedPlans(usersPlans));
     }
-    console.log("estos son los addedAllPlans", addedAllPlans);
   }, []);
 
   //FlatList config------------------------------------------------
@@ -104,7 +115,7 @@ const SearchedPlans = ({ navigation }) => {
               {!me || !me.id
                 ? null
                 : [
-                    !addedAllPlans.includes(item.id) ? ( //!includedPlans.includes(item.id)
+                    !addedAllPlans.includes(item.id) ? ( //!includedPlans.includes(item.id) //!addedAllPlans.includes(item.id) /!includedPlans.includes(item.id)
                       <TouchableOpacity
                         key={item.id}
                         style={{

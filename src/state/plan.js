@@ -21,7 +21,7 @@ const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
 
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
   return axios
-    .get(`http://${ip}:3001/api/plan`)
+    .get(`http://${os}:3001/api/plan`)
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR EN SHOW_PLANS -----> ", error)
@@ -30,7 +30,7 @@ export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
 
 export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
   return axios
-    .get(`http://${ip}:3001/api/plan/${param}`)
+    .get(`http://${os}:3001/api/plan/${param}`)
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR EN SINGLE PLAN -----> ", error)
@@ -42,7 +42,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
 
   if (namePlan.fromModal) {
     return axios
-      .post(`http://${ip}:3001/api/plan/search/multipleFilter`, namePlan)
+      .post(`http://${os}:3001/api/plan/search/multipleFilter`, namePlan)
       .then((res) => {
         return res.data;
       })
@@ -51,7 +51,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
       );
   } else if (namePlan.query !== "" && namePlan.fromSearch) {
     return axios
-      .get(`http://${ip}:3001/api/plan/search?name=${namePlan.query}`)
+      .get(`http://${os}:3001/api/plan/search?name=${namePlan.query}`)
       .then((res) => {
         console.log("dentro del segundo, length", res.data.length);
         return res.data;
@@ -61,7 +61,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
       );
   } else if (namePlan.type) {
     return axios
-      .get(`http://${ip}:3001/api/plan/category/${namePlan.type}`)
+      .get(`http://${os}:3001/api/plan/category/${namePlan.type}`)
       .then((res) => {
         return res.data;
       })
@@ -72,6 +72,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
 });
 
 export const addedPlans = createAction("ADDED_PLANS");
+export const removedPlans = createAction("REMOVED_PLANS");
 
 const plansReducer = createReducer(initialState, {
   [showPlans.fulfilled]: (state, action) => {
@@ -84,7 +85,22 @@ const plansReducer = createReducer(initialState, {
     state.searchedPlans = action.payload;
   },
   [addedPlans]: (state, action) => {
-    state.addedAllPlans = [...state.addedAllPlans, action.payload];
+    console.log("este es el userPlans que llega al estado", action.payload);
+    if (typeof action.payload === "string") {
+      const auxState = [...state.addedAllPlans, action.payload];
+      state.addedAllPlans = [...new Set(auxState)];
+    } else {
+      const auxState = [...state.addedAllPlans, ...action.payload];
+      state.addedAllPlans = [...new Set(auxState)];
+    }
+  },
+  [removedPlans]: (state, action) => {
+    // Aca siempre va a llegar solo un string
+    console.log("este es el userPlans que llega al estado", action.payload);
+    const filteredPlans = state.addedAllPlans.filter(
+      (planId) => planId !== action.payload
+    );
+    state.addedAllPlans = filteredPlans;
   },
 });
 

@@ -17,7 +17,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       {me && me.id ? (
-        <MyAccountLoggedIn />
+        <MyAccountLoggedIn navigation={navigation}/>
       ) : (
         <View style={styles.container}>
 
