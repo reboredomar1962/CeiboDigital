@@ -9,7 +9,7 @@ import NextEvents from '../components/NextEvents';
 
 const Tab = createMaterialTopTabNavigator();
 
-const Events = () => {
+const Events = ({navigation}) => {
 
   const { me } = useSelector((store) => store.user);
 
@@ -25,8 +25,8 @@ const Events = () => {
               }}
               
           >
-            <Tab.Screen name="Pasados" component={PastEvents} />
-            <Tab.Screen name="Futuros" component={NextEvents} />
+            <Tab.Screen name="Proximos" component={NextEvents} navigation={navigation}/>
+            <Tab.Screen name="Anteriores" component={PastEvents} />
           </Tab.Navigator>
         
     )
@@ -43,3 +43,5 @@ const styles = StyleSheet.create({
       height:'100%',
     },
   });
+
+  

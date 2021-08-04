@@ -12,22 +12,57 @@ import {
 //Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../state/user";
+import { showCategories, addCategory } from "../state/categories";
+
 //Libraries imports
 import { Avatar } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
 import * as ImagePicker from 'expo-image-picker';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 //Icons import
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
+
+/* 
+  - Cuando cambiamos la imagen de perfil de un usuario, ese cambio no persiste
+*/
+
+
+
 const MyAccountLoggedIn = ({ navigation }) => {
 
   const { me } = useSelector((store) => store.user);
+  const { categories } = useSelector(store => store.categories)
   const dispatch = useDispatch();
   const [image, setImage] = React.useState(null);
-
+  
+  
   console.log("myAccount", me);
+  
+  React.useEffect(()=>{
+    let mounted = true
+    if(mounted){
+      dispatch(showCategories())
+    }
+    else return mounted = false
+  }, [])
+
+
+  const itemsForDropdown = []
+  categories.forEach(item => {
+    if(item.type !== undefined){
+      itemsForDropdown.push({'label': item.type , 'value': item.type})
+    }
+  })
+  console.log("estas son las categorias--->", itemsForDropdown);
+
+  const placeholder = {
+    label: 'Seleccionar...',
+    value: null,
+  };
+
 
 
   React.useEffect(() => {
@@ -49,13 +84,14 @@ const MyAccountLoggedIn = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log(result);
+    console.log('esto es la imagen que elegio el usuario-->',result);
 
     if (!result.cancelled) {
       setImage(result.uri);
     }
   };
 
+  
   
 
   return (
@@ -96,7 +132,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
 
         
 
-          <TouchableOpacity style={styles.itemsStyle}>
+          <TouchableOpacity style={styles.itemsStyle} onPress={()=>navigation.navigate('Contacts')}>
         
           <AntDesign name="contacts" size={24} color="#985EFF" />
           <Text style={styles.paragTxt}>Contactos</Text>
@@ -110,6 +146,19 @@ const MyAccountLoggedIn = ({ navigation }) => {
           <Ionicons name="list-outline" size={24} color="#985EFF" />
             <Text style={styles.paragTxt}>Categorias</Text>
         </View>
+
+
+        
+
+        <RNPickerSelect
+            placeholder={placeholder}
+            onValueChange={(value) => console.log(value)}
+            items={itemsForDropdown}
+        />
+        
+        
+        
+        
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <TouchableOpacity
@@ -180,3 +229,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+

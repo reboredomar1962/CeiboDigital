@@ -29,7 +29,7 @@ const Contacts = () => {
     return (
         <View>
 
-        
+        <Text>Contactos</Text>
       
         </View>
     )
