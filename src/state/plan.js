@@ -16,7 +16,7 @@ const initialState = {
   searchedPlans: [],
   addedAllPlans: [],
 };
-const ip = "10.0.2.2";
+const ip = "192.168.0.3";
 const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
 
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {

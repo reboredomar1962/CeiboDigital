@@ -6,7 +6,7 @@ const initialState = {
   comments: [],
 };
 
-const ip = "10.0.2.2";
+const ip = "192.168.0.3";
 
 export const createComment = createAsyncThunk(
   "CREATE_COMMENT",
@@ -42,7 +42,7 @@ export const showComments = createAsyncThunk("SHOW_COMMENTS", (planId) => {
 });
 
 const commentsReducer = createReducer(initialState, {
-  // Recordar destructurar el "crearComentarios" para poder traer los comentarios anteriores 
+  // Recordar destructurar el "crearComentarios" para poder traer los comentarios anteriores
   [createComment.fulfilled]: (state, action) => {
     state.comments = [...state.comments, action.payload];
   },
