@@ -25,7 +25,7 @@ const addPlan = (req, res, next) => {
       plan.users = plan.users.concat(user);
       user.save();
       plan.save();
-      res.status(200).send("Plan agregado");
+      res.status(200).send(user.myPlans);
     })
     .catch((err) => {
       next(err);
@@ -117,10 +117,20 @@ const getMe = (req, res, next) => {
       price: 1,
       img: 1,
     })
+
     .populate("categories", {
       type: 1,
       id: 1,
     })
+
+    .populate("contacts", {
+      name: 1,
+      lastName: 1,
+      email: 1,
+    })
+   
+
+
     .then((user) => {
       console.log("user->", user);
       if (user.name) {
@@ -132,8 +142,6 @@ const getMe = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
-
-    
 };
 // router.post("/login", async (req, res, next) => {
 //   const { email, password } = req.body;

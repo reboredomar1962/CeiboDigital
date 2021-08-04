@@ -1,22 +1,45 @@
-import React from 'react';
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import Svg, { Rect } from "react-native-svg";
+import EventForm from "../components/EventForm";
 
+const CreateEvent = ({ navigation }) => {
+  return (
+    <SafeAreaView>
+      <View style={styles.container}>
+        <Svg height="170" width="100%">
+          <Rect x="0" y="0" width="100%" height="170" fill="#23036A" />
+        </Svg>
 
-const CreateEvent = () => {
-    return (
-        <View style={styles.container}>
-            <Text>Create Event Screen</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.textTitle}>Creá tu plan</Text>
         </View>
-    )
-}
+
+        <View style={{ marginTop: 25 }}>
+          <EventForm navigation={navigation} />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
 
 export default CreateEvent;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#fff",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  });
+  container: {
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    height: "100%",
+    width: "100%",
+  },
+  textContainer: {
+    position: "absolute",
+    transform: [{ translateY: 70 }],
+  },
+  textTitle: {
+    fontFamily: "Poppins_300Light",
+    fontSize: 18,
+    color: "#fff",
+  },
+});
