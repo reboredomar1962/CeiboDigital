@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
   } from "react-native";
 import { useSelector } from "react-redux";
+import { AntDesign } from '@expo/vector-icons'; 
 
 
 const NextEvents = ({navigation}) => {
@@ -19,7 +20,7 @@ const NextEvents = ({navigation}) => {
 
             {me && me.id ?
             
-            (
+            ( me.myPlans.length > 0 ?
                 <ScrollView>
                 <View style={styles.container}>
                     
@@ -54,12 +55,11 @@ const NextEvents = ({navigation}) => {
                             </View>
 
                             <View style={styles.infoContainer}>
-                                <View style={{flexWrap:'wrap'}}>
-
-                                <Text style={styles.titleTxt}>{plan.name.length > 27 ? plan.name.substring(0,25)+'...' : plan.name}</Text>
+                                <View>
+                                    <Text style={styles.titleTxt}>{plan.name.length > 27 ? plan.name.substring(0,25)+'...' : plan.name}</Text>
                                 </View>
                                 <Text style={styles.paragTxt}>{plan.planDate.substring(11,16)}</Text>
-                                <Text style={styles.paragTxt}>{plan.address}</Text>
+                                <Text style={styles.paragTxt}>{plan.address.length > 27 ? plan.address.substring(0,25)+'...' : plan.address}</Text>
                             </View>
 
                         </View>
@@ -67,12 +67,18 @@ const NextEvents = ({navigation}) => {
                     ))}
                 </View>
                 </ScrollView>
+
+                :
+
+                <View>
+                    <Text>No hay planes para mostrar</Text>
+                </View>
             )
 
             :
             (
                 <View style={styles.container}>
-                    <Text>Debes iniciar sesion para acceder</Text>
+                    <Text>Debes iniciar sesion para acceder</Text>                 
                 </View>
             )
 

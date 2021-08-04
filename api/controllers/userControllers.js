@@ -117,14 +117,19 @@ const getMe = (req, res, next) => {
       price: 1,
       img: 1,
     })
+
+    .populate("categories", {
+      type: 1,
+      id: 1,
+    })
+
     .populate("contacts", {
       name: 1,
       lastName: 1,
       email: 1,
     })
-    .populate("categories", {
-      type: 1,
-    })
+   
+
 
     .then((user) => {
       console.log("user->", user);
@@ -239,6 +244,8 @@ const addCategory = (req, res, next) => {
   const categoryId = req.body.id;
   const userPromise = User.findById(id);
   const categoryPromise = Category.findById(categoryId);
+  console.log('ESTO ES CATEGORY ID EN EL BACK----->',categoryId)
+  console.log('ESTO ES REQ.BODY EN EL BACK----->',req.body)
 
   Promise.all([userPromise, categoryPromise])
     .then((values) => {
