@@ -15,6 +15,7 @@ const initialState = {
   userLogin: {},
   me: {},
   savedPlans: [],
+  addedCategories: [],
 };
 
 const ip = "192.168.0.3";
@@ -85,6 +86,20 @@ export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
   //console.log("llego aca");
 });
 
+export const addFavCategory = createAsyncThunk("ADD_FAV_CATEGORY", (category) => {
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  console.log('ESTO ES CATEGORY EN EL REDUCER',category)
+  const objCategory = {id: category}  
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.post(`http://${os}:3001/api/user/category`, objCategory, {
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+      });
+    })
+    .then((res) => res.data)
+    .catch(error => console.log('ACA ESTA EL ERROR EN ADD_FAV_CATEGORY', error))
+});
+
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
     state.userRegister = action.payload;
@@ -104,6 +119,9 @@ const userReducer = createReducer(initialState, {
   //revisar logica de aca, tengo que traer todos MENOS el plan que se saco
   [removePlan.fulfilled]: (state, action) => {
     state.savedPlans = action.payload;
+  },
+  [addFavCategory.fulfilled]: (state, action) => {
+    state.addedCategories = action.payload;
   },
 });
 

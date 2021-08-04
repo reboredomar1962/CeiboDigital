@@ -26,7 +26,8 @@ const Events = ({navigation}) => {
               
           >
             <Tab.Screen name="Proximos" component={NextEvents} navigation={navigation}/>
-            <Tab.Screen name="Anteriores" component={PastEvents} />
+            <Tab.Screen name="Anteriores" component={PastEvents} navigation={navigation}/>
+            
           </Tab.Navigator>
         
     )
