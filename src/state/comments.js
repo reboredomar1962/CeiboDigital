@@ -10,7 +10,6 @@ const ip = "192.168.200.22";
 
 const os = Platform.OS !== "android" ? "localhost" : "10.0.2.2";
 
-
 export const createComment = createAsyncThunk(
   "CREATE_COMMENT",
   (commentObj) => {

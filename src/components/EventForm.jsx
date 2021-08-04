@@ -10,25 +10,11 @@ import {
 
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 //Redux import
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createUser } from "../state/user";
+import { showCategories, addCategory } from "../state/categories";
 //Form library import
 import { useForm, Controller } from "react-hook-form";
-
-const sports = [
-  {
-    label: "Football",
-    value: "football",
-  },
-  {
-    label: "Baseball",
-    value: "baseball",
-  },
-  {
-    label: "Hockey",
-    value: "hockey",
-  },
-];
 
 const EventForm = ({ navigation }) => {
   const {
@@ -37,10 +23,32 @@ const EventForm = ({ navigation }) => {
     formState: { errors },
   } = useForm();
 
+  const { categories } = useSelector((store) => store.categories);
+
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      dispatch(showCategories());
+    } else return (mounted = false);
+  }, []);
+
+  const itemsForDropdown = [];
+  categories.forEach((item) => {
+    if (item.type !== undefined) {
+      itemsForDropdown.push({ label: item.type, value: item.type });
+    }
+  });
+
+  const placeholder = {
+    label: "Seleccionar...",
+    value: null,
+  };
+
   const onSubmit = (data) => {
-    dispatch(createUser(data)).then(() => navigation.goBack());
+    // dispatch(createUser(data)).then(() => navigation.goBack());
+    console.log(data);
   };
 
   return (
@@ -103,6 +111,39 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
         {errors.email && <Text>is not a valid mail</Text>}
+
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <RNPickerSelect
+              placeholder={placeholder}
+              // onValueChange={(value) => console.log("OnValue", value)}
+              onValueChange={onChange}
+              onBlur={onBlur}
+              items={itemsForDropdown}
+            />
+          )}
+          name="categories"
+        />
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Descripción del evento"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="name"
+          defaultValue=""
+        />
 
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity

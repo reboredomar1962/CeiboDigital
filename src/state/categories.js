@@ -8,7 +8,7 @@ import { Platform } from "react-native";
 
 const initialState = {
   categories: [],
-  addedCategories: []
+  addedCategories: [],
 };
 
 export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
@@ -38,9 +38,9 @@ const categoriesReducer = createReducer(initialState, {
   [showCategories.fulfilled]: (state, action) => {
     state.categories = action.payload;
   },
-  [addCategory.fulfilled] : (state, action) => {
-    state.addedCategories = action.payload
-  }
+  [addCategory.fulfilled]: (state, action) => {
+    state.addedCategories = action.payload;
+  },
 });
 
 export default categoriesReducer;
