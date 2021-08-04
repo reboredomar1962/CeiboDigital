@@ -10,7 +10,6 @@ const ip = "192.168.0.3";
 
 const os = Platform.OS !== "android" ? "localhost" : "10.0.2.2";
 
-
 export const createComment = createAsyncThunk(
   "CREATE_COMMENT",
   (commentObj) => {
@@ -19,7 +18,7 @@ export const createComment = createAsyncThunk(
     return AsyncStorage.getItem("token")
       .then((token) => {
         return axios.post(
-          `http://${os}:3001/api/plan/${planId}/comments`,
+          `http://${ip}:3001/api/plan/${planId}/comments`,
           commentObj,
           {
             headers: { Authorization: `Bearer ${JSON.parse(token)}` },
@@ -34,7 +33,7 @@ export const createComment = createAsyncThunk(
 export const showComments = createAsyncThunk("SHOW_COMMENTS", (planId) => {
   return AsyncStorage.getItem("token")
     .then((token) => {
-      return axios.get(`http://${os}:3001/api/plan/${planId}/comments`, {
+      return axios.get(`http://${ip}:3001/api/plan/${planId}/comments`, {
         headers: { Authorization: `Bearer ${JSON.parse(token)}` },
       });
     })
