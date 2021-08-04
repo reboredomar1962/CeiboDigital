@@ -15,6 +15,9 @@ import { createUser } from "../state/user";
 import { showCategories, addCategory } from "../state/categories";
 //Form library import
 import { useForm, Controller } from "react-hook-form";
+import { Switch } from "react-native-paper";
+import { AntDesign } from "@expo/vector-icons";
+import {createPlan } from "../state/plan";
 
 const EventForm = ({ navigation }) => {
   const {
@@ -47,8 +50,7 @@ const EventForm = ({ navigation }) => {
   };
 
   const onSubmit = (data) => {
-    // dispatch(createUser(data)).then(() => navigation.goBack());
-    console.log(data);
+     dispatch(createPlan(data)).then(() => navigation.goBack());
   };
 
   return (
@@ -123,7 +125,7 @@ const EventForm = ({ navigation }) => {
               items={itemsForDropdown}
             />
           )}
-          name="categories"
+          name="category"
         />
 
         <Controller
@@ -141,8 +143,69 @@ const EventForm = ({ navigation }) => {
               value={value}
             />
           )}
-          name="name"
+          name="description"
           defaultValue=""
+        />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Capacidad"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="capacity"
+          defaultValue=""
+        />
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Precio"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="price"
+          defaultValue=""
+        />
+        <Controller
+          control={control}
+          defaultValue="false"
+          render={({ field: { onChange, value } }) => (
+            <View>
+              <Text>Privado</Text>
+              <Switch value={value} onValueChange={onChange} />
+            </View>
+          )}
+          name="private"
+        />
+
+        <Controller
+          control={control}
+          render={() => (
+            <View>
+              <TouchableOpacity onPress={() => navigation.navigate("Contacts")}>
+                <Text>Invitar</Text>
+                <AntDesign name="pluscircleo" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          )}
+          name="users"
         />
 
         <View style={{ alignItems: "center" }}>
@@ -163,7 +226,7 @@ const EventForm = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              Registrarse
+              Crear
             </Text>
           </TouchableOpacity>
         </View>
