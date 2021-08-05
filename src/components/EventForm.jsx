@@ -77,13 +77,51 @@ const EventForm = ({ navigation }) => {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
+    console.log("A date has been picked: ", date);
     hideDatePicker();
   };
 
   return (
     <SafeAreaView>
-      <View>
+      <View style={{ position: "relative",
+    transform: [{ translateY: -170 }],}}>
+
+        <View style={{flexDirection:'row', justifyContent:'space-between', marginBottom:25}}>
+
+      <View style={styles.imgContainer}>
+        <TouchableOpacity>
+          <AntDesign name="pluscircleo" size={16} color="#fff" />
+        </TouchableOpacity>
+
+        <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
+          Agregar imagen
+        </Text>
+      </View>
+
+      <View style={styles.imgContainer}>
+        <TouchableOpacity>
+          <AntDesign name="pluscircleo" size={16} color="#fff" />
+        </TouchableOpacity>
+
+        <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
+          Agregar imagen
+        </Text>
+      </View>
+
+      <View style={styles.imgContainer}>
+        <TouchableOpacity>
+          <AntDesign name="pluscircleo" size={16} color="#fff" />
+        </TouchableOpacity>
+
+        <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
+          Agregar imagen
+        </Text>
+      </View>
+
+        </View>
+
+        <View style={{marginTop:25, marginBottom:-150}}>
+
         <Controller
           control={control}
           rules={{
@@ -92,7 +130,7 @@ const EventForm = ({ navigation }) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.textSubtitle}
-              placeholder="Nombre Del Evento"
+              placeholder="Nombre del evento"
               placeholderTextColor="#23036A"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -103,7 +141,7 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
 
-        {errors.name && <Text> This field is required.</Text>}
+        {errors.name && <Text>Este campo no puede estar vacío</Text>}
 
         <Controller
           control={control}
@@ -114,7 +152,7 @@ const EventForm = ({ navigation }) => {
             <TextInput
               style={styles.textSubtitle}
               placeholderTextColor="#23036A"
-              placeholder="Ubicacion"
+              placeholder="Ubicación"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -124,7 +162,9 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
 
-        {errors.address && <Text> This field is required.</Text>}
+
+        {errors.lastName && <Text>Este campo no puede estar vacío</Text>}
+
 
         <Controller
           control={control}
@@ -132,25 +172,35 @@ const EventForm = ({ navigation }) => {
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <View>
-              <Button title="Show Date Picker" onPress={showDatePicker} />
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={(data) => {
-                  handleConfirm(data);
-                  onChange(data);
-                }}
-                // onChange={onChange}
-                onCancel={hideDatePicker}
-              />
-            </View>
+            
+              <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', /* marginTop:5 */}}>
+                <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Seleccionar fecha</Text>
+
+                <TouchableOpacity
+                onPress={showDatePicker}
+                >
+                  <AntDesign name="calendar" size={20} color="#23036A" />
+                </TouchableOpacity>
+
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={(data) => {
+                    handleConfirm(data);
+                    onChange(data);
+                  }}
+                  // onChange={onChange}
+                  onCancel={hideDatePicker}
+                />
+              </View>
+              
           )}
           name="planDate"
           defaultValue=""
         />
 
-        {errors.planDate && <Text>This field is required</Text>}
+
+        {errors.email && <Text>Este campo no puede estar vacío</Text>}
 
         <Controller
           control={control}
@@ -158,13 +208,18 @@ const EventForm = ({ navigation }) => {
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <RNPickerSelect
-              placeholder={placeholder}
-              // onValueChange={(value) => console.log("OnValue", value)}
-              onValueChange={onChange}
-              onBlur={onBlur}
-              items={itemsForDropdown}
-            />
+            <View >
+              <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>
+                Seleccionar categoría:
+              </Text>
+              <RNPickerSelect
+                placeholder={placeholder}
+                // onValueChange={(value) => console.log("OnValue", value)}
+                onValueChange={onChange}
+                onBlur={onBlur}
+                items={itemsForDropdown}
+              />
+            </View>
           )}
           name="category"
         />
@@ -251,9 +306,9 @@ const EventForm = ({ navigation }) => {
           control={control}
           defaultValue={false}
           render={({ field: { onChange, value } }) => (
-            <View>
-              <Text>Privado</Text>
-              <Switch value={value} onValueChange={onChange} />
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:5}}>
+              <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Privado</Text>
+              <Switch color="#985EFF" value={value} onValueChange={onChange} />
             </View>
           )}
           name="private"
@@ -261,11 +316,16 @@ const EventForm = ({ navigation }) => {
 
         <Controller
           control={control}
-          render={({ field: { onChange, value } }) => (
-            <View>
-              <TouchableOpacity onPress={() => onChange} value={value}>
-                <Text>Invitar</Text>
-                <AntDesign name="pluscircleo" size={24} color="black" />
+
+          render={() => (
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:15}}>
+                <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Invitar</Text>
+              <TouchableOpacity 
+              style={{marginRight:12}}
+              onPress={() => (console.log('holis'))}
+              >
+                <AntDesign name="pluscircleo" size={20} color="#23036A" />
+
               </TouchableOpacity>
             </View>
           )}
@@ -294,6 +354,9 @@ const EventForm = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
+
+        </View>
+
       </View>
     </SafeAreaView>
   );
@@ -305,7 +368,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     width: "100%",
-    height: "100%",
+    height: 'auto',
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",
@@ -314,5 +377,16 @@ const styles = StyleSheet.create({
     borderBottomColor: "#D4B5FA",
     width: 300,
     marginBottom: 15,
+  },
+  imgContainer:{
+    alignItems:'center',
+    justifyContent:'center',
+    width:95,
+    height:120,
+    borderWidth:1.5,
+    borderColor:"#fff",
+    borderStyle:'dashed',
+    borderRadius:10,
+
   },
 });

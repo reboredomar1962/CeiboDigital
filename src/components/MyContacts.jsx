@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useSelector } from "react-redux";
 import RenderContacts from "./RenderContacts";
+import SurprisedSvg from "./SurprisedSvg";
 
 const MyContacts = () => {
   const { me } = useSelector((store) => store.user);
@@ -34,7 +35,18 @@ const MyContacts = () => {
           keyExtractor={(item) => item.id}
         />
       ) : (
-        <Text>No hay contactos agregados</Text>
+        <View style={{width:'100%', height:'100%', backgroundColor:'#fff', alignItems:'center',
+        justifyContent:'center'}}>
+            <View style={{opacity:0.5, marginBottom:20}}>
+               <SurprisedSvg />
+            </View>
+
+            <View style={{width:'75%'}}>
+                <Text style={{fontFamily: "Poppins_500Medium", fontSize: 18, color: "#23036A", textAlign:'center'}}>
+                    Aún no tienes ningún contacto.
+                </Text>
+            </View>
+            </View>
       )}
     </SafeAreaView>
   );
@@ -43,7 +55,7 @@ const MyContacts = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    backgroundColor:'#fff',
   },
 });
 
