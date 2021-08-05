@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Platform, AsyncStorage } from "react-native";
 
 import {
   createReducer,
@@ -6,21 +7,23 @@ import {
   createAction,
 } from "@reduxjs/toolkit";
 
-import { Platform } from "react-native";
-
 // const os = Platform.OS !== "android" ? "localhost" : "10.0.2.2";
 
 const initialState = {
   plans: [],
   singlePlan: {},
   searchedPlans: [],
+
+  addedAllPlans: [],
+  newPlans: [],
+
 };
-const ip = "192.168.0.3";
+const ip = "192.168.200.22";
 const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
 
 export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
   return axios
-    .get(`http://${os}:3001/api/plan`)
+    .get(`http://192.168.0.3:3001/api/plan`)
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR EN SHOW_PLANS -----> ", error)
@@ -29,7 +32,7 @@ export const showPlans = createAsyncThunk("SHOW_PLANS", () => {
 
 export const showSinglePlan = createAsyncThunk("SHOW_SINGLE_PLAN", (param) => {
   return axios
-    .get(`http://${os}:3001/api/plan/${param}`)
+    .get(`http://192.168.0.3:3001/api/plan/${param}`)
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR EN SINGLE PLAN -----> ", error)
@@ -41,7 +44,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
 
   if (namePlan.fromModal) {
     return axios
-      .post(`http://${os}:3001/api/plan/search/multipleFilter`, namePlan)
+      .post(`http://192.168.0.3:3001/api/plan/search/multipleFilter`, namePlan)
       .then((res) => {
         return res.data;
       })
@@ -50,7 +53,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
       );
   } else if (namePlan.query !== "" && namePlan.fromSearch) {
     return axios
-      .get(`http://${os}:3001/api/plan/search?name=${namePlan.query}`)
+      .get(`http://192.168.0.3:3001/api/plan/search?name=${namePlan.query}`)
       .then((res) => {
         console.log("dentro del segundo, length", res.data.length);
         return res.data;
@@ -60,7 +63,7 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
       );
   } else if (namePlan.type) {
     return axios
-      .get(`http://${os}:3001/api/plan/category/${namePlan.type}`)
+      .get(`http://192.168.0.3:3001/api/plan/category/${namePlan.type}`)
       .then((res) => {
         return res.data;
       })
@@ -70,7 +73,26 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
   } else return [];
 });
 
+
+export const addedPlans = createAction("ADDED_PLANS");
+export const removedPlans = createAction("REMOVED_PLANS");
+
+export const createPlan = createAsyncThunk("CREATE_PLAN", (plan) => {
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.post(`http://192.168.0.3:3001/api/plan`, plan, {
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+      });
+    })
+    .then((res) => res.data);
+});
+
+
 const plansReducer = createReducer(initialState, {
+  [createPlan.fulfilled]: (state, action) => {
+    state.newPlans = action.payload;
+  },
   [showPlans.fulfilled]: (state, action) => {
     state.plans = action.payload;
   },
