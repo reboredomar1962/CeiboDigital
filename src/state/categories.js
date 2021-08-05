@@ -8,7 +8,10 @@ import { Platform } from "react-native";
 
 const initialState = {
   categories: [],
+
   addedCategories: [],
+
+
 };
 
 export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
@@ -24,6 +27,7 @@ export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
     );
 });
 
+
 export const addCategory = createAsyncThunk("ADD_CATEGORY", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
@@ -34,13 +38,16 @@ export const addCategory = createAsyncThunk("ADD_CATEGORY", () => {
     );
 });
 
+
 const categoriesReducer = createReducer(initialState, {
   [showCategories.fulfilled]: (state, action) => {
     state.categories = action.payload;
   },
+
   [addCategory.fulfilled]: (state, action) => {
     state.addedCategories = action.payload;
   },
+
 });
 
 export default categoriesReducer;

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const accessTokenSecret = "ceiboDigital";
 
-//trae todos los usuarios
+//trae todos los contactos del usuario deseado
 const getUser = (req, res, next) => {
   User.find({})
     .populate("contacts", { name: 1, lastName: 1, age: 1, img: 1, email: 1 })
@@ -117,14 +117,19 @@ const getMe = (req, res, next) => {
       price: 1,
       img: 1,
     })
+
+    .populate("categories", {
+      type: 1,
+      id: 1,
+    })
+
     .populate("contacts", {
       name: 1,
       lastName: 1,
       email: 1,
     })
-    .populate("categories", {
-      type: 1,
-    })
+   
+
 
     .then((user) => {
       console.log("user->", user);
@@ -197,10 +202,13 @@ const addFriend = (req, res, next) => {
   const friendId = req.body.id;
   const userPromise = User.findById(id);
   const friendPromise = User.findById(friendId);
-
+  console.log("este es el friendId", friendId);
+  console.log("este es el id", id);
+  console.log("este es el boyd", req.body);
   Promise.all([userPromise, friendPromise])
     .then((values) => {
       const [user, friend] = values;
+      console.log("este es el friend", friend);
       user.contacts = user.contacts.concat(friend);
       user.save();
       res.status(200).send("amigo agregado");
@@ -236,6 +244,8 @@ const addCategory = (req, res, next) => {
   const categoryId = req.body.id;
   const userPromise = User.findById(id);
   const categoryPromise = Category.findById(categoryId);
+  console.log('ESTO ES CATEGORY ID EN EL BACK----->',categoryId)
+  console.log('ESTO ES REQ.BODY EN EL BACK----->',req.body)
 
   Promise.all([userPromise, categoryPromise])
     .then((values) => {

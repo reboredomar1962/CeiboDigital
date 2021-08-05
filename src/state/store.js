@@ -6,6 +6,7 @@ import categoriesReducer from "./categories";
 import plansReducer from "./plan";
 import userReducer from "./user";
 import commentsReducer from "./comments";
+import contactsReducer from "./contacts";
 
 //middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 const store = configureStore({
@@ -14,6 +15,7 @@ const store = configureStore({
     categories: categoriesReducer,
     user: userReducer,
     comments: commentsReducer,
+    contacts: contactsReducer,
   },
 });
 
