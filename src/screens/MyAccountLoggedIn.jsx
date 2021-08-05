@@ -7,18 +7,24 @@ import {
   TouchableOpacity,
   Platform,
   Image,
-  Alert
+  Alert,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 //Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../state/user";
-import { showCategories, addCategory } from "../state/categories";
+import { showCategories } from "../state/categories";
+import { addFavCategory } from "../state/user";
 
 //Libraries imports
 import { Avatar } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
 import * as ImagePicker from 'expo-image-picker';
+import { Chip } from 'react-native-paper';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import {Picker} from '@react-native-picker/picker';
+
 //Icons import
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -41,28 +47,34 @@ const MyAccountLoggedIn = ({ navigation }) => {
   
   
   console.log("myAccount", me);
+
+  /* React.useEffect(()=>{
+    let mounted = true
+    if(mounted){
+      return console.log(me.categories)
+    }
+    else return mounted = false
+
+  }, [me.categories]) */
   
-  React.useEffect(()=>{
+  /* React.useEffect(()=>{
     let mounted = true
     if(mounted){
       dispatch(showCategories())
     }
     else return mounted = false
   }, [])
- 
-  const itemsForDropdown = []
-  categories.forEach(item => {
-    if(item.type !== undefined){
-      itemsForDropdown.push({'label': item.type , 'value': item.type})
-    }
-  })
-  console.log("estas son las categorias--->", itemsForDropdown);
+
+  console.log('ESTO ES CATEGORIES',categories) */
+
+
 
   const placeholder = {
     label: 'Seleccionar...',
     value: null,
   };
 
+  console.log('ESTO ES ME.CATEGORIES', me.categories)
 
 
   React.useEffect(() => {
@@ -91,10 +103,19 @@ const MyAccountLoggedIn = ({ navigation }) => {
     }
   };
 
+  const handlePress = (value) => {
+    console.log(value)
+    dispatch(addFavCategory(value))
+  }
+
   
   
 
   return (
+    <SafeAreaView>
+      <ScrollView>
+
+      
     <View style={styles.container}>
       <Svg height={180} width="100%">
         <Rect x="0" y="0" width="100%" height={180} fill="#23036A" />
@@ -148,14 +169,48 @@ const MyAccountLoggedIn = ({ navigation }) => {
             <Text style={styles.paragTxt}>Categorias</Text>
         </View>
 
+        <View style={{backgroundColor:'blue', width:300, flexDirection:'row', flexWrap:'wrap', justifyContent:'center'}}>
+        {categories.map(category => (
+          <View style={{backgroundColor:'red', width:120}}>
+            <Chip 
+            key={category.id} 
+            icon="check" 
+            onPress={() => handlePress(category.id)}
+            >
+              {category.type}
+            </Chip>
+          </View>
+
+            ))}
+            </View>
+
+
+       
 
         
 
-        <RNPickerSelect
-            placeholder={placeholder}
-            onValueChange={(value) => console.log(value)}
-            items={itemsForDropdown}
-        />
+
+        {/* <View style={{backgroundColor:'red'}}>
+          {me.categories.length > 0 ?
+          
+          (
+            me.categories.map(category => (
+              <View key={category}>
+                <Text>{category}</Text>
+              </View>
+            ))
+          )
+
+          :
+
+          (
+            <View>
+              <Text>No hay categorias favoritas</Text>
+            </View>
+          )
+
+          }
+        </View> */}
         
         
         
@@ -169,8 +224,12 @@ const MyAccountLoggedIn = ({ navigation }) => {
             <Text style={styles.btnTxt}>Cerrar sesion</Text>
           </TouchableOpacity>
         </View>
+
       </View>
     </View>
+
+    </ScrollView>
+    </SafeAreaView>
   );
 };
 
