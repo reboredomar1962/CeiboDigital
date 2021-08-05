@@ -31,8 +31,14 @@ const EventForm = ({ navigation }) => {
 
   const { categories } = useSelector((store) => store.categories);
   const [date, setDate] = React.useState(new Date());
+  const [pago, setPago] = React.useState(false);
 
   const dispatch = useDispatch();
+
+  const togglePago = () => {
+    setPago(!pago);
+    console.log(pago);
+  };
 
   React.useEffect(() => {
     let mounted = true;
@@ -96,7 +102,9 @@ const EventForm = ({ navigation }) => {
           name="name"
           defaultValue=""
         />
-        {errors.name && <Text> is not a valid name</Text>}
+
+        {errors.name && <Text> This field is required.</Text>}
+
         <Controller
           control={control}
           rules={{
@@ -115,13 +123,14 @@ const EventForm = ({ navigation }) => {
           name="address"
           defaultValue=""
         />
-        {errors.lastName && <Text> is not a valid last name.</Text>}
+
+        {errors.address && <Text> This field is required.</Text>}
 
         <Controller
           control={control}
-          // rules={{
-          //   required: true,
-          // }}
+          rules={{
+            required: true,
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Button title="Show Date Picker" onPress={showDatePicker} />
@@ -141,10 +150,13 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
 
-        {errors.email && <Text>is not a valid mail</Text>}
+        {errors.planDate && <Text>This field is required</Text>}
 
         <Controller
           control={control}
+          rules={{
+            required: true,
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <RNPickerSelect
               placeholder={placeholder}
@@ -156,6 +168,8 @@ const EventForm = ({ navigation }) => {
           )}
           name="category"
         />
+
+        {errors.category && <Text>This field is required</Text>}
 
         <Controller
           control={control}
@@ -175,6 +189,9 @@ const EventForm = ({ navigation }) => {
           name="description"
           defaultValue=""
         />
+
+        {errors.description && <Text>This field is required</Text>}
+
         <Controller
           control={control}
           rules={{
@@ -194,27 +211,45 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
 
+        {errors.capacity && <Text>This field is required</Text>}
+
         <Controller
           control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Precio"
-              placeholderTextColor="#23036A"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View>
+              <Text>Pago</Text>
+              <Switch
+                value={value}
+                onValueChange={onChange}
+                onChange={togglePago}
+              />
+            </View>
           )}
-          name="price"
-          defaultValue=""
+          name="free"
         />
+        {pago ? (
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.textSubtitle}
+                placeholder="Precio"
+                placeholderTextColor="#23036A"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="price"
+          />
+        ) : (
+          <View></View>
+        )}
+
         <Controller
           control={control}
-          defaultValue="false"
+          defaultValue={false}
           render={({ field: { onChange, value } }) => (
             <View>
               <Text>Privado</Text>
@@ -226,9 +261,9 @@ const EventForm = ({ navigation }) => {
 
         <Controller
           control={control}
-          render={() => (
+          render={({ field: { onChange, value } }) => (
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate("Contacts")}>
+              <TouchableOpacity onPress={() => onChange} value={value}>
                 <Text>Invitar</Text>
                 <AntDesign name="pluscircleo" size={24} color="black" />
               </TouchableOpacity>
