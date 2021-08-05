@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
+  Button,
 } from "react-native";
 
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
@@ -17,7 +18,9 @@ import { showCategories, addCategory } from "../state/categories";
 import { useForm, Controller } from "react-hook-form";
 import { Switch } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
-import {createPlan } from "../state/plan";
+import { createPlan } from "../state/plan";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import dateFormat from "../utils/utils";
 
 const EventForm = ({ navigation }) => {
   const {
@@ -27,6 +30,7 @@ const EventForm = ({ navigation }) => {
   } = useForm();
 
   const { categories } = useSelector((store) => store.categories);
+  const [date, setDate] = React.useState(new Date());
 
   const dispatch = useDispatch();
 
@@ -50,7 +54,25 @@ const EventForm = ({ navigation }) => {
   };
 
   const onSubmit = (data) => {
-     dispatch(createPlan(data)).then(() => navigation.goBack());
+    console.log("ESTA ES LA DATA->, ", data);
+    dispatch(createPlan(data)).then(() => navigation.goBack());
+  };
+
+  //-----------------------------------
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    hideDatePicker();
   };
 
   return (
@@ -94,24 +116,31 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
         {errors.lastName && <Text> is not a valid last name.</Text>}
+
         <Controller
           control={control}
-          rules={{
-            required: true,
-          }}
+          // rules={{
+          //   required: true,
+          // }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Fecha"
-              placeholderTextColor="#23036A"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+            <View>
+              <Button title="Show Date Picker" onPress={showDatePicker} />
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={(data) => {
+                  handleConfirm(data);
+                  onChange(data);
+                }}
+                // onChange={onChange}
+                onCancel={hideDatePicker}
+              />
+            </View>
           )}
           name="planDate"
           defaultValue=""
         />
+
         {errors.email && <Text>is not a valid mail</Text>}
 
         <Controller
