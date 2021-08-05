@@ -46,8 +46,11 @@ const AllContacts = () => {
 
   const renderItem = ({ item }) => <Item userInfo={item} />;
 
+ 
+
   return (
     <SafeAreaView style={styles.container}>
+      <View  >
       <Searchbar
         placeholder="Buscar contactos..."
         onChangeText={onChangeSearch}
@@ -57,7 +60,7 @@ const AllContacts = () => {
         style={{
           backgroundColor: "#F0E8FC",
           width: 300,
-          marginTop: -15,
+          marginTop: 15,
           marginBottom: 15,
           height: 40,
           alignSelf: "center",
@@ -68,6 +71,7 @@ const AllContacts = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
+      </View>
     </SafeAreaView>
   );
 };
@@ -75,7 +79,13 @@ const AllContacts = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    backgroundColor:'#fff',
+    /* width:'100%',
+    height:'100%',
+    justifyContent:'flex-start',
+    alignItems:'center',
+    backgroundColor:'#fff',
+    marginTop: StatusBar.currentHeight || 0, */
   },
 });
 

@@ -453,7 +453,7 @@ const planes = [
 const users = [
   {
     name: "Ale",
-    lastName: "Ro",
+    lastName: "Romero",
     age: 31,
     img: null,
     email: "ale@ale.com",
@@ -463,9 +463,9 @@ const users = [
     categories: [],
   },
   {
-    name: "ivan",
-    lastName: "mo",
-    age: 31,
+    name: "Ivan",
+    lastName: "Moroni",
+    age: 22,
     img: null,
     email: "ivan@ivan.com",
     password: "Al123456",
@@ -474,9 +474,9 @@ const users = [
     categories: [],
   },
   {
-    name: "marti",
-    lastName: "ro",
-    age: 31,
+    name: "Martina",
+    lastName: "Reboredo",
+    age: 19,
     img: null,
     email: "marti@marti.com",
     password: "Al123456",
@@ -486,8 +486,8 @@ const users = [
     categories: [],
   },
   {
-    name: "ale",
-    lastName: "zu",
+    name: "Alejandro",
+    lastName: "Zuniga",
     age: 31,
     img: null,
     email: "alezu@alezu.com",
@@ -498,9 +498,9 @@ const users = [
     categories: [],
   },
   {
-    name: "eri",
-    lastName: "ag",
-    age: 31,
+    name: "Erika",
+    lastName: "Agrelo",
+    age: 27,
     img: null,
     email: "eri@eri.com",
     password: "Al123456",

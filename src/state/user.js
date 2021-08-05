@@ -16,10 +16,9 @@ const initialState = {
   me: {},
   allUsers: [],
   savedPlans: [],
-
   addedAllPlans: [],
-
   addedCategories: [],
+  deletedCategories:[],
 
 };
 
@@ -114,6 +113,22 @@ export const addFavCategory = createAsyncThunk("ADD_FAV_CATEGORY", (category) =>
 });
 
 
+//Aca me tira error, mi instinto aracnido me dice que hay un error
+export const deleteFavCategory = createAsyncThunk("DELETE_FAV_CATEGORY", (category) => {
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  console.log('ESTO ES DELETE_CATEGORY EN EL REDUCER',category)
+  const objCategory = {id: category}  
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.delete(`http://${os}:3001/api/user/category`, objCategory, {
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+      });
+    })
+    .then((res) => res.data)
+    .catch(error => console.log('ACA ESTA EL ERROR EN DELETE_FAV_CATEGORY', error))
+});
+
+
 const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => {
     state.userRegister = action.payload;
@@ -161,7 +176,9 @@ const userReducer = createReducer(initialState, {
 
   [addFavCategory.fulfilled]: (state, action) => {
     state.addedCategories = action.payload;
-
+  },
+  [deleteFavCategory.fulfilled]: (state, action) => {
+    state.deletedCategories = action.payload;
   },
 });
 
