@@ -25,6 +25,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 
+
 /* 
   - Cuando cambiamos la imagen de perfil de un usuario, ese cambio no persiste
 */
@@ -48,8 +49,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
     }
     else return mounted = false
   }, [])
-
-
+ 
   const itemsForDropdown = []
   categories.forEach(item => {
     if(item.type !== undefined){
@@ -105,9 +105,10 @@ const MyAccountLoggedIn = ({ navigation }) => {
         rounded
         title={(me.name[0] + me.lastName[0]).toUpperCase()}
         source={
-          image
+          image || me.img
             ? {
-                uri: image
+                uri: me.img || image
+                
               }
             : {uri: 'no-image'}
         }
