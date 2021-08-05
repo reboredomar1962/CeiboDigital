@@ -290,6 +290,7 @@ const removeCategory = (req, res, next) => {
   const categoryId = req.body.id;
   const userPromise = User.findById(id);
   const categoryPromise = Category.findById(categoryId);
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---->', id)
 
   Promise.all([userPromise, categoryPromise])
     .then((values) => {

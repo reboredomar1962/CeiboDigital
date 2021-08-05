@@ -26,8 +26,6 @@ import { Chip } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { eraseStateContacts } from "../state/contacts";
-import { eraseStatePlans } from "../state/plan";
 
 /* 
   - Cuando cambiamos la imagen de perfil de un usuario, ese cambio no persiste
@@ -40,7 +38,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
   const dispatch = useDispatch();
   const [image, setImage] = React.useState(null);
 
-  console.log("myAccount", me);
+  /*  console.log("myAccount", me); */
 
   /* React.useEffect(()=>{
     let mounted = true
@@ -82,7 +80,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log("esto es la imagen que elegio el usuario-->", result);
+    /* console.log('esto es la imagen que elegio el usuario-->',result); */
 
     if (!result.cancelled) {
       setImage(result.uri);
@@ -90,15 +88,15 @@ const MyAccountLoggedIn = ({ navigation }) => {
   };
 
   const handlePress = (value) => {
-    console.log("ESTO ES VALUE EN HANDLE PRESS", value);
+    /* console.log('ESTO ES VALUE EN HANDLE PRESS',value) */
     dispatch(addFavCategory(value));
   };
 
   //Quise hacer la funcion de DeleteCategory de las categorias de usuario pero no salio :(
 
-  /* const handleDeletePress = (value) => {
-    dispatch(deleteFavCategory(value))
-  } */
+  const handleDeletePress = (value) => {
+    dispatch(deleteFavCategory(value));
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
@@ -186,16 +184,22 @@ const MyAccountLoggedIn = ({ navigation }) => {
               ))}
             </View>
 
+            {/* <View style={{backgroundColor:'red'}}>
+              {me.categories.map(category=>(
+
+                <TouchableOpacity key={category.id} onPress={()=>handleDeletePress(category.id)}>
+                  <Text>{category.type}</Text>
+                </TouchableOpacity>
+
+              ))}
+            </View> */}
+
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <TouchableOpacity
                 style={styles.btnStyle}
-                onPress={() => {
-                  dispatch(logoutUser());
-                  dispatch(eraseStateContacts());
-                  dispatch(eraseStatePlans());
-                }}
+                onPress={() => dispatch(logoutUser())}
               >
-                <Text style={styles.btnTxt}>Cerrar sesión</Text>
+                <Text style={styles.btnTxt}>Cerrar sesiÃ³n</Text>
               </TouchableOpacity>
             </View>
           </View>

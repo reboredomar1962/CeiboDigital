@@ -93,8 +93,8 @@ export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
   //console.log("llego aca");
 });
 
-// export const addedPlans = createAction("ADDED_PLANS");
-// export const removedPlans = createAction("REMOVED_PLANS");
+export const addedPlans = createAction("ADDED_PLANS");
+export const removedPlans = createAction("REMOVED_PLANS");
 
 export const addFavCategory = createAsyncThunk(
   "ADD_FAV_CATEGORY",
@@ -123,12 +123,16 @@ export const deleteFavCategory = createAsyncThunk(
     console.log("ESTO ES DELETE_CATEGORY EN EL REDUCER", category);
     const objCategory = { id: category };
     return AsyncStorage.getItem("token")
+
       .then((token) => {
+        console.log("antes", token);
+        const tokenParser = JSON.parse(token);
+        console.log("despues", tokenParser);
         return axios.delete(
           `http://${os}:3001/api/user/category`,
           objCategory,
           {
-            headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+            headers: { Authorization: `Bearer ${tokenParser}` },
           }
         );
       })
