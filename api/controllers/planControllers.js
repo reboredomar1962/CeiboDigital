@@ -127,18 +127,37 @@ const getPlanByQuery = (req, res, next) => {
 
 // post plan
 const postPlan = (req, res, next) => {
-  const plan = req.body;
+  const { id } = req.user;
 
-  if (!plan.name) {
-    return res.status(400).json({
-      error: "required content field is missing",
-    });
-  }
+  User.findById(id).then((user) => {
+    const date = new Date();
+    console.log("esto es el date", date);
+    const plan = {
+      planOwner: user,
+      name: req.body.name,
+      creationDate: date,
+      planDate: date,
+      address: req.body.address,
+      price: req.body.price,
+      capacity: req.body.capacity,
+      description: req.body.description,
+      users: req.body.users,
+      private: req.body.private,
+      category: req.body.category,
+      free: false,
+    };
 
-  const newPlan = new Plan(plan);
+    if (!plan.name) {
+      return res.status(400).json({
+        error: "required content field is missing",
+      });
+    }
 
-  newPlan.save().then((plan) => {
-    res.json(plan);
+    //const newPlan = new Plan(plan);
+
+    //   newPlan.save().then((plan) => {
+    //     res.json(plan);
+    //   });
   });
 };
 
