@@ -18,7 +18,9 @@ const initialState = {
   savedPlans: [],
   addedAllPlans: [],
   addedCategories: [],
+
   deletedCategories:[],
+
 };
 
 const ip = "192.168.200.22";
@@ -63,7 +65,7 @@ export const userMe = createAsyncThunk("USER_ME", (token) => {
 });
 
 export const getAllUsers = createAsyncThunk("GET_USERS", () => {
-  return axios.get(`http://${os}:3001/api/user`).then((res) => res.data);
+  return axios.get(`http://192.168.0.3:3001/api/user`).then((res) => res.data);
 });
 
 export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
@@ -97,20 +99,28 @@ export const addedPlans = createAction("ADDED_PLANS");
 
 export const removedPlans = createAction("REMOVED_PLANS");
 
-export const addFavCategory = createAsyncThunk("ADD_FAV_CATEGORY", (category) => {
-  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
-  console.log('ESTO ES CATEGORY EN EL REDUCER',category)
-  const objCategory = {id: category}  
-  return AsyncStorage.getItem("token")
-    .then((token) => {
-      return axios.post(`http://${os}:3001/api/user/category`, objCategory, {
-        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
-      });
-    })
-    .then((res) => res.data)
-    .catch(error => console.log('ACA ESTA EL ERROR EN ADD_FAV_CATEGORY', error))
-});
-
+export const addFavCategory = createAsyncThunk(
+  "ADD_FAV_CATEGORY",
+  (category) => {
+    const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+    console.log("ESTO ES CATEGORY EN EL REDUCER", category);
+    const objCategory = { id: category };
+    return AsyncStorage.getItem("token")
+      .then((token) => {
+        return axios.post(
+          `http://192.168.0.3:3001/api/user/category`,
+          objCategory,
+          {
+            headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+          }
+        );
+      })
+      .then((res) => res.data)
+      .catch((error) =>
+        console.log("ACA ESTA EL ERROR EN ADD_FAV_CATEGORY", error)
+      );
+  }
+);
 
 //Aca me tira error, mi instinto aracnido me dice que hay un error
 export const deleteFavCategory = createAsyncThunk("DELETE_FAV_CATEGORY", (category) => {
@@ -179,9 +189,11 @@ const userReducer = createReducer(initialState, {
 
   [addFavCategory.fulfilled]: (state, action) => {
     state.addedCategories = action.payload;
+
   },
   [deleteFavCategory.fulfilled]: (state, action) => {
     state.deletedCategories = action.payload;
+
   },
 });
 

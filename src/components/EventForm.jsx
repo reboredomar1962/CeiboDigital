@@ -31,8 +31,14 @@ const EventForm = ({ navigation }) => {
 
   const { categories } = useSelector((store) => store.categories);
   const [date, setDate] = React.useState(new Date());
+  const [pago, setPago] = React.useState(false);
 
   const dispatch = useDispatch();
+
+  const togglePago = () => {
+    setPago(!pago);
+    console.log(pago);
+  };
 
   React.useEffect(() => {
     let mounted = true;
@@ -134,7 +140,9 @@ const EventForm = ({ navigation }) => {
           name="name"
           defaultValue=""
         />
+
         {errors.name && <Text>Este campo no puede estar vacío</Text>}
+
         <Controller
           control={control}
           rules={{
@@ -153,13 +161,16 @@ const EventForm = ({ navigation }) => {
           name="address"
           defaultValue=""
         />
+
+
         {errors.lastName && <Text>Este campo no puede estar vacío</Text>}
+
 
         <Controller
           control={control}
-          // rules={{
-          //   required: true,
-          // }}
+          rules={{
+            required: true,
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             
               <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', /* marginTop:5 */}}>
@@ -188,10 +199,14 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
 
+
         {errors.email && <Text>Este campo no puede estar vacío</Text>}
 
         <Controller
           control={control}
+          rules={{
+            required: true,
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View >
               <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>
@@ -208,6 +223,8 @@ const EventForm = ({ navigation }) => {
           )}
           name="category"
         />
+
+        {errors.category && <Text>This field is required</Text>}
 
         <Controller
           control={control}
@@ -227,6 +244,9 @@ const EventForm = ({ navigation }) => {
           name="description"
           defaultValue=""
         />
+
+        {errors.description && <Text>This field is required</Text>}
+
         <Controller
           control={control}
           rules={{
@@ -246,27 +266,45 @@ const EventForm = ({ navigation }) => {
           defaultValue=""
         />
 
+        {errors.capacity && <Text>This field is required</Text>}
+
         <Controller
           control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.textSubtitle}
-              placeholder="Precio"
-              placeholderTextColor="#23036A"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View>
+              <Text>Pago</Text>
+              <Switch
+                value={value}
+                onValueChange={onChange}
+                onChange={togglePago}
+              />
+            </View>
           )}
-          name="price"
-          defaultValue=""
+          name="free"
         />
+        {pago ? (
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.textSubtitle}
+                placeholder="Precio"
+                placeholderTextColor="#23036A"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="price"
+          />
+        ) : (
+          <View></View>
+        )}
+
         <Controller
           control={control}
-          defaultValue="false"
+          defaultValue={false}
           render={({ field: { onChange, value } }) => (
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:5}}>
               <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Privado</Text>
@@ -278,6 +316,7 @@ const EventForm = ({ navigation }) => {
 
         <Controller
           control={control}
+
           render={() => (
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:15}}>
                 <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Invitar</Text>
@@ -286,6 +325,7 @@ const EventForm = ({ navigation }) => {
               onPress={() => (console.log('holis'))}
               >
                 <AntDesign name="pluscircleo" size={20} color="#23036A" />
+
               </TouchableOpacity>
             </View>
           )}

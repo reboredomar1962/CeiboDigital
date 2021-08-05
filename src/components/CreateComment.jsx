@@ -53,7 +53,7 @@ const CreateComment = () => {
 
       <View style={styles.itemsStyle}>
         <AntDesign name="smileo" size={24} color="#985EFF" />
-        <Rating
+        {/* <Rating
           type="star"
           style={{ marginLeft: 15 }}
           ratingCount={5}
@@ -63,7 +63,7 @@ const CreateComment = () => {
           onFinishRating={(score) => {
             onRatingSubmit(score);
           }}
-        />
+        /> */}
       </View>
 
       <View style={{ justifyContent: "center", alignItems: "center" }}>
