@@ -14,6 +14,7 @@ const initialState = {
   plans: [],
   singlePlan: {},
   searchedPlans: [],
+  addedAllPlans: [],
 };
 const ip = "192.168.0.3";
 const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
@@ -70,6 +71,10 @@ export const searchPlans = createAsyncThunk("SEARCH_PLANS", (namePlan) => {
   } else return [];
 });
 
+export const addedPlans = createAction("ADDED_PLANS");
+export const removedPlans = createAction("REMOVED_PLANS");
+export const eraseStatePlans = createAction("ERASE_STATE_PLANS");
+
 const plansReducer = createReducer(initialState, {
   [showPlans.fulfilled]: (state, action) => {
     state.plans = action.payload;
@@ -79,6 +84,27 @@ const plansReducer = createReducer(initialState, {
   },
   [searchPlans.fulfilled]: (state, action) => {
     state.searchedPlans = action.payload;
+  },
+  [addedPlans]: (state, action) => {
+    console.log("este es el userPlans que llega al estado", action.payload);
+    if (typeof action.payload === "string") {
+      const auxState = [...state.addedAllPlans, action.payload];
+      state.addedAllPlans = [...new Set(auxState)];
+    } else {
+      const auxState = [...state.addedAllPlans, ...action.payload];
+      state.addedAllPlans = [...new Set(auxState)];
+    }
+  },
+  [removedPlans]: (state, action) => {
+    // Aca siempre va a llegar solo un string
+    console.log("este es el userPlans que llega al estado", action.payload);
+    const filteredPlans = state.addedAllPlans.filter(
+      (planId) => planId !== action.payload
+    );
+    state.addedAllPlans = filteredPlans;
+  },
+  [eraseStatePlans]: (state, action) => {
+    state.addedAllPlans = [];
   },
 });
 

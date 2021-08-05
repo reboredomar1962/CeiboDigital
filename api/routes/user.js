@@ -13,10 +13,11 @@ const {
   getMe,
   addPlan,
   removePlan,
+  getAllFriends,
   addFriend,
   removeFriend,
   addCategory,
-  removeCategory
+  removeCategory,
 } = require("../controllers/userControllers");
 
 router.get("/me", authenticateJWT, getMe);
@@ -27,6 +28,8 @@ router.post("/logout", authenticateJWT, logoutUser);
 // returns all users
 router.get("/", getUser);
 //add a friend to a list
+// get all contacts from a user
+router.get("/getFriend", authenticateJWT, getAllFriends);
 // router.post("/add", authenticateJWT, addFriend);
 // add plan to user
 router.post("/planToAttend", authenticateJWT, addPlan);
