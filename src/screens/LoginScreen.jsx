@@ -5,10 +5,9 @@ import {
   View,
   ScrollView,
   SafeAreaView,
-  Button,
 } from "react-native";
 import Svg, { Rect } from "react-native-svg";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import LoginForm from "../components/LoginForm";
 import MyAccountLoggedIn from "./MyAccountLoggedIn";
 

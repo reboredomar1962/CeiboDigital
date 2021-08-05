@@ -19,7 +19,7 @@ export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
   const ip = "192.168.200.22";
   return axios
 
-    .get(`http://192.168.0.3:3001/api/category`)
+    .get(`http://${os}:3001/api/category`)
 
     .then((res) => res.data)
     .catch((error) =>
@@ -31,7 +31,7 @@ export const showCategories = createAsyncThunk("SHOW_CATEGORIES", () => {
 export const addCategory = createAsyncThunk("ADD_CATEGORY", () => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return axios
-    .post(`http://192.168.0.3:3001/api/category`)
+    .post(`http://${os}:3001/api/category`)
     .then((res) => res.data)
     .catch((error) =>
       console.log("ACA ESTA EL ERROR DE ADD_CATEGORIES -----> ", error)
