@@ -18,7 +18,7 @@ export const createComment = createAsyncThunk(
     return AsyncStorage.getItem("token")
       .then((token) => {
         return axios.post(
-          `http://192.168.0.3:3001/api/plan/${planId}/comments`,
+          `http://${os}:3001/api/plan/${planId}/comments`,
           commentObj,
           {
             headers: { Authorization: `Bearer ${JSON.parse(token)}` },
@@ -33,7 +33,7 @@ export const createComment = createAsyncThunk(
 export const showComments = createAsyncThunk("SHOW_COMMENTS", (planId) => {
   return AsyncStorage.getItem("token")
     .then((token) => {
-      return axios.get(`http://192.168.0.3:3001/api/plan/${planId}/comments`, {
+      return axios.get(`http://${os}:3001/api/plan/${planId}/comments`, {
         headers: { Authorization: `Bearer ${JSON.parse(token)}` },
       });
     })

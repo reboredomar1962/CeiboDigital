@@ -13,10 +13,6 @@ const CreateEvent = ({ navigation }) => {
           <Rect x="0" y="0" width="100%" height="170" fill="#23036A" />
         </Svg>
 
-        <View style={styles.textContainer}>
-          <Text style={styles.textTitle}>Creá tu plan</Text>
-        </View>
-
         <View style={{ marginTop: 25 }}>
           <EventForm navigation={navigation} />
         </View>
@@ -35,10 +31,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     height: "100%",
     width: "100%",
-  },
-  textContainer: {
-    position: "absolute",
-    transform: [{ translateY: 70 }],
   },
   textTitle: {
     fontFamily: "Poppins_300Light",

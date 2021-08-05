@@ -15,6 +15,15 @@ import ConfusedSvg from './ConfusedSvg';
 const PastEvents = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
 
+  React.useEffect(()=>{
+    let mounted = true
+
+    if(mounted){
+      console.log('Esto se actualiza?', me.myPlans)
+    }
+    else return mounted = false
+  }, [me.myPlans])
+
     
     return (
         <SafeAreaView>

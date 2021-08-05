@@ -44,7 +44,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
   const [image, setImage] = React.useState(null);
   
   
-  console.log("myAccount", me);
+ /*  console.log("myAccount", me); */
 
   /* React.useEffect(()=>{
     let mounted = true
@@ -66,7 +66,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
 /*   console.log('ESTO ES CATEGORIES',categories)
 
   console.log('ESTO ES ME.CATEGORIES', me.categories) */
-
+ 
 
   React.useEffect(() => {
     (async () => {
@@ -87,7 +87,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log('esto es la imagen que elegio el usuario-->',result);
+    /* console.log('esto es la imagen que elegio el usuario-->',result); */
 
     if (!result.cancelled) {
       setImage(result.uri);
@@ -95,15 +95,15 @@ const MyAccountLoggedIn = ({ navigation }) => {
   };
 
   const handlePress = (value) => {
-    console.log('ESTO ES VALUE EN HANDLE PRESS',value)
+    /* console.log('ESTO ES VALUE EN HANDLE PRESS',value) */
     dispatch(addFavCategory(value))
   }
 
   //Quise hacer la funcion de DeleteCategory de las categorias de usuario pero no salio :(
 
-  /* const handleDeletePress = (value) => {
+  const handleDeletePress = (value) => {
     dispatch(deleteFavCategory(value))
-  } */
+  }
 
   
   
@@ -181,6 +181,16 @@ const MyAccountLoggedIn = ({ navigation }) => {
           </View>
 
             ))}
+            </View>
+
+            <View style={{backgroundColor:'red'}}>
+              {me.categories.map(category=>(
+
+                <TouchableOpacity key={category.id} onPress={()=>handleDeletePress(category.id)}>
+                  <Text>{category.type}</Text>
+                </TouchableOpacity>
+
+              ))}
             </View>
 
 
