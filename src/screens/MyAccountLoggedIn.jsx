@@ -191,8 +191,8 @@ const MyAccountLoggedIn = ({ navigation }) => {
                 style={styles.btnStyle}
                 onPress={() => {
                   dispatch(logoutUser());
-                  dispatch(eraseStateContacts);
-                  dispatch(eraseStatePlans);
+                  dispatch(eraseStateContacts());
+                  dispatch(eraseStatePlans());
                 }}
               >
                 <Text style={styles.btnTxt}>Cerrar sesión</Text>

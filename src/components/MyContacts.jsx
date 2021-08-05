@@ -33,16 +33,14 @@ const MyContacts = () => {
   };
 
   React.useEffect(() => {
+    console.log("renderizo por primera vez");
     dispatch(getFriend());
     dispatch(addReduxContact(me.contacts.map((contact) => contact.id)));
   }, []);
 
-  React.useEffect(() => {
-    dispatch(getFriend());
-  }, [contactsOnRedux.length]);
-
   const renderItem = ({ item }) => <Item userInfo={item} />;
-
+  console.log("este es el console.log de allFriends", allFriends);
+  console.log("este es el console.log de contactsOnRedux", contactsOnRedux);
   return (
     <SafeAreaView style={styles.container}>
       {contactsOnRedux.length !== 0 ? (

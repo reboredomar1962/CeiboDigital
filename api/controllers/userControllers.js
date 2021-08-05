@@ -210,6 +210,19 @@ const getAllFriends = (req, res, next) => {
     });
 };
 
+const getContactsByQuery = (req, res, next) => {
+  // OJO para que coincida con el key que viene desde el front
+  const { name } = req.query;
+
+  User.find({ name: { $regex: name, $options: "i" } })
+    .sort({ name: "asc" })
+    .then((search) => {
+      if (!search) res.status(404);
+      res.status(200).json(search);
+    })
+    .catch((err) => res.status(400).send(err));
+};
+
 const addFriend = (req, res, next) => {
   const { id } = req.user;
   const friendId = req.body.id;
@@ -224,7 +237,7 @@ const addFriend = (req, res, next) => {
       console.log("este es el friend", friend);
       user.contacts = user.contacts.concat(friend);
       user.save();
-      res.status(201).send(user.contacts);
+      res.status(201).send(friend);
     })
     .catch((err) => {
       next(err);
@@ -305,6 +318,7 @@ module.exports = {
   addPlan,
   removePlan,
   getAllFriends,
+  getContactsByQuery,
   addFriend,
   removeFriend,
   addCategory,

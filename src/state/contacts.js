@@ -10,7 +10,12 @@ const ip = "192.168.0.3";
 
 const os = Platform.OS !== "android" ? "localhost" : "10.0.2.2";
 
-const initialState = { allFriends: [], contactAdded: [], contactsOnRedux: [] };
+const initialState = {
+  allFriends: [],
+  searchedContacts: [],
+  contactAdded: [],
+  contactsOnRedux: [],
+};
 
 export const getFriend = createAsyncThunk("GET_FRIEND", () => {
   return AsyncStorage.getItem("token")
@@ -20,6 +25,7 @@ export const getFriend = createAsyncThunk("GET_FRIEND", () => {
       });
     })
     .then((res) => {
+      console.log("esto devielve res.data.contacts", res.data.contacts);
       return res.data.contacts;
     })
     .catch((err) => console.log("este es el error desde contacts --->", err));
@@ -38,9 +44,23 @@ export const addContact = createAsyncThunk("ADD_CONTACT", (id) => {
       );
     })
     .then((res) => {
+      console.log("esto esta devolviendo el back en addFriend", res.data);
       return res.data;
     })
     .catch((err) => console.log("este es el error desde contacts --->", err));
+});
+
+export const queryContacts = createAsyncThunk("QUERY_CONTACTS", (query) => {
+  console.log("aca llega el query", query);
+  return axios
+    .get(`http://${os}:3001/api/user/search?name=${query}`)
+    .then((res) => {
+      console.log("dentro del segundo, length", res.data.length);
+      return res.data;
+    })
+    .catch((error) =>
+      console.log("ACA ESTA EL ERROR EN SEARCH PLANS SEARCH-----> ", error)
+    );
 });
 
 export const addReduxContact = createAction("ADD_REDUX_CONTACTS");
@@ -54,7 +74,7 @@ const contactsReducer = createReducer(initialState, {
   [addContact.fulfilled]: (state, action) => {
     console.log("este es el action.payload apretando el mas", action.payload);
 
-    state.contactAdded = action.payload;
+    state.allFriends = [...state.allFriends, action.payload];
     // state.allFriends = [...state.allFriends, action.payload];
     // console.log(
     //   "este es el state.allFriends apretando el mas",
@@ -71,6 +91,9 @@ const contactsReducer = createReducer(initialState, {
       state.contactsOnRedux = [...new Set(auxState)];
     }
   },
+  [queryContacts.fulfilled]: (state, action) => {
+    state.searchedContacts = action.payload;
+  },
   [removeReduxContact]: (state, action) => {
     // Aca siempre va a llegar solo un string
     console.log(
@@ -84,6 +107,7 @@ const contactsReducer = createReducer(initialState, {
   },
   [eraseStateContacts]: (state, action) => {
     state.contactsOnRedux = [];
+    state.allFriends = [];
   },
 });
 

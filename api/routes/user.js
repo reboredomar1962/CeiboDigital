@@ -14,6 +14,7 @@ const {
   addPlan,
   removePlan,
   getAllFriends,
+  getContactsByQuery,
   addFriend,
   removeFriend,
   addCategory,
@@ -30,6 +31,8 @@ router.get("/", getUser);
 //add a friend to a list
 // get all contacts from a user
 router.get("/getFriend", authenticateJWT, getAllFriends);
+// get selected contacts from a search query
+router.get("/search", authenticateJWT, getContactsByQuery);
 // router.post("/add", authenticateJWT, addFriend);
 // add plan to user
 router.post("/planToAttend", authenticateJWT, addPlan);

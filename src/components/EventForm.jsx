@@ -19,7 +19,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Switch } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { createPlan } from "../state/plan";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+//import DateTimePickerModal from "react-native-modal-datetime-picker";
 import dateFormat from "../utils/utils";
 
 const EventForm = ({ navigation }) => {
@@ -125,7 +125,7 @@ const EventForm = ({ navigation }) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Button title="Show Date Picker" onPress={showDatePicker} />
-              <DateTimePickerModal
+              {/* <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode="date"
                 onConfirm={(data) => {
@@ -134,7 +134,7 @@ const EventForm = ({ navigation }) => {
                 }}
                 // onChange={onChange}
                 onCancel={hideDatePicker}
-              />
+              /> */}
             </View>
           )}
           name="planDate"

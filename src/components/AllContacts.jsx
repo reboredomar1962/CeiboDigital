@@ -17,9 +17,10 @@ import RenderContacts from "./RenderContacts";
 
 const AllContacts = () => {
   const [search, setSearch] = React.useState("");
-  const { allUsers } = useSelector((store) => store.user);
-  const { me } = useSelector((store) => store.user);
-  const { contactsOnRedux } = useSelector((store) => store.contacts);
+  const { allUsers, me } = useSelector((store) => store.user);
+  const { contactsOnRedux, searchedContacts } = useSelector(
+    (store) => store.contacts
+  );
 
   const dispatch = useDispatch();
 
@@ -28,13 +29,14 @@ const AllContacts = () => {
     dispatch(addReduxContact(me.contacts.map((contact) => contact.id)));
   }, []);
 
-  React.useEffect(() => {
-    dispatch(getFriend());
-  }, [contactsOnRedux.length]);
+  // React.useEffect(() => {
+  //   dispatch(getFriend());
+  // }, [contactsOnRedux.length]);
 
   const onChangeSearch = (query) => {
     console.log(query);
     setSearch(query);
+    dispatch(query);
   };
 
   const onButtonPress = (id) => {
@@ -77,7 +79,7 @@ const AllContacts = () => {
         />
       </View>
       <FlatList
-        data={allUsers}
+        data={searchedContacts.length !== 0 ? searchedContacts : allUsers}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
