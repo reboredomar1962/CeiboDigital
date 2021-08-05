@@ -21,13 +21,13 @@ const initialState = {
   deletedCategories: [],
 };
 
-const ip = "192.168.0.3";
+const ip = "192.168.200.22";
 const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
 
 export const createUser = createAsyncThunk("CREATE_USER", (user) => {
   console.log("esta llegando el user", user);
   return axios
-    .post(`http://${os}:3001/api/user/register`, user)
+    .post(`http://192.168.0.3:3001/api/user/register`, user)
     .then((res) => res.data)
     .catch((error) =>
       //en el caso de usuario ya creado, llega el error 409. Como hacer que esto llegue al front?
@@ -38,7 +38,7 @@ export const createUser = createAsyncThunk("CREATE_USER", (user) => {
 export const loginUser = createAsyncThunk("LOGIN_USER", (user) => {
   console.log("esta llegando el loginUser", user);
   return axios
-    .post(`http://${os}:3001/api/user/login`, user)
+    .post(`http://192.168.0.3:3001/api/user/login`, user)
     .then((res) => {
       AsyncStorage.setItem("token", JSON.stringify(res.data.token));
       return res.data.token;
@@ -56,7 +56,7 @@ export const logoutUser = createAsyncThunk("CLEAR_USER", async () => {
 
 export const userMe = createAsyncThunk("USER_ME", (token) => {
   return axios
-    .get(`http://${os}:3001/api/user/me`, {
+    .get(`http://192.168.0.3:3001/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => res.data);
@@ -70,7 +70,7 @@ export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
   const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
   return AsyncStorage.getItem("token")
     .then((token) => {
-      return axios.post(`http://${os}:3001/api/user/planToAttend`, plan, {
+      return axios.post(`http://192.168.0.3:3001/api/user/planToAttend`, plan, {
         headers: { Authorization: `Bearer ${JSON.parse(token)}` },
       });
     })
@@ -85,7 +85,7 @@ export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
     .then((token) => {
       console.log("axios token ->", JSON.parse(token));
       let tokenParse = JSON.parse(token);
-      return axios.delete(`http://${os}:3001/api/user/deletePlan/${id}`, {
+      return axios.delete(`http://192.168.0.3:3001/api/user/deletePlan/${id}`, {
         headers: { Authorization: `Bearer ${tokenParse}` },
       });
     })
