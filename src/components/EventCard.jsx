@@ -44,44 +44,14 @@ const EventCard = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handlePressPlus = (plan) => {
-    // const oldUsers = plan.users;
-    // const oldPlan = { ...plan, users: [...oldUsers, me.id] };
-    // // const newPlan = Object.assign(plan);
-    // const auxLocalPlans = localPlans.filter(
-    //   (singlePlan) => singlePlan.id !== plan.id
-    // );
-    //const newPlan = { ...plan, users: [...oldUsers, me.id] };
-    //console.log("antes del dispatch", plans[8].users);
-    //setLocalPlans([...auxLocalPlans, oldPlan]);
-    //console.log("este es el plan", plan);
-    //console.log("este es el oldPlan", plan);
-    // setIncludedPlans([...includedPlans, plan.id]);
-    //console.log("al apretar el mas, este es includedPlans", includedPlans);
-    //console.log("se incluyo este al final", plan.id);
-    //console.log(change);
     dispatch(addPlan(plan));
-    //const token = await AsyncStorage.getItem("token");
-    //await dispatch(userMe(token));
+
     dispatch(addedPlans(plan.id));
-    //console.log("despues del dispatch", plans[8].users);
-    //setChange(!change);
-    //console.log("este es el change", change);
-    //setPlusMinus(!plusMinus);
   };
 
   const handlePressMinus = (plan) => {
-    // const auxRemovePlans = includedPlans.filter((planToRemove) => {
-    //   //console.log("los removed plans por id", planToRemove);
-    //   return planToRemove !== plan.id;
-    // });
-    //console.log("esto son los included plans del Minus", auxRemovePlans);
-    //setIncludedPlans(auxRemovePlans);
     dispatch(removePlan(plan));
     dispatch(removedPlans(plan.id));
-    //setChange(!change);
-    //console.log("este es el change", change);
-    //console.log(change);
-    //setPlusMinus(!plusMinus);
   };
 
   React.useEffect(() => {
@@ -94,40 +64,6 @@ const EventCard = ({ navigation }) => {
     }
     dispatch(showPlans());
   }, []);
-
-  // React.useEffect(() => {
-  //   if (me && me.id) {
-  //     const usersPlans = me.myPlans;
-  //     //let relevantPlans = [];
-  //     const auxIdPlans = usersPlans.map((plan) => {
-  //       return plan.id;
-  //     });
-
-  //     //console.log("este es el auxIdPlans", auxIdPlans);
-  //     setIncludedPlans(auxIdPlans);
-  //     //dispatch(userMe)
-  //     dispatch(addedPlans(auxIdPlans));
-  //     // if (auxIdPlans.length === 1) dispatch(addedPlans([auxIdPlans]));
-  //     // else dispatch(addedPlans(auxIdPlans));
-  //   }
-
-  //   //console.log("estos son los addedAllPlans", addedAllPlans);
-  //   //console.log("estos son los planes en me", me.myPlans);
-  // }, []);
-
-  // React.useEffect(() => {
-
-  // }, [setLocalPlans]);
-
-  // React.useEffect(() => {
-  //   dispatch(showPlans());
-  // }, [dispatch]);
-
-  // React.useEffect(() => {
-  //   const allPlans =
-  //   console.log("llegue a este useEffect")
-  //   console.log("estos son los plans", plans);
-  // }, []);
 
   const Item = ({ item }) => (
     <TouchableOpacity

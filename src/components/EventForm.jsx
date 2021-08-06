@@ -61,7 +61,7 @@ const EventForm = ({ navigation }) => {
 
   const onSubmit = (data) => {
     console.log("ESTA ES LA DATA->, ", data);
-    dispatch(createPlan(data)).then(() => navigation.goBack());
+    //dispatch(createPlan(data)).then(() => navigation.goBack());
   };
 
   //-----------------------------------
