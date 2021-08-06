@@ -19,7 +19,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Switch } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { createPlan } from "../state/plan";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+//import DateTimePickerModal from "react-native-modal-datetime-picker";
 import dateFormat from "../utils/utils";
 
 const EventForm = ({ navigation }) => {
@@ -83,42 +83,72 @@ const EventForm = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <View style={{ position: "relative",
-    transform: [{ translateY: -170 }],}}>
+      <View style={{ position: "relative", transform: [{ translateY: -170 }] }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 25,
+          }}
+        >
+          <View style={styles.imgContainer}>
+            <TouchableOpacity>
+              <AntDesign name="pluscircleo" size={16} color="#fff" />
+            </TouchableOpacity>
 
-        <View style={{flexDirection:'row', justifyContent:'space-between', marginBottom:25}}>
+            <Text
+              style={{
+                fontFamily: "Poppins_300Light",
+                fontSize: 10,
+                color: "#fff",
+                textAlign: "center",
+                width: "80%",
+                marginTop: 5,
+              }}
+            >
+              Agregar imagen
+            </Text>
+          </View>
 
-      <View style={styles.imgContainer}>
-        <TouchableOpacity>
-          <AntDesign name="pluscircleo" size={16} color="#fff" />
-        </TouchableOpacity>
+          <View style={styles.imgContainer}>
+            <TouchableOpacity>
+              <AntDesign name="pluscircleo" size={16} color="#fff" />
+            </TouchableOpacity>
 
-        <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
-          Agregar imagen
-        </Text>
-      </View>
+            <Text
+              style={{
+                fontFamily: "Poppins_300Light",
+                fontSize: 10,
+                color: "#fff",
+                textAlign: "center",
+                width: "80%",
+                marginTop: 5,
+              }}
+            >
+              Agregar imagen
+            </Text>
+          </View>
 
-      <View style={styles.imgContainer}>
-        <TouchableOpacity>
-          <AntDesign name="pluscircleo" size={16} color="#fff" />
-        </TouchableOpacity>
+          <View style={styles.imgContainer}>
+            <TouchableOpacity>
+              <AntDesign name="pluscircleo" size={16} color="#fff" />
+            </TouchableOpacity>
 
-        <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
-          Agregar imagen
-        </Text>
-      </View>
-
-      <View style={styles.imgContainer}>
-        <TouchableOpacity>
-          <AntDesign name="pluscircleo" size={16} color="#fff" />
-        </TouchableOpacity>
-
-        <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
-          Agregar imagen
-        </Text>
-      </View>
-
+            <Text
+              style={{
+                fontFamily: "Poppins_300Light",
+                fontSize: 10,
+                color: "#fff",
+                textAlign: "center",
+                width: "80%",
+                marginTop: 5,
+              }}
+            >
+              Agregar imagen
+            </Text>
+          </View>
         </View>
+
 
         <View style={{marginTop:25, marginBottom:-150}}>
 
@@ -178,7 +208,12 @@ const EventForm = ({ navigation }) => {
 
                 <TouchableOpacity
                 onPress={showDatePicker}
+
                 >
+                  Seleccionar fecha
+                </Text>
+
+                <TouchableOpacity onPress={showDatePicker}>
                   <AntDesign name="calendar" size={20} color="#23036A" />
                 </TouchableOpacity>
 
@@ -193,6 +228,7 @@ const EventForm = ({ navigation }) => {
                   onCancel={hideDatePicker}
                 />
               </View>
+
               
           )}
           name="planDate"
@@ -216,9 +252,12 @@ const EventForm = ({ navigation }) => {
                 placeholder={placeholder}
                 // onValueChange={(value) => console.log("OnValue", value)}
                 onValueChange={onChange}
+
                 onBlur={onBlur}
-                items={itemsForDropdown}
+                onChangeText={onChange}
+                value={value}
               />
+
             </View>
           )}
           name="category"
@@ -286,6 +325,7 @@ const EventForm = ({ navigation }) => {
         {pago ? (
           <Controller
             control={control}
+
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 style={styles.textSubtitle}
@@ -297,6 +337,7 @@ const EventForm = ({ navigation }) => {
               />
             )}
             name="price"
+
           />
         ) : (
           <View></View>
@@ -332,31 +373,30 @@ const EventForm = ({ navigation }) => {
           name="users"
         />
 
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#23036A",
-              padding: 7,
-              borderRadius: 20,
-              width: 150,
-              marginTop: 25,
-            }}
-            onPress={handleSubmit(onSubmit)}
-          >
-            <Text
+
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity
               style={{
-                fontFamily: "Poppins_300Light",
-                color: "#fff",
-                textAlign: "center",
+                backgroundColor: "#23036A",
+                padding: 7,
+                borderRadius: 20,
+                width: 150,
+                marginTop: 25,
               }}
+              onPress={handleSubmit(onSubmit)}
             >
-              Crear
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontFamily: "Poppins_300Light",
+                  color: "#fff",
+                  textAlign: "center",
+                }}
+              >
+                Crear
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        </View>
-
       </View>
     </SafeAreaView>
   );
@@ -368,7 +408,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     width: "100%",
-    height: 'auto',
+    height: "auto",
   },
   textSubtitle: {
     fontFamily: "Poppins_300Light",
@@ -378,15 +418,14 @@ const styles = StyleSheet.create({
     width: 300,
     marginBottom: 15,
   },
-  imgContainer:{
-    alignItems:'center',
-    justifyContent:'center',
-    width:95,
-    height:120,
-    borderWidth:1.5,
-    borderColor:"#fff",
-    borderStyle:'dashed',
-    borderRadius:10,
-
+  imgContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 95,
+    height: 120,
+    borderWidth: 1.5,
+    borderColor: "#fff",
+    borderStyle: "dashed",
+    borderRadius: 10,
   },
 });

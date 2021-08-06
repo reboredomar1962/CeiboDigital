@@ -15,9 +15,10 @@ import {
   addPlan,
   userMe,
   removePlan,
-  addedPlans,
-  removedPlans,
+  // addedPlans,
+  // removedPlans,
 } from "../state/user";
+import { addedPlans, removedPlans } from "../state/plan";
 
 //-------------Libraries Import--------------------------
 import { Card, Title, Paragraph } from "react-native-paper";
@@ -27,19 +28,11 @@ import { AsyncStorage } from "react-native";
 import _ from "lodash";
 
 const EventCard = ({ navigation }) => {
-  //const [state, setState] = React.useState({ open: false });
-  //const [change, setChange] = React.useState(false);
-  //const onStateChange = ({ open }) => setState({ open });
-  //const [localPlans, setLocalPlans] = React.useState([]);
-  //const [includedPlans, setIncludedPlans] = React.useState([]);
-
-  //const { open } = state;
-
   const { me } = useSelector((store) => store.user);
   const { savedPlans } = useSelector((store) => store.user);
 
   const { plans } = useSelector((store) => store.plan);
-  const { addedAllPlans } = useSelector((store) => store.user);
+  const { addedAllPlans } = useSelector((store) => store.plan);
 
   const dispatch = useDispatch();
 
@@ -151,23 +144,13 @@ const EventCard = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      {/* {console.log("estos son los planes cargados al savedPlans", savedPlans)}
-      {console.log("este es me.myPlans", me.myPlans)} */}
-      {console.log(
-        "estos son los planes cargados al addedAllPlans",
-        addedAllPlans
-      )}
       <Text style={styles.textSubtitle}>Eventos promocionados</Text>
-      {/* {console.log("estos son los LocalPlans", localPlans[0])}
-      {console.log("estos son los plans", plans[0])} */}
-      {/*console.log("rerenders")*/}
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        data={plans} //data={localPlans} //
+        data={plans}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        //extraData={change}
       />
     </SafeAreaView>
   );
