@@ -4,7 +4,7 @@ const PORT = 3001;
 const db = require("./db/index");
 const volleyball = require("volleyball");
 const routes = require("./routes");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const { Plan } = require("./models");
 const cors = require("cors");
 
@@ -19,7 +19,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(volleyball);
 app.use(cors());
 
-
 /* app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -27,6 +26,7 @@ app.use(cors());
   next();
 }); */
 
+app.use("/public", express.static(`${__dirname}/storage/imgs`));
 
 app.use("/api", routes);
 
