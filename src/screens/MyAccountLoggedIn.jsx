@@ -201,7 +201,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
                 style={styles.btnStyle}
                 onPress={() => dispatch(logoutUser())}
               >
-                <Text style={styles.btnTxt}>Cerrar sesiÃ³n</Text>
+                <Text style={styles.btnTxt}>Cerrar sesion</Text>
               </TouchableOpacity>
             </View>
           </View>
