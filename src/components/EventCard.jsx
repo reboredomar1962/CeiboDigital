@@ -27,6 +27,8 @@ import { Rating } from "react-native-elements";
 import { AsyncStorage } from "react-native";
 import _ from "lodash";
 
+//AsyncStorage.clear();
+
 const EventCard = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
   const { savedPlans } = useSelector((store) => store.user);

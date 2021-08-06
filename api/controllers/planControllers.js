@@ -85,7 +85,7 @@ const getPlanByFilters = (req, res, next) => {
 
   let queryCond = {
     ...(planDate && { planDate: { $gte: new Date(planDate) } }),
-    ...(planDate && { planDate: { $lte: new Date(planDateEnd) } }),
+    ...(planDateEnd && { planDate: { $lte: new Date(planDateEnd) } }),
     ...(dateRange && {
       planDate: { $gte: new Date(planDate), $lte: new Date(planDateEnd) },
     }),

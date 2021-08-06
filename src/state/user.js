@@ -114,10 +114,11 @@ export const allMyCategories = createAsyncThunk("GET_MY_CATEGORIES", () => {
 
 export const addFavCategory = createAsyncThunk(
   "ADD_FAV_CATEGORY",
-  (category) => {
+  (category /*, auxIdMyCat, auxIdAddCat*/) => {
     const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
-    console.log("ESTO ES CATEGORY EN EL REDUCER", category);
+
     const objCategory = { id: category };
+
     return AsyncStorage.getItem("token")
       .then((token) => {
         return axios.post(`http://${os}:3001/api/user/category`, objCategory, {
@@ -139,13 +140,12 @@ export const deleteFavCategory = createAsyncThunk(
     console.log("ESTO ES DELETE_CATEGORY EN EL REDUCER", category);
     const objCategory = { id: category };
     return AsyncStorage.getItem("token")
-
       .then((token) => {
         console.log("antes", token);
         const tokenParser = JSON.parse(token);
         console.log("despues", tokenParser);
-        return axios.delete(
-          `http://${os}:3001/api/user/category`,
+        return axios.post(
+          `http://${os}:3001/api/user/removeCategory`,
           objCategory,
           {
             headers: { Authorization: `Bearer ${tokenParser}` },
@@ -193,7 +193,7 @@ const userReducer = createReducer(initialState, {
     state.addedCategories = action.payload;
   },
   [deleteFavCategory.fulfilled]: (state, action) => {
-    state.deletedCategories = action.payload;
+    state.addedCategories = action.payload;
   },
 });
 

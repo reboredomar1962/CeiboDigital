@@ -6,6 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { showComments } from "../state/comments";
+import dateFormat from "../utils/utils";
 
 //-------------Redux Import------------------------------
 import { showSinglePlan } from "../state/plan";
@@ -21,7 +22,6 @@ const SingleEvent = ({ route }) => {
 
   React.useEffect(() => {
     dispatch(showSinglePlan(route.params.id));
-    
   }, []);
 
   return (
@@ -54,7 +54,9 @@ const SingleEvent = ({ route }) => {
 
             <View style={styles.itemsStyle}>
               <AntDesign name="calendar" size={24} color="#985EFF" />
-              <Text style={styles.paragTxt}>{singlePlan.planDate}</Text>
+              <Text style={styles.paragTxt}>
+                {dateFormat(new Date(singlePlan.planDate))}
+              </Text>
             </View>
 
             <View style={styles.itemsStyle}>

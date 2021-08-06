@@ -318,7 +318,7 @@ const removeCategory = (req, res, next) => {
         (category) => category != categoryId
       );
       user.save();
-      res.status(200).send("categoria eliminada");
+      res.status(200).send(user.categories);
     })
     .catch((err) => {
       next(err);

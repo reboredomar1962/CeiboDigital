@@ -46,8 +46,8 @@ router.post("/category", authenticateJWT, addCategory);
 router.delete("/deletePlan/:id", authenticateJWT, removePlan);
 // remove a plan from user (check if I can use a delete for this route)
 router.post("/removeFriend", authenticateJWT, removeFriend);
-// remove a plan from user
-router.delete("/removeCategory", authenticateJWT, removeCategory);
+// remove a plan from user (check if I can use a delete for this route)
+router.post("/removeCategory", authenticateJWT, removeCategory);
 // create a new user
 router.post("/register", postUser);
 // select user by id

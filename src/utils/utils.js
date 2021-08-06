@@ -13,7 +13,7 @@ function dateFormat(dateObj) {
   day = checkZero(day);
   month = checkZero(month);
 
-  return day + "/" + month + "/" + year;
+  return day + "-" + month + "-" + year;
 }
 
 export default dateFormat;
