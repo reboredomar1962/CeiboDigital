@@ -274,10 +274,20 @@ const removeFriend = (req, res, next) => {
     });
 };
 
+const getMyCategories = (req, res, next) => {
+  const { id } = req.user;
+  User.findById(id)
+    .populate("categories")
+    .then((result) => res.status(200).send(result.categories))
+    .catch((err) => {
+      next(err);
+    });
+};
+
 const addCategory = (req, res, next) => {
   const { id } = req.user;
   const categoryId = req.body.id;
-  const userPromise = User.findById(id);
+  const userPromise = User.findById(id).populate("categories");
   const categoryPromise = Category.findById(categoryId);
   console.log("ESTO ES CATEGORY ID EN EL BACK----->", categoryId);
   console.log("ESTO ES REQ.BODY EN EL BACK----->", req.body);
@@ -287,7 +297,8 @@ const addCategory = (req, res, next) => {
       const [user, category] = values;
       user.categories = user.categories.concat(category);
       user.save();
-      res.status(200).send("categoria agregada");
+      console.log("user.categories", user.categories);
+      res.status(200).send(user.categories);
     })
     .catch((err) => {
       next(err);
@@ -297,7 +308,7 @@ const addCategory = (req, res, next) => {
 const removeCategory = (req, res, next) => {
   const { id } = req.user;
   const categoryId = req.body.id;
-  const userPromise = User.findById(id);
+  const userPromise = User.findById(id).populate("categories");
   const categoryPromise = Category.findById(categoryId);
   console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---->", id);
 
@@ -306,10 +317,10 @@ const removeCategory = (req, res, next) => {
       const [user, category] = values;
       console.log("user y category", user, category);
       user.categories = user.categories.filter(
-        (category) => category != categoryId
+        (category) => category.id != categoryId
       );
       user.save();
-      res.status(200).send("categoria eliminada");
+      res.status(200).send(user.categories);
     })
     .catch((err) => {
       next(err);
@@ -329,6 +340,7 @@ module.exports = {
   removePlan,
   getAllFriends,
   getContactsByQuery,
+  getMyCategories,
   addFriend,
   removeFriend,
   addCategory,

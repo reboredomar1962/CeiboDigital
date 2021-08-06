@@ -14,15 +14,18 @@ import HappySvg from "./HappySvg";
 
 const NextEvents = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
+  const { addedAllPlans, plans } = useSelector((store) => store.plan);
+
+  let auxPlans = plans.filter((plan) => addedAllPlans.includes(plan.id));
 
   return (
     <SafeAreaView>
       <View style={{ backgroundColor: "white", width: "100%", height: "100%" }}>
         {me && me.id ? (
-          me.myPlans.length > 0 ? (
+          auxPlans.length > 0 ? (
             <ScrollView>
               <View style={styles.container}>
-                {me.myPlans.map((plan) => (
+                {auxPlans.map((plan) => (
                   <TouchableOpacity
                     key={plan.id}
                     onPress={() =>
@@ -121,7 +124,7 @@ const NextEvents = ({ navigation }) => {
             </View>
           )
         ) : (
-            <View
+          <View
             style={{
               width: "100%",
               height: "100%",
@@ -148,28 +151,27 @@ const NextEvents = ({ navigation }) => {
             </View>
 
             <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#23036A",
-              padding: 7,
-              borderRadius: 20,
-              width: 180,
-              marginTop: 15,
-            }}
-            onPress={()=> navigation.navigate('LoginScreen')}
-          >
-            <Text
-              style={{
-                fontFamily: "Poppins_300Light",
-                color: "#fff",
-                textAlign: "center",
-              }}
-            >
-              Ir a iniciar sesión
-            </Text>
-          </TouchableOpacity>
-        </View>
-
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#23036A",
+                  padding: 7,
+                  borderRadius: 20,
+                  width: 180,
+                  marginTop: 15,
+                }}
+                onPress={() => navigation.navigate("LoginScreen")}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Poppins_300Light",
+                    color: "#fff",
+                    textAlign: "center",
+                  }}
+                >
+                  Ir a iniciar sesión
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       </View>
@@ -230,4 +232,3 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-
