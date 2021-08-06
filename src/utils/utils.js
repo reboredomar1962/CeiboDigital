@@ -7,7 +7,7 @@ function checkZero(data) {
 
 function dateFormat(dateObj) {
   let day = dateObj.getDate() + "";
-  let month = dateObj.getMonth() + "";
+  let month = dateObj.getMonth() + 1 + "";
   let year = dateObj.getFullYear() + "";
 
   day = checkZero(day);

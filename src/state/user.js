@@ -65,7 +65,7 @@ export const userMe = createAsyncThunk("USER_ME", (token) => {
 });
 
 export const getAllUsers = createAsyncThunk("GET_USERS", () => {
-  return axios.get(`http://192.168.0.3:3001/api/user`).then((res) => res.data);
+  return axios.get(`http://${os}:3001/api/user`).then((res) => res.data);
 });
 
 export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
@@ -117,9 +117,7 @@ export const addFavCategory = createAsyncThunk(
   "ADD_FAV_CATEGORY",
   (category /*, auxIdMyCat, auxIdAddCat*/) => {
     const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
-
     const objCategory = { id: category };
-
     return AsyncStorage.getItem("token")
       .then((token) => {
         return axios.post(`http://${os}:3001/api/user/category`, objCategory, {
@@ -153,7 +151,10 @@ export const deleteFavCategory = createAsyncThunk(
           }
         );
       })
-      .then((res) => res.data)
+      .then((res) => {
+        console.log("esto devuelve al tirar abajo una categoria", res.data);
+        return res.data;
+      })
       .catch((error) =>
         console.log("ACA ESTA EL ERROR EN DELETE_FAV_CATEGORY", error)
       );
@@ -191,10 +192,10 @@ const userReducer = createReducer(initialState, {
 
   [addFavCategory.fulfilled]: (state, action) => {
     console.log("este es el addedCategories desde el redux", action.payload);
-    state.addedCategories = action.payload;
+    state.myCategories = action.payload; //cambie esto a myCategories
   },
   [deleteFavCategory.fulfilled]: (state, action) => {
-    state.addedCategories = action.payload;
+    state.myCategories = action.payload; //cambie esto a myCategories
   },
 });
 

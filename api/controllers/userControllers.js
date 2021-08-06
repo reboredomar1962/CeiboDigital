@@ -296,6 +296,7 @@ const addCategory = (req, res, next) => {
       const [user, category] = values;
       user.categories = user.categories.concat(category);
       user.save();
+      console.log("user.categories", user.categories);
       res.status(200).send(user.categories);
     })
     .catch((err) => {
@@ -306,7 +307,7 @@ const addCategory = (req, res, next) => {
 const removeCategory = (req, res, next) => {
   const { id } = req.user;
   const categoryId = req.body.id;
-  const userPromise = User.findById(id);
+  const userPromise = User.findById(id).populate("categories");
   const categoryPromise = Category.findById(categoryId);
   console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---->", id);
 
@@ -315,7 +316,7 @@ const removeCategory = (req, res, next) => {
       const [user, category] = values;
       console.log("user y category", user, category);
       user.categories = user.categories.filter(
-        (category) => category != categoryId
+        (category) => category.id != categoryId
       );
       user.save();
       res.status(200).send(user.categories);

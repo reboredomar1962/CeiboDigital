@@ -39,8 +39,9 @@ import { Ionicons } from "@expo/vector-icons";
 const MyAccountLoggedIn = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
   const { categories } = useSelector((store) => store.categories);
-  const { addedCategories, myCategories } = useSelector((store) => store.user);
+  const { myCategories } = useSelector((store) => store.user); //addedCategories,
   const dispatch = useDispatch();
+
   const [image, setImage] = React.useState(null);
 
   /*  console.log("myAccount", me); */
@@ -95,7 +96,8 @@ const MyAccountLoggedIn = ({ navigation }) => {
   const handlePress = (value) => {
     // aca llega un id de la categoria
     /* console.log('ESTO ES VALUE EN HANDLE PRESS',value) */
-    dispatch(addFavCategory(value));
+    if (!myCategories.map((category) => category.id).includes(value))
+      dispatch(addFavCategory(value));
   };
 
   //Quise hacer la funcion de DeleteCategory de las categorias de usuario pero no salio :(
@@ -195,25 +197,36 @@ const MyAccountLoggedIn = ({ navigation }) => {
                 </View>
               ))}
             </View>
+            <View>
+              <Text style={styles.paragTxt}>Mis categorias seleccionadas</Text>
+            </View>
 
-            <View style={{ backgroundColor: "red" }}>
-              {addedCategories.length !== 0
-                ? addedCategories.map((category) => (
-                    <TouchableOpacity
+            <View>
+              {myCategories.length > 0
+                ? myCategories.map((category) => (
+                    <View
                       key={category.id}
-                      onPress={() => handleDeletePress(category.id)}
+                      style={{ marginBottom: 10, marginLeft: 5 }}
                     >
-                      <Text>{category.type}</Text>
-                    </TouchableOpacity>
+                      <Chip
+                        icon="close"
+                        style={{ backgroundColor: "#D4B5FA" }}
+                        onPress={() => handleDeletePress(category.id)}
+                      >
+                        <Text style={styles.paragTxt}>{category.type}</Text>
+                      </Chip>
+                    </View>
                   ))
-                : myCategories.map((category) => (
+                : null}
+
+              {/*myCategories.map((category) => (
                     <TouchableOpacity
                       key={category.id}
                       onPress={() => handleDeletePress(category.id)}
                     >
                       <Text>{category.type}</Text>
                     </TouchableOpacity>
-                  ))}
+                  ))*/}
             </View>
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>

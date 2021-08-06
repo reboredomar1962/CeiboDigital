@@ -31,7 +31,7 @@ const planSchema = new Schema({
     type: String,
     required: false, //camiar dsp a true
   },
-  recommendation: Number,
+  recommendation: { type: Number, default: 1 },
   users: [{ type: Schema.Types.ObjectId, ref: "user" }],
   private: {
     type: Boolean,
@@ -64,10 +64,14 @@ planSchema.methods.setImgUrl = function setImgUrl(imags) {
 };
 
 planSchema.methods.average = function () {
-  console.log(this.comments);
+  console.log("estos son los comments desde Average", this.comments);
   let total = 0;
   this.comments.map((comment) => {
     total += parseInt(comment.valoracion);
+    console.log(
+      "estos son los TIPOS que llegan a comments",
+      typeof comment.valoracion
+    );
   });
   let resultado = total / this.comments.length;
   this.recommendation = resultado;
