@@ -117,6 +117,7 @@ const getMe = (req, res, next) => {
       address: 1,
       price: 1,
       img: 1,
+      planOwner: 1,
     })
 
     .populate("categories", {

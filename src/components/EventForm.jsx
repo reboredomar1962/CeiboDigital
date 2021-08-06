@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 
+import * as FileSystem from 'expo-file-system';
+
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 //Redux import
 import { useSelector, useDispatch } from "react-redux";
@@ -46,15 +48,18 @@ const EventForm = ({ navigation }) => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      /* base64: true */
+      /* base64: true, */
     });
-
-    console.log(result.uri);
 
     if (!result.cancelled) {
       setImage([...image, result.uri]);
+      console.log('esto es la imagen que eligio el user',result.uri)
+      /* setImageBack(result.uri.replace('file://', '')) */
     }
+
+
   };
+  
 
   // -----------------------------Image Picker Config----------------------------
 
@@ -88,8 +93,10 @@ const EventForm = ({ navigation }) => {
     value: null,
   };
 
+  
+
   const onSubmit = (data) => {
-    /*
+    
     const obj = {
       address: data.address,
       capacity: data.capacity,
@@ -100,11 +107,14 @@ const EventForm = ({ navigation }) => {
       price: data.price,
       private: data.private,
       users: data.users,
-      img: image
-    }*/
-    //console.log("ESTA ES LA DATA->, ", data);
 
-    dispatch(createPlan(data)).then(() => navigation.goBack());
+      img: image,
+    }
+
+    console.log("ESTA ES LA DATA->, ", obj);
+   
+    dispatch(createPlan(obj)).then(() => navigation.goBack());
+
   };
 
   //-----------------------------------Date Picker Config --------------------------
@@ -124,11 +134,7 @@ const EventForm = ({ navigation }) => {
     hideDatePicker();
   };
 
-  const handleInvite = () => {
-    console.log("holis");
-  };
 
-  // -----------------------------Date Picker Config----------------------------
 
   const [pago, setPago] = React.useState(false);
 
@@ -153,25 +159,44 @@ const EventForm = ({ navigation }) => {
                 <AntDesign name="pluscircleo" size={16} color="#fff" />
               </TouchableOpacity>
 
-              <Text
-                style={{
-                  fontFamily: "Poppins_300Light",
-                  fontSize: 10,
-                  color: "#fff",
-                  textAlign: "center",
-                  width: "80%",
-                  marginTop: 5,
-                }}
-              >
-                Agregar imagen
-              </Text>
-            </View>
-          ) : (
-            <Image
-              source={{ uri: image[0] }}
-              style={{ width: 95, height: 120, borderRadius: 10 }}
-            />
-          )}
+
+        <View style={{flexDirection:'row', justifyContent:'space-between', marginBottom:25}}>
+
+        {image.length === 0 ?
+      <View style={styles.imgContainer}>
+          <TouchableOpacity
+          onPress={pickImage}
+          >
+            <AntDesign name="pluscircleo" size={16} color="#fff" />
+          </TouchableOpacity>
+  
+          <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
+            Agregar imagen
+          </Text>
+        </View>
+
+        :
+
+          (<Image source={{uri:image[0]}} style={{width:95, height:120, borderRadius:10,}}/>)
+        
+        }
+        
+        {image.length === 1 ||  image.length === 0 ?
+        
+        <View style={styles.imgContainer}>
+          <TouchableOpacity
+          onPress={pickImage}
+          >
+            <AntDesign name="pluscircleo" size={16} color="#fff" />
+          </TouchableOpacity>
+  
+          <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
+            Agregar imagen
+          </Text>
+        </View>
+
+        :
+
 
           {image.length === 1 || image.length === 0 ? (
             <View style={styles.imgContainer}>
@@ -179,25 +204,20 @@ const EventForm = ({ navigation }) => {
                 <AntDesign name="pluscircleo" size={16} color="#fff" />
               </TouchableOpacity>
 
-              <Text
-                style={{
-                  fontFamily: "Poppins_300Light",
-                  fontSize: 10,
-                  color: "#fff",
-                  textAlign: "center",
-                  width: "80%",
-                  marginTop: 5,
-                }}
-              >
-                Agregar imagen
-              </Text>
-            </View>
-          ) : (
-            <Image
-              source={{ uri: image[1] }}
-              style={{ width: 95, height: 120, borderRadius: 10 }}
-            />
-          )}
+
+        {image.length === 2 ||  image.length === 1 ||  image.length === 0  ?
+        <View style={styles.imgContainer}>
+          <TouchableOpacity
+          onPress={pickImage}
+          >
+            <AntDesign name="pluscircleo" size={16} color="#fff" />
+          </TouchableOpacity>
+  
+          <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
+            Agregar imagen
+          </Text>
+        </View>
+
 
           {image.length === 2 || image.length === 0 ? (
             <View style={styles.imgContainer}>
@@ -286,37 +306,24 @@ const EventForm = ({ navigation }) => {
           />
           {errors.lastName && <Text>Este campo no puede estar vacío</Text>}
 
-          <Controller
-            control={control}
-            // rules={{
-            //   required: true,
-            // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#D4B5FA",
-                  width: 300,
-                  paddingBottom: 5,
-                  marginBottom: 15,
-                  marginTop: 5,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Poppins_300Light",
-                    fontSize: 15,
-                    color: "#23036A",
-                  }}
-                >
-                  Seleccionar fecha
-                </Text>
 
-                <TouchableOpacity onPress={showDatePicker}>
+        <Controller
+          control={control}
+          // rules={{
+          //   required: true,
+          // }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            
+              <View style={{borderBottomWidth: 1, borderBottomColor: "#D4B5FA", width: 300, paddingBottom:5, marginBottom:15, marginTop:5}}>
+              <TouchableOpacity
+                onPress={showDatePicker}
+                >
+                  <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', }}>
+                <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Seleccionar fecha</Text>
+
                   <AntDesign name="calendar" size={20} color="#23036A" />
+                  </View>
                 </TouchableOpacity>
 
                 <DateTimePickerModal
@@ -330,10 +337,40 @@ const EventForm = ({ navigation }) => {
                   onCancel={hideDatePicker}
                 />
               </View>
-            )}
-            name="planDate"
-            defaultValue=""
-          />
+
+
+                
+              
+              
+          )}
+          name="planDate"
+          defaultValue=""
+        />
+
+        {errors.email && <Text>Este campo no puede estar vacío</Text>}
+
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <View style={{borderBottomWidth: 1,borderBottomColor: "#D4B5FA", width: 300, paddingBottom:5, marginBottom:17}}>
+              <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>
+                Seleccionar categoría:
+              </Text>
+              <RNPickerSelect
+                placeholder={placeholder}
+                // onValueChange={(value) => console.log("OnValue", value)}
+                onValueChange={onChange}
+                onBlur={onBlur}
+                items={itemsForDropdown}
+                useNativeAndroidPickerStyle={false}
+                style={{color:'blue'}}
+                           
+              />
+            </View>
+          )}
+          name="category"
+        />
+
 
           {errors.email && <Text>Este campo no puede estar vacío</Text>}
 

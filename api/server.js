@@ -1,5 +1,10 @@
 const express = require("express");
 const app = express();
+
+/* const fs = require('fs');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); */
+
 const PORT = 3001;
 const db = require("./db/index");
 const volleyball = require("volleyball");
@@ -7,6 +12,7 @@ const routes = require("./routes");
 const jwt = require("jsonwebtoken");
 const { Plan } = require("./models");
 const cors = require("cors");
+
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get("/", function (req, res) {
@@ -18,6 +24,13 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(volleyball);
 app.use(cors());
+
+
+/* app.patch('/binary-upload', (req, res) => {
+  req.pipe(fs.createWriteStream('./uploads/image' + Date.now() + '.png'));
+  res.end('OK');
+}); */
+
 
 /* app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

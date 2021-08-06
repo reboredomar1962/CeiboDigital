@@ -131,7 +131,7 @@ const postPlan = (req, res, next) => {
 
   User.findById(id).then((user) => {
     const date = new Date();
-    const panDate = new Date(req.body.planDate);
+    const planDate = new Date(req.body.planDate);
     var price = req.body.price;
     const capacity = parseInt(req.body.capacity);
     const free = !req.body.free; //negado por la logica que uso en el front ! ojo!
@@ -141,16 +141,15 @@ const postPlan = (req, res, next) => {
     } else {
       price = parseInt(price);
     }
-    console.log("IMGG->", req.files);
-    console.log("FREEEE->", free);
-    console.log("se paso a numero", price);
-    console.log("esto es el date", date);
-    console.log("esto es el date del front", panDate);
+   
+    const file = req.file
+    console.log('ESTO ES USER',user)
+
     const plan = {
       planOwner: user.name,
       name: req.body.name,
       creationDate: date,
-      planDate: panDate,
+      planDate: planDate,
       address: req.body.address,
       price,
       capacity,
@@ -159,10 +158,9 @@ const postPlan = (req, res, next) => {
       private: req.body.private,
       category: req.body.category,
       free,
-      img: [
-        "https://images.unsplash.com/photo-1524055117800-683336a51803?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-        "https://images.unsplash.com/photo-1515647433590-bd29995561a4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
-      ],
+
+      img: req.body.img
+
     };
 
     if (!plan.name) {

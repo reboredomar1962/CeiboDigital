@@ -16,9 +16,11 @@ const Home = ({ navigation }) => {
             <EventCard navigation={navigation} />
           </View>
 
-          <Text style={styles.textSubtitle}>Tus próximos eventos</Text>
+          <Text style={styles.textSubtitle}>Tus eventos</Text>
+          <View style={{marginRight:20, marginBottom:20}}>
 
           <MyEventCard />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
