@@ -7,6 +7,7 @@ const accessTokenSecret = "ceiboDigital";
 const getUser = (req, res, next) => {
   User.find({})
     .populate("contacts", { name: 1, lastName: 1, age: 1, img: 1, email: 1 })
+    .sort({ name: "asc" })
     .then((users) => {
       res.json(users);
     });
@@ -128,8 +129,6 @@ const getMe = (req, res, next) => {
       lastName: 1,
       email: 1,
     })
-   
-
 
     .then((user) => {
       console.log("user->", user);
@@ -197,6 +196,40 @@ const removePlan = (req, res, next) => {
     });
 };
 
+const getAllFriends = (req, res, next) => {
+  const { id } = req.user;
+  console.log("este es el id de getAllFriend", id);
+  User.findById(id)
+    .populate("contacts", { name: 1, lastName: 1, age: 1, img: 1, email: 1 })
+    .then((result) => {
+      console.log("este es el res.data de getAllFriends", result);
+      return res.status(200).send(result);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+const getContactsByQuery = (req, res, next) => {
+  // OJO para que coincida con el key que viene desde el front
+  console.log("esto es lo que llega desde el query", req.query.name);
+  const { name } = req.query;
+  const queryFiltered = {
+    $or: [
+      { name: { $regex: name, $options: "i" } },
+      { lastName: { $regex: name, $options: "i" } },
+    ],
+  };
+
+  User.find(queryFiltered)
+    .sort({ name: "asc" })
+    .then((search) => {
+      if (!search) res.status(404);
+      res.status(200).json(search);
+    })
+    .catch((err) => res.status(400).send(err));
+};
+
 const addFriend = (req, res, next) => {
   const { id } = req.user;
   const friendId = req.body.id;
@@ -211,7 +244,7 @@ const addFriend = (req, res, next) => {
       console.log("este es el friend", friend);
       user.contacts = user.contacts.concat(friend);
       user.save();
-      res.status(200).send("amigo agregado");
+      res.status(201).send(friend);
     })
     .catch((err) => {
       next(err);
@@ -228,9 +261,10 @@ const removeFriend = (req, res, next) => {
   Promise.all([userPromise, friendPromise])
     .then((values) => {
       const [user, friend] = values;
+      console.log("aca llego el friend ");
       user.contacts = user.contacts.filter((friendId) => friendId != idFriend);
       user.save();
-      res.status(200).send("amigo eliminado");
+      res.status(200).send(user.contacts);
       console.log("user", user);
       console.log("friend", friend);
     })
@@ -244,8 +278,8 @@ const addCategory = (req, res, next) => {
   const categoryId = req.body.id;
   const userPromise = User.findById(id);
   const categoryPromise = Category.findById(categoryId);
-  console.log('ESTO ES CATEGORY ID EN EL BACK----->',categoryId)
-  console.log('ESTO ES REQ.BODY EN EL BACK----->',req.body)
+  console.log("ESTO ES CATEGORY ID EN EL BACK----->", categoryId);
+  console.log("ESTO ES REQ.BODY EN EL BACK----->", req.body);
 
   Promise.all([userPromise, categoryPromise])
     .then((values) => {
@@ -264,7 +298,7 @@ const removeCategory = (req, res, next) => {
   const categoryId = req.body.id;
   const userPromise = User.findById(id);
   const categoryPromise = Category.findById(categoryId);
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---->', id)
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---->", id);
 
   Promise.all([userPromise, categoryPromise])
     .then((values) => {
@@ -292,6 +326,8 @@ module.exports = {
   getMe,
   addPlan,
   removePlan,
+  getAllFriends,
+  getContactsByQuery,
   addFriend,
   removeFriend,
   addCategory,

@@ -14,13 +14,14 @@ import { Rating } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 //-----------------REDUX CONFIG-----------------------------------
 import { useSelector, useDispatch } from "react-redux";
-import { addPlan, removePlan, addedPlans, removedPlans } from "../state/user";
+import { addPlan, removePlan } from "../state/user";
+import { addedPlans, removedPlans } from "../state/plan";
 
 const SearchedPlans = ({ navigation }) => {
   const { searchedPlans } = useSelector((store) => store.plan);
   const { me } = useSelector((store) => store.user);
   const [includedPlans, setIncludedPlans] = React.useState([]);
-  const { addedAllPlans } = useSelector((store) => store.user);
+  const { addedAllPlans } = useSelector((store) => store.plan);
   const dispatch = useDispatch();
 
   const handlePressPlus = (plan) => {

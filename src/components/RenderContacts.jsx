@@ -12,14 +12,16 @@ import {
 import { Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 
-
-const RenderContacts = ({ user, bottonPress }) => {
-  
+const RenderContacts = ({ user, bottonPress, bottonPressMinus, contacts }) => {
   return (
     <View style={styles.item}>
-      {/* {console.log("esto es el userInfo de RenderComponent", user)} */}
-
-      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
         <Avatar
           size={35}
           rounded
@@ -34,26 +36,33 @@ const RenderContacts = ({ user, bottonPress }) => {
           placeholderStyle={{ backgroundColor: "#23036A" }}
         ></Avatar>
 
-        <View style={{marginLeft:10}}>
-          <Text style={styles.textTitle}>{user.name + " " + user.lastName}</Text>
+        <View style={{ marginLeft: 10 }}>
+          <Text style={styles.textTitle}>
+            {user.name + " " + user.lastName}
+          </Text>
         </View>
-
       </View>
 
       <View>
-        <TouchableOpacity
-          onPress={() => {
-            console.log(user.id);
-            bottonPress(user.id);
-          }}
-        >
-          <AntDesign name="pluscircleo" size={20} color="#23036A" />
-        </TouchableOpacity>         
+        {!contacts.includes(user.id) ? (
+          <TouchableOpacity
+            onPress={() => {
+              bottonPress(user.id);
+            }}
+          >
+            <AntDesign name="pluscircleo" size={20} color="#23036A" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              bottonPressMinus(user.id);
+            }}
+          >
+            <AntDesign name="minuscircleo" size={20} color="#23036A" />
+          </TouchableOpacity>
+        )}
       </View>
-
     </View>
-    
-
   );
 };
 
@@ -66,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderRadius:10,
+    borderRadius: 10,
   },
   textTitle: {
     fontFamily: "Poppins_500Medium",
