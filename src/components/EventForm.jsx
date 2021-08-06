@@ -6,7 +6,6 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
-  Button,
 } from "react-native";
 
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
@@ -21,8 +20,46 @@ import { AntDesign } from "@expo/vector-icons";
 import { createPlan } from "../state/plan";
 //import DateTimePickerModal from "react-native-modal-datetime-picker";
 import dateFormat from "../utils/utils";
+import * as ImagePicker from 'expo-image-picker';
 
 const EventForm = ({ navigation }) => {
+
+// -----------------------------Image Picker Config----------------------------
+
+  const [image, setImage] = React.useState([]);
+ 
+
+  React.useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Necesitamos permiso para poder acceder a tus fotos');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      /* base64: true */
+    });
+
+    console.log(result.uri);
+
+    if (!result.cancelled) {
+      setImage([...image, result.uri]);
+    }
+    
+  };
+  
+
+  // -----------------------------Image Picker Config----------------------------
+
   const {
     control,
     handleSubmit,
@@ -60,11 +97,27 @@ const EventForm = ({ navigation }) => {
   };
 
   const onSubmit = (data) => {
-    console.log("ESTA ES LA DATA->, ", data);
-    //dispatch(createPlan(data)).then(() => navigation.goBack());
+
+    const obj = {
+      address: data.address,
+      capacity: data.capacity,
+      category: data.category,
+      description: data.description,
+      name: data.name,
+      planDate: data.planDate,
+      price: data.price,
+      private: data.private,
+      users: data.users,
+      img: image
+    }
+    console.log("ESTA ES LA DATA->, ", obj);
+
+    /* dispatch(createPlan(data)).then(() => navigation.goBack()); */
+
+
   };
 
-  //-----------------------------------
+  //-----------------------------------Date Picker Config --------------------------
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -81,20 +134,30 @@ const EventForm = ({ navigation }) => {
     hideDatePicker();
   };
 
+  const handleInvite = () => {
+    console.log('holis');
+  }
+
+ // -----------------------------Date Picker Config----------------------------
+
   return (
     <SafeAreaView>
-      <View style={{ position: "relative", transform: [{ translateY: -170 }] }}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginBottom: 25,
-          }}
+      <View>
+
+        <View style={{flexDirection:'row', justifyContent:'space-between', marginBottom:25}}>
+
+      <View style={styles.imgContainer}>
+        <TouchableOpacity
+        onPress={pickImage}
         >
-          <View style={styles.imgContainer}>
-            <TouchableOpacity>
-              <AntDesign name="pluscircleo" size={16} color="#fff" />
-            </TouchableOpacity>
+          <AntDesign name="pluscircleo" size={16} color="#fff" />
+        </TouchableOpacity>
+
+        <Text style={{fontFamily: "Poppins_300Light", fontSize: 10, color:"#fff", textAlign:'center', width:'80%', marginTop:5}}>
+          Agregar imagen
+        </Text>
+      </View>
+
 
             <Text
               style={{
@@ -150,7 +213,8 @@ const EventForm = ({ navigation }) => {
         </View>
 
 
-        <View style={{marginTop:25, marginBottom:-150}}>
+        <View style={{marginTop:25}}>
+
 
         <Controller
           control={control}
@@ -203,7 +267,8 @@ const EventForm = ({ navigation }) => {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             
-              <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', /* marginTop:5 */}}>
+              <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', borderBottomWidth: 1,
+              borderBottomColor: "#D4B5FA", width: 300, paddingBottom:5, marginBottom:15, marginTop:5}}>
                 <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Seleccionar fecha</Text>
 
                 <TouchableOpacity
@@ -244,7 +309,7 @@ const EventForm = ({ navigation }) => {
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <View >
+            <View style={{borderBottomWidth: 1,borderBottomColor: "#D4B5FA", width: 300, paddingBottom:5, marginBottom:17}}>
               <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>
                 Seleccionar categoría:
               </Text>
@@ -252,10 +317,12 @@ const EventForm = ({ navigation }) => {
                 placeholder={placeholder}
                 // onValueChange={(value) => console.log("OnValue", value)}
                 onValueChange={onChange}
-
                 onBlur={onBlur}
+                items={itemsForDropdown}
+                useNativeAndroidPickerStyle={false}
                 onChangeText={onChange}
                 value={value}
+
               />
 
             </View>
@@ -355,7 +422,7 @@ const EventForm = ({ navigation }) => {
           name="private"
         />
 
-        <Controller
+        {/* <Controller
           control={control}
 
           render={() => (
@@ -363,7 +430,7 @@ const EventForm = ({ navigation }) => {
                 <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Invitar</Text>
               <TouchableOpacity 
               style={{marginRight:12}}
-              onPress={() => (console.log('holis'))}
+              onPress={handleInvite}
               >
                 <AntDesign name="pluscircleo" size={20} color="#23036A" />
 
@@ -371,7 +438,7 @@ const EventForm = ({ navigation }) => {
             </View>
           )}
           name="users"
-        />
+        /> */}
 
 
           <View style={{ alignItems: "center" }}>

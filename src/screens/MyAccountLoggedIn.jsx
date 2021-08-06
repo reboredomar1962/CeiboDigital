@@ -80,13 +80,14 @@ const MyAccountLoggedIn = ({ navigation }) => {
       quality: 1,
     });
 
-    /* console.log('esto es la imagen que elegio el usuario-->',result); */
+    console.log(result.uri);
 
     if (!result.cancelled) {
       setImage(result.uri);
     }
-  };
 
+  };
+  
   const handlePress = (value) => {
     /* console.log('ESTO ES VALUE EN HANDLE PRESS',value) */
     dispatch(addFavCategory(value));
