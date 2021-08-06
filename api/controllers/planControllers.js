@@ -85,7 +85,7 @@ const getPlanByFilters = (req, res, next) => {
 
   let queryCond = {
     ...(planDate && { planDate: { $gte: new Date(planDate) } }),
-    ...(planDate && { planDate: { $lte: new Date(planDateEnd) } }),
+    ...(planDateEnd && { planDate: { $lte: new Date(planDateEnd) } }),
     ...(dateRange && {
       planDate: { $gte: new Date(planDate), $lte: new Date(planDateEnd) },
     }),
@@ -159,6 +159,10 @@ const postPlan = (req, res, next) => {
       private: req.body.private,
       category: req.body.category,
       free,
+      img: [
+        "https://images.unsplash.com/photo-1524055117800-683336a51803?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+        "https://images.unsplash.com/photo-1515647433590-bd29995561a4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+      ],
     };
 
     if (!plan.name) {
@@ -220,7 +224,7 @@ const postComments = (req, res, next) => {
   }
 
   const userPromise = User.findById(id);
-  const planPromise = Plan.findById(planId);
+  const planPromise = Plan.findById(planId).populate("comments");
 
   Promise.all([userPromise, planPromise]).then((values) => {
     const [user, plan] = values;

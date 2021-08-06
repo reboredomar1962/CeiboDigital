@@ -27,6 +27,8 @@ import { Rating } from "react-native-elements";
 import { AsyncStorage } from "react-native";
 import _ from "lodash";
 
+//AsyncStorage.clear();
+
 const EventCard = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
   const { savedPlans } = useSelector((store) => store.user);
@@ -91,12 +93,12 @@ const EventCard = ({ navigation }) => {
                 <Text style={styles.priceTxt}>Gratis</Text>
               )}
 
-              {/* <Rating
+              <Rating
                 count={5}
                 startingValue={Math.round(item.recommendation)}
                 imageSize={20}
                 readonly
-              /> */}
+              />
 
               {!me || !me.id
                 ? null

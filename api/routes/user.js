@@ -15,6 +15,7 @@ const {
   removePlan,
   getAllFriends,
   getContactsByQuery,
+  getMyCategories,
   addFriend,
   removeFriend,
   addCategory,
@@ -34,6 +35,7 @@ router.get("/getFriend", authenticateJWT, getAllFriends);
 // get selected contacts from a search query
 router.get("/search", authenticateJWT, getContactsByQuery);
 // router.post("/add", authenticateJWT, addFriend);
+router.get("/myCategories", authenticateJWT, getMyCategories);
 // add plan to user
 router.post("/planToAttend", authenticateJWT, addPlan);
 // add friend to user
@@ -44,8 +46,8 @@ router.post("/category", authenticateJWT, addCategory);
 router.delete("/deletePlan/:id", authenticateJWT, removePlan);
 // remove a plan from user (check if I can use a delete for this route)
 router.post("/removeFriend", authenticateJWT, removeFriend);
-// remove a plan from user
-router.delete("/removeCategory", authenticateJWT, removeCategory);
+// remove a plan from user (check if I can use a delete for this route)
+router.post("/removeCategory", authenticateJWT, removeCategory);
 // create a new user
 router.post("/register", postUser);
 // select user by id

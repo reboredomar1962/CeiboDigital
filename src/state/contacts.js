@@ -36,7 +36,7 @@ export const addContact = createAsyncThunk("ADD_CONTACT", (id) => {
   return AsyncStorage.getItem("token")
     .then((token) => {
       return axios.post(
-        `http://192.168.0.3:3001/api/user/friend`,
+        `http://${os}:3001/api/user/friend`,
         { id },
         {
           headers: { Authorization: `Bearer ${JSON.parse(token)}` },
