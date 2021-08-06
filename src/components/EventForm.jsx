@@ -46,6 +46,7 @@ const EventForm = ({ navigation }) => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      /* base64: true */
     });
 
     console.log(result.uri);
@@ -336,7 +337,7 @@ const EventForm = ({ navigation }) => {
           name="private"
         />
 
-        <Controller
+        {/* <Controller
           control={control}
           render={() => (
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:15}}>
@@ -350,7 +351,7 @@ const EventForm = ({ navigation }) => {
             </View>
           )}
           name="users"
-        />
+        /> */}
 
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity
