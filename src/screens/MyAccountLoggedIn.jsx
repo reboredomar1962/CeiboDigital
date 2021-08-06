@@ -13,76 +13,59 @@ import {
 } from "react-native";
 //Redux imports
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../state/user";
 import { showCategories } from "../state/categories";
-import { addFavCategory } from "../state/user";
+import { addFavCategory, deleteFavCategory, logoutUser } from "../state/user";
 
 //Libraries imports
 import { Avatar } from "react-native-elements";
 import Svg, { Rect } from "react-native-svg";
-import * as ImagePicker from 'expo-image-picker';
-import { Chip } from 'react-native-paper';
-import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
-import {Picker} from '@react-native-picker/picker';
+import * as ImagePicker from "expo-image-picker";
+import { Chip } from "react-native-paper";
 
 //Icons import
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-
-
-
 /* 
   - Cuando cambiamos la imagen de perfil de un usuario, ese cambio no persiste
 */
 
-
-
 const MyAccountLoggedIn = ({ navigation }) => {
-
   const { me } = useSelector((store) => store.user);
-  const { categories } = useSelector(store => store.categories)
+  const { categories } = useSelector((store) => store.categories);
+  const { addedCategories } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [image, setImage] = React.useState(null);
-  
-  
-  console.log("myAccount", me);
+
+  /*  console.log("myAccount", me); */
 
   /* React.useEffect(()=>{
     let mounted = true
     if(mounted){
-      return console.log(me.categories)
+      return console.log('ESTAS SON LAS CATEGORIAS DE USER EN REAL-TIME?', addedCategories)
     }
     else return mounted = false
 
-  }, [me.categories]) */
-  
-  /* React.useEffect(()=>{
-    let mounted = true
-    if(mounted){
-      dispatch(showCategories())
-    }
-    else return mounted = false
-  }, [])
+  }, [addedCategories]) */
 
-  console.log('ESTO ES CATEGORIES',categories) */
+  React.useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      dispatch(showCategories());
+    } else return (mounted = false);
+  }, []);
 
+  /*   console.log('ESTO ES CATEGORIES',categories)
 
-
-  const placeholder = {
-    label: 'Seleccionar...',
-    value: null,
-  };
-
-  console.log('ESTO ES ME.CATEGORIES', me.categories)
-
+  console.log('ESTO ES ME.CATEGORIES', me.categories) */
 
   React.useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert('Necesitamos permiso para poder acceder a tus fotos');
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          Alert.alert("Necesitamos permiso para poder acceder a tus fotos");
         }
       }
     })();
@@ -96,25 +79,28 @@ const MyAccountLoggedIn = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log('esto es la imagen que elegio el usuario-->',result);
+    console.log(result.uri);
 
     if (!result.cancelled) {
       setImage(result.uri);
     }
+
+  };
+  
+  const handlePress = (value) => {
+    /* console.log('ESTO ES VALUE EN HANDLE PRESS',value) */
+    dispatch(addFavCategory(value));
   };
 
-  const handlePress = (value) => {
-    console.log(value)
-    dispatch(addFavCategory(value))
-  }
+  //Quise hacer la funcion de DeleteCategory de las categorias de usuario pero no salio :(
 
-  
-  
+  const handleDeletePress = (value) => {
+    dispatch(deleteFavCategory(value));
+  };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
       <ScrollView>
-
       
     <View style={styles.container}>
       <Svg height={180} width="100%">
@@ -179,56 +165,81 @@ const MyAccountLoggedIn = ({ navigation }) => {
             >
               {category.type}
             </Chip>
+
           </View>
 
-            ))}
+          <View style={styles.infoContainer}>
+            <View style={styles.itemsStyle}>
+              <MaterialIcons name="alternate-email" size={24} color="#985EFF" />
+              <Text style={styles.paragTxt}>{me.email}</Text>
             </View>
 
+            <TouchableOpacity
+              style={styles.itemsStyle}
+              onPress={() => navigation.navigate("Contacts")}
+            >
+              <AntDesign name="contacts" size={24} color="#985EFF" />
+              <Text style={styles.paragTxt}>Contactos</Text>
+              <AntDesign
+                name="right"
+                size={18}
+                color="#985EFF"
+                style={{ marginLeft: 180 }}
+              />
+            </TouchableOpacity>
 
-       
-
-        
-
-
-        {/* <View style={{backgroundColor:'red'}}>
-          {me.categories.length > 0 ?
-          
-          (
-            me.categories.map(category => (
-              <View key={category}>
-                <Text>{category}</Text>
-              </View>
-            ))
-          )
-
-          :
-
-          (
-            <View>
-              <Text>No hay categorias favoritas</Text>
+            <View style={styles.itemsStyle}>
+              <MaterialIcons name="add-task" size={24} color="#985EFF" />
+              <Text style={styles.paragTxt}>Seleccionar categorias</Text>
             </View>
-          )
 
-          }
-        </View> */}
-        
-        
-        
-        
+            <View
+              style={{
+                width: 250,
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-evenly",
+              }}
+            >
+              {categories.map((category) => (
+                <View
+                  key={category.id}
+                  style={{ marginBottom: 10, marginLeft: 5 }}
+                >
+                  <Chip
+                    key={category.id}
+                    icon="check"
+                    style={{ backgroundColor: "#D4B5FA" }}
+                    onPress={() => handlePress(category.id)}
+                  >
+                    <Text style={styles.paragTxt}>{category.type}</Text>
+                  </Chip>
+                </View>
+              ))}
+            </View>
 
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <TouchableOpacity
-            style={styles.btnStyle}
-            onPress={() => dispatch(logoutUser())}
-          >
-            <Text style={styles.btnTxt}>Cerrar sesion</Text>
-          </TouchableOpacity>
+            <View style={{ backgroundColor: "red" }}>
+              {me.categories.map((category) => (
+                <TouchableOpacity
+                  key={category.id}
+                  onPress={() => handleDeletePress(category.id)}
+                >
+                  <Text>{category.type}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <TouchableOpacity
+                style={styles.btnStyle}
+                onPress={() => dispatch(logoutUser())}
+              >
+                <Text style={styles.btnTxt}>Cerrar sesion</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-
-      </View>
-    </View>
-
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -289,5 +300,3 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
-

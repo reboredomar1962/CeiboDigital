@@ -54,6 +54,15 @@ planSchema.set("toJSON", {
   },
 });
 
+planSchema.methods.setImgUrl = function setImgUrl(imags) {
+  const arr = [];
+  imags.map((img) => {
+    arr.push(`http://10.0.2.2:3001/public/${img}`);
+  });
+
+  this.img = arr;
+};
+
 planSchema.methods.average = function () {
   console.log(this.comments);
   let total = 0;

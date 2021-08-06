@@ -7,16 +7,23 @@ import {
   StyleSheet,
   StatusBar,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { Avatar } from "react-native-elements";
+import { AntDesign } from "@expo/vector-icons";
 
-const RenderContacts = ({ user, bottonPress }) => {
+const RenderContacts = ({ user, bottonPress, bottonPressMinus, contacts }) => {
   return (
     <View style={styles.item}>
-      {console.log("esto es el userInfo de RenderComponent", user)}
-      <View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
         <Avatar
-          size={50}
+          size={35}
           rounded
           title={(user.name[0] + "" + user.lastName[0]).toUpperCase()}
           source={
@@ -26,21 +33,34 @@ const RenderContacts = ({ user, bottonPress }) => {
                 }
               : { uri: "no-image" }
           }
-          //containerStyle={styles.avatar}
-          placeholderStyle={{ backgroundColor: "#D4B5FA" }}
+          placeholderStyle={{ backgroundColor: "#23036A" }}
         ></Avatar>
+
+        <View style={{ marginLeft: 10 }}>
+          <Text style={styles.textTitle}>
+            {user.name + " " + user.lastName}
+          </Text>
+        </View>
       </View>
+
       <View>
-        <Text style={styles.title}>{user.name + " " + user.lastName}</Text>
-      </View>
-      <View>
-        <Button
-          title="Añadir amigo"
-          onPress={() => {
-            console.log(user.id);
-            bottonPress(user.id);
-          }}
-        />
+        {!contacts.includes(user.id) ? (
+          <TouchableOpacity
+            onPress={() => {
+              bottonPress(user.id);
+            }}
+          >
+            <AntDesign name="pluscircleo" size={20} color="#23036A" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              bottonPressMinus(user.id);
+            }}
+          >
+            <AntDesign name="minuscircleo" size={20} color="#23036A" />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -48,16 +68,19 @@ const RenderContacts = ({ user, bottonPress }) => {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "#f9c2ff",
+    backgroundColor: "#F2E7FE",
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    borderRadius: 10,
   },
-  title: {
-    fontSize: 20,
+  textTitle: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 18,
+    color: "#23036A",
   },
 });
 

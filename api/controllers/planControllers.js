@@ -127,18 +127,53 @@ const getPlanByQuery = (req, res, next) => {
 
 // post plan
 const postPlan = (req, res, next) => {
-  const plan = req.body;
+  const { id } = req.user;
 
-  if (!plan.name) {
-    return res.status(400).json({
-      error: "required content field is missing",
+  User.findById(id).then((user) => {
+    const date = new Date();
+    const panDate = new Date(req.body.planDate);
+    var price = req.body.price;
+    const capacity = parseInt(req.body.capacity);
+    const free = !req.body.free; //negado por la logica que uso en el front ! ojo!
+
+    if (!price) {
+      price = 0;
+    } else {
+      price = parseInt(price);
+    }
+    console.log("IMGG->", req.files);
+    console.log("FREEEE->", free);
+    console.log("se paso a numero", price);
+    console.log("esto es el date", date);
+    console.log("esto es el date del front", panDate);
+    const plan = {
+      planOwner: user.name,
+      name: req.body.name,
+      creationDate: date,
+      planDate: panDate,
+      address: req.body.address,
+      price,
+      capacity,
+      description: req.body.description,
+      users: req.body.users,
+      private: req.body.private,
+      category: req.body.category,
+      free,
+    };
+
+    if (!plan.name) {
+      return res.status(400).json({
+        error: "required content field is missing",
+      });
+    }
+
+    const newPlan = new Plan(plan);
+
+    newPlan.save().then((plan) => {
+      user.myPlans = user.myPlans.concat(plan);
+      user.save();
+      res.json(plan);
     });
-  }
-
-  const newPlan = new Plan(plan);
-
-  newPlan.save().then((plan) => {
-    res.json(plan);
   });
 };
 
