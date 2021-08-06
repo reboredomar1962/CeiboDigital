@@ -17,6 +17,7 @@ const initialState = {
   allUsers: [],
   savedPlans: [],
   //addedAllPlans: [],
+  myCategories: [],
   addedCategories: [],
   deletedCategories: [],
 };
@@ -96,6 +97,21 @@ export const removePlan = createAsyncThunk("REMOVE_PLAN", (plan) => {
 export const addedPlans = createAction("ADDED_PLANS");
 export const removedPlans = createAction("REMOVED_PLANS");
 
+export const allMyCategories = createAsyncThunk("GET_MY_CATEGORIES", () => {
+  const os = Platform.OS === "android" ? "10.0.2.2" : "localhost";
+  console.log("llega a getMyCategories");
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.get(`http://${os}:3001/api/user/myCategories`, {
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+      });
+    })
+    .then((res) => res.data)
+    .catch((error) =>
+      console.log("ACA ESTA EL ERROR EN ADD_FAV_CATEGORY", error)
+    );
+});
+
 export const addFavCategory = createAsyncThunk(
   "ADD_FAV_CATEGORY",
   (category) => {
@@ -168,27 +184,12 @@ const userReducer = createReducer(initialState, {
   [removePlan.fulfilled]: (state, action) => {
     state.savedPlans = action.payload;
   },
-
-  // [addedPlans]: (state, action) => {
-  //   console.log("este es el userPlans que llega al estado", action.payload);
-  //   if (typeof action.payload === "string") {
-  //     const auxState = [...state.addedAllPlans, action.payload];
-  //     state.addedAllPlans = [...new Set(auxState)];
-  //   } else {
-  //     const auxState = [...state.addedAllPlans, ...action.payload];
-  //     state.addedAllPlans = [...new Set(auxState)];
-  //   }
-  // },
-  // [removedPlans]: (state, action) => {
-  //   // Aca siempre va a llegar solo un string
-  //   console.log("este es el userPlans que llega al estado", action.payload);
-  //   const filteredPlans = state.addedAllPlans.filter(
-  //     (planId) => planId !== action.payload
-  //   );
-  //   state.addedAllPlans = filteredPlans;
-  // },
+  [allMyCategories.fulfilled]: (state, action) => {
+    state.myCategories = action.payload;
+  },
 
   [addFavCategory.fulfilled]: (state, action) => {
+    console.log("este es el addedCategories desde el redux", action.payload);
     state.addedCategories = action.payload;
   },
   [deleteFavCategory.fulfilled]: (state, action) => {

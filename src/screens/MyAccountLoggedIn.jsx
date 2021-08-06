@@ -14,7 +14,12 @@ import {
 //Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { showCategories } from "../state/categories";
-import { addFavCategory, deleteFavCategory, logoutUser } from "../state/user";
+import {
+  addFavCategory,
+  deleteFavCategory,
+  logoutUser,
+  allMyCategories,
+} from "../state/user";
 
 //Libraries imports
 import { Avatar } from "react-native-elements";
@@ -34,7 +39,7 @@ import { Ionicons } from "@expo/vector-icons";
 const MyAccountLoggedIn = ({ navigation }) => {
   const { me } = useSelector((store) => store.user);
   const { categories } = useSelector((store) => store.categories);
-  const { addedCategories } = useSelector((store) => store.user);
+  const { addedCategories, myCategories } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [image, setImage] = React.useState(null);
 
@@ -88,6 +93,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
   };
 
   const handlePress = (value) => {
+    // aca llega un id de la categoria
     /* console.log('ESTO ES VALUE EN HANDLE PRESS',value) */
     dispatch(addFavCategory(value));
   };
@@ -97,6 +103,12 @@ const MyAccountLoggedIn = ({ navigation }) => {
   const handleDeletePress = (value) => {
     dispatch(deleteFavCategory(value));
   };
+
+  // React.useEffect(() => {}, [addedCategories]);
+
+  React.useEffect(() => {
+    dispatch(allMyCategories());
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
@@ -185,14 +197,23 @@ const MyAccountLoggedIn = ({ navigation }) => {
             </View>
 
             <View style={{ backgroundColor: "red" }}>
-              {me.categories.map((category) => (
-                <TouchableOpacity
-                  key={category.id}
-                  onPress={() => handleDeletePress(category.id)}
-                >
-                  <Text>{category.type}</Text>
-                </TouchableOpacity>
-              ))}
+              {addedCategories.length !== 0
+                ? addedCategories.map((category) => (
+                    <TouchableOpacity
+                      key={category.id}
+                      onPress={() => handleDeletePress(category.id)}
+                    >
+                      <Text>{category.type}</Text>
+                    </TouchableOpacity>
+                  ))
+                : myCategories.map((category) => (
+                    <TouchableOpacity
+                      key={category.id}
+                      onPress={() => handleDeletePress(category.id)}
+                    >
+                      <Text>{category.type}</Text>
+                    </TouchableOpacity>
+                  ))}
             </View>
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -200,11 +221,12 @@ const MyAccountLoggedIn = ({ navigation }) => {
                 style={styles.btnStyle}
                 onPress={() => dispatch(logoutUser())}
               >
-                <Text style={styles.btnTxt}>Cerrar sesiÃ³n</Text>
+                <Text style={styles.btnTxt}>Cerrar sesión</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
+        {console.log("estas son myCategories", myCategories)}
       </ScrollView>
     </SafeAreaView>
   );
