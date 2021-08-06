@@ -85,7 +85,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
       quality: 1,
     });
 
-    /* console.log('esto es la imagen que elegio el usuario-->',result); */
+    console.log(result.uri);
 
     if (!result.cancelled) {
       setImage(result.uri);
@@ -221,7 +221,7 @@ const MyAccountLoggedIn = ({ navigation }) => {
                 style={styles.btnStyle}
                 onPress={() => dispatch(logoutUser())}
               >
-                <Text style={styles.btnTxt}>Cerrar sesión</Text>
+                <Text style={styles.btnTxt}>Cerrar sesion</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -13,7 +13,7 @@ const CreateEvent = ({ navigation }) => {
           <Rect x="0" y="0" width="100%" height="170" fill="#23036A" />
         </Svg>
 
-        <View style={{ marginTop: 25 }}>
+        <View style={{ position: "relative", transform: [{ translateY: -140 }],}}>
           <EventForm navigation={navigation} />
         </View>
       </View>
@@ -29,8 +29,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
-    height: "100%",
-    width: "100%",
+    /* height: "100%",
+    width: "100%", */
+    marginBottom:-120
   },
   textTitle: {
     fontFamily: "Poppins_300Light",

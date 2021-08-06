@@ -141,7 +141,7 @@ const postPlan = (req, res, next) => {
     } else {
       price = parseInt(price);
     }
-
+    console.log("IMGG->", req.files);
     console.log("FREEEE->", free);
     console.log("se paso a numero", price);
     console.log("esto es el date", date);
@@ -159,10 +159,6 @@ const postPlan = (req, res, next) => {
       private: req.body.private,
       category: req.body.category,
       free,
-      img: [
-        "https://st2.depositphotos.com/3591429/10111/i/600/depositphotos_101113662-stock-photo-friends-having-fun-together-on.jpg",
-        "https://image.freepik.com/foto-gratis/grupo-amigos-haciendo-fiesta-playa-al-atardecer_186382-1890.jpg",
-      ],
     };
 
     if (!plan.name) {

@@ -40,6 +40,7 @@ const EventCard = ({ navigation }) => {
 
   const handlePressPlus = (plan) => {
     dispatch(addPlan(plan));
+
     dispatch(addedPlans(plan.id));
   };
 

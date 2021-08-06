@@ -88,7 +88,7 @@ export const createPlan = createAsyncThunk("CREATE_PLAN", (plan) => {
 
 const plansReducer = createReducer(initialState, {
   [createPlan.fulfilled]: (state, action) => {
-    state.newPlans = action.payload;
+    state.plans = [...state.plans, action.payload];
   },
   [showPlans.fulfilled]: (state, action) => {
     state.plans = action.payload;
