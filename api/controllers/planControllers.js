@@ -141,13 +141,9 @@ const postPlan = (req, res, next) => {
     } else {
       price = parseInt(price);
     }
-    console.log("IMGG->", req.files);
-    console.log("FREEEE->", free);
-    console.log("se paso a numero", price);
-    console.log("esto es el date", date);
-    console.log("esto es el date del front", planDate);
+   
     const file = req.file
-    console.log('ESTO ES FILEEEE APARECE PLIS',file)
+    console.log('ESTO ES USER',user)
 
     const plan = {
       planOwner: user.name,
@@ -162,6 +158,7 @@ const postPlan = (req, res, next) => {
       private: req.body.private,
       category: req.body.category,
       free,
+      img: req.body.img
     };
 
     if (!plan.name) {
@@ -170,13 +167,13 @@ const postPlan = (req, res, next) => {
       });
     }
 
-    /* const newPlan = new Plan(plan);
+    const newPlan = new Plan(plan);
 
     newPlan.save().then((plan) => {
       user.myPlans = user.myPlans.concat(plan);
       user.save();
       res.json(plan);
-    }); */
+    });
   });
 };
 

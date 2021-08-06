@@ -29,7 +29,7 @@ router.get("/:id/comments", getComments);
 // select a plan by id
 router.get("/:id", getOnePlan);
 // create a new plan
-router.post("/", authenticateJWT, upload.array("img", 3), postPlan);
+router.post("/", authenticateJWT, /* upload.array("img", 3), */ postPlan);
 // create new comments
 router.post("/:id/comments", authenticateJWT, postComments);
 // update a plan

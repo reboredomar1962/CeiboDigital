@@ -30,8 +30,6 @@ const EventForm = ({ navigation }) => {
 // -----------------------------Image Picker Config----------------------------
 
   const [image, setImage] = React.useState([]);
-  const [uploading, setUploading] = React.useState(false)
-  const [imageBack, setImageBack] = React.useState(null);
  
 
   React.useEffect(() => {
@@ -45,64 +43,18 @@ const EventForm = ({ navigation }) => {
     })();
   }, []);
 
-//------------------------Esto es lo que sacamos del repo de github para subir imagenes---------------------
-/* async function uploadImageAsync(uri) {
-  let apiUrl =
-    "http://localhost:3001/api/storage/imgs";
-
-  // Note:
-  // Uncomment this if you want to experiment with local server
-  //
-  // if (Constants.isDevice) {
-  //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-  // } else {
-  //   apiUrl = `http://localhost:3000/upload`
-  // }
-  let uriArray = uri.split(".");
-  let fileType = uriArray[uriArray.length - 1];
-
-  let formData = new FormData();
-  formData.append("photo", {
-    uri,
-    name: `photo.${fileType}`,
-    type: `image/${fileType}`,
-  });
-
-handleImagePicked = async (pickerResult) => {
-  let uploadResponse, uploadResult;
-
-  try {
-    setUploading(true)
-
-    if (!pickerResult.cancelled) {
-      uploadResponse = await uploadImageAsync(pickerResult.uri);
-      uploadResult = await uploadResponse.json();
-      console.log({ uploadResult });
-      setImageBack(uploadResult.location);
-    }
-  } catch (e) {
-    console.log({ uploadResponse });
-    console.log({ uploadResult });
-    console.log({ e });
-    
-  } finally {
-    setUploading(false)
-  }
-};
-} */
-//----------------------------------------------------------------------------------------------------------
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      base64: true,
+      /* base64: true, */
     });
 
     if (!result.cancelled) {
       setImage([...image, result.uri]);
+      console.log('esto es la imagen que eligio el user',result.uri)
       /* setImageBack(result.uri.replace('file://', '')) */
     }
 
@@ -153,14 +105,12 @@ handleImagePicked = async (pickerResult) => {
       price: data.price,
       private: data.private,
       users: data.users,
-      img: imageBack
+      img: image,
     }
 
     console.log("ESTA ES LA DATA->, ", obj);
-
-    /* FileSystem.uploadAsync(imageBack).then(('alo?')).catch(e => console.log('aca hay error',e)) */
    
-    /* dispatch(createPlan(obj)).then(() => navigation.goBack()); */
+    dispatch(createPlan(obj)).then(() => navigation.goBack());
   };
 
   //-----------------------------------Date Picker Config --------------------------
@@ -180,9 +130,9 @@ handleImagePicked = async (pickerResult) => {
     hideDatePicker();
   };
 
-  const handleInvite = () => {
+  /* const handleInvite = () => {
     console.log('holis');
-  }
+  } */
 
  // ----------------------------- FIN Date Picker Config----------------------------
 
