@@ -12,7 +12,7 @@ import {
 import { Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 
-const RenderContacts = ({ user, bottonPress, contacts }) => {
+const RenderContacts = ({ user, bottonPress, bottonPressMinus, contacts }) => {
   return (
     <View style={styles.item}>
       <View
@@ -52,7 +52,15 @@ const RenderContacts = ({ user, bottonPress, contacts }) => {
           >
             <AntDesign name="pluscircleo" size={20} color="#23036A" />
           </TouchableOpacity>
-        ) : null}
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              bottonPressMinus(user.id);
+            }}
+          >
+            <AntDesign name="minuscircleo" size={20} color="#23036A" />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

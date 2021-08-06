@@ -10,7 +10,12 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import RenderContacts from "./RenderContacts";
 import SurprisedSvg from "./SurprisedSvg";
-import { getFriend, addReduxContact } from "../state/contacts";
+import {
+  getFriend,
+  addReduxContact,
+  removeContact,
+  removeReduxContact,
+} from "../state/contacts";
 
 const MyContacts = () => {
   const { me } = useSelector((store) => store.user);
@@ -18,6 +23,11 @@ const MyContacts = () => {
     (store) => store.contacts
   );
   const dispatch = useDispatch();
+
+  const onButtonPressMinus = (id) => {
+    dispatch(removeContact(id));
+    dispatch(removeReduxContact(id));
+  };
 
   const Item = ({ userInfo }) => {
     //console.log("uesrInfo de MyContacts", userInfo);
@@ -27,7 +37,11 @@ const MyContacts = () => {
           "llego al render de adentro, este es el userInfo",
           userInfo
         )}
-        <RenderContacts user={userInfo} contacts={contactsOnRedux} />
+        <RenderContacts
+          user={userInfo}
+          contacts={contactsOnRedux}
+          bottonPressMinus={onButtonPressMinus}
+        />
       </View>
     ) : null;
   };

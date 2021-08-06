@@ -212,9 +212,16 @@ const getAllFriends = (req, res, next) => {
 
 const getContactsByQuery = (req, res, next) => {
   // OJO para que coincida con el key que viene desde el front
+  console.log("esto es lo que llega desde el query", req.query.name);
   const { name } = req.query;
+  const queryFiltered = {
+    $or: [
+      { name: { $regex: name, $options: "i" } },
+      { lastName: { $regex: name, $options: "i" } },
+    ],
+  };
 
-  User.find({ name: { $regex: name, $options: "i" } })
+  User.find(queryFiltered)
     .sort({ name: "asc" })
     .then((search) => {
       if (!search) res.status(404);
@@ -254,9 +261,10 @@ const removeFriend = (req, res, next) => {
   Promise.all([userPromise, friendPromise])
     .then((values) => {
       const [user, friend] = values;
+      console.log("aca llego el friend ");
       user.contacts = user.contacts.filter((friendId) => friendId != idFriend);
       user.save();
-      res.status(200).send("amigo eliminado");
+      res.status(200).send(user.contacts);
       console.log("user", user);
       console.log("friend", friend);
     })
@@ -290,7 +298,7 @@ const removeCategory = (req, res, next) => {
   const categoryId = req.body.id;
   const userPromise = User.findById(id);
   const categoryPromise = Category.findById(categoryId);
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---->', id)
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---->", id);
 
   Promise.all([userPromise, categoryPromise])
     .then((values) => {

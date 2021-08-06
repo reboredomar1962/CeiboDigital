@@ -10,7 +10,13 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers } from "../state/user";
-import { addContact, addReduxContact, getFriend } from "../state/contacts";
+import {
+  addContact,
+  addReduxContact,
+  queryContacts,
+  removeContact,
+  removeReduxContact,
+} from "../state/contacts";
 
 import { Searchbar } from "react-native-paper";
 import RenderContacts from "./RenderContacts";
@@ -36,7 +42,7 @@ const AllContacts = () => {
   const onChangeSearch = (query) => {
     console.log(query);
     setSearch(query);
-    dispatch(query);
+    dispatch(queryContacts(query));
   };
 
   const onButtonPress = (id) => {
@@ -46,12 +52,18 @@ const AllContacts = () => {
     //dispatch(getFriend());
   };
 
+  const onButtonPressMinus = (id) => {
+    dispatch(removeContact(id));
+    dispatch(removeReduxContact(id));
+  };
+
   const Item = ({ userInfo }) =>
     userInfo.id !== me.id ? (
       <View>
         <RenderContacts
           user={userInfo}
           bottonPress={onButtonPress}
+          bottonPressMinus={onButtonPressMinus}
           contacts={contactsOnRedux}
         />
       </View>
@@ -78,6 +90,7 @@ const AllContacts = () => {
           }}
         />
       </View>
+      {console.log("esto llega a searchedContacts", searchedContacts)}
       <FlatList
         data={searchedContacts.length !== 0 ? searchedContacts : allUsers}
         renderItem={renderItem}

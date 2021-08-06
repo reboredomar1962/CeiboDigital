@@ -42,8 +42,8 @@ router.post("/friend", authenticateJWT, addFriend);
 router.post("/category", authenticateJWT, addCategory);
 // remove a plan from user
 router.delete("/deletePlan/:id", authenticateJWT, removePlan);
-// remove a plan from user
-router.delete("/removeFriend", authenticateJWT, removeFriend);
+// remove a plan from user (check if I can use a delete for this route)
+router.post("/removeFriend", authenticateJWT, removeFriend);
 // remove a plan from user
 router.delete("/removeCategory", authenticateJWT, removeCategory);
 // create a new user

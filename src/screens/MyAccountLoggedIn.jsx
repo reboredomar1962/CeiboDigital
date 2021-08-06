@@ -184,15 +184,16 @@ const MyAccountLoggedIn = ({ navigation }) => {
               ))}
             </View>
 
-            {/* <View style={{backgroundColor:'red'}}>
-              {me.categories.map(category=>(
-
-                <TouchableOpacity key={category.id} onPress={()=>handleDeletePress(category.id)}>
+            <View style={{ backgroundColor: "red" }}>
+              {me.categories.map((category) => (
+                <TouchableOpacity
+                  key={category.id}
+                  onPress={() => handleDeletePress(category.id)}
+                >
                   <Text>{category.type}</Text>
                 </TouchableOpacity>
-
               ))}
-            </View> */}
+            </View>
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <TouchableOpacity

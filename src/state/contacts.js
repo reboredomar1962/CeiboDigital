@@ -50,16 +50,40 @@ export const addContact = createAsyncThunk("ADD_CONTACT", (id) => {
     .catch((err) => console.log("este es el error desde contacts --->", err));
 });
 
+export const removeContact = createAsyncThunk("REMOVE_CONTACT", (id) => {
+  console.log("llego al removeContact");
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.post(
+        `http://${os}:3001/api/user/removeFriend`,
+        { id },
+        {
+          headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+        }
+      );
+    })
+    .then((res) => {
+      console.log("esto esta devolviendo el back en addFriend", res.data);
+      return res.data;
+    })
+    .catch((err) => console.log("este es el error desde contacts --->", err));
+});
+
 export const queryContacts = createAsyncThunk("QUERY_CONTACTS", (query) => {
   console.log("aca llega el query", query);
-  return axios
-    .get(`http://${os}:3001/api/user/search?name=${query}`)
+  return AsyncStorage.getItem("token")
+    .then((token) => {
+      return axios.get(`http://${os}:3001/api/user/search?name=${query}`, {
+        headers: { Authorization: `Bearer ${JSON.parse(token)}` },
+      });
+    })
+
     .then((res) => {
       console.log("dentro del segundo, length", res.data.length);
       return res.data;
     })
     .catch((error) =>
-      console.log("ACA ESTA EL ERROR EN SEARCH PLANS SEARCH-----> ", error)
+      console.log("ACA ESTA EL ERROR EN SEARCH CONTACTS SEARCH-----> ", error)
     );
 });
 
@@ -80,6 +104,12 @@ const contactsReducer = createReducer(initialState, {
     //   "este es el state.allFriends apretando el mas",
     //   state.allFriends
     // );
+  },
+
+  [removeContact.fulfilled]: (state, action) => {
+    //returns an array with all the friends except the one removed
+    console.log("esto sale del removeFriends", action.payload);
+    state.allFriends = action.payload;
   },
   [addReduxContact]: (state, action) => {
     console.log("este es el contacts que llega al estado", action.payload);
