@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { createUser } from "../state/user";
 //Form library import
 import { useForm, Controller } from "react-hook-form";
+import Register from "../screens/RegisterFacebook"
 
 const RegisterForm = ({ navigation }) => {
   /* const {
@@ -145,6 +146,21 @@ const RegisterForm = ({ navigation }) => {
               Registrarse
             </Text>
           </TouchableOpacity>
+        </View>
+        <View style={{ marginTop: 15 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins_500Medium",
+              color: "#23036A",
+              textAlign: "center",
+            }}
+          >
+            o
+          </Text>
+        </View>
+        
+        <View>
+          <Register />
         </View>
       </View>
     </SafeAreaView>
