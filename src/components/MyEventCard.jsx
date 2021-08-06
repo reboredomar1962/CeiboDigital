@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { Card, Title, Paragraph } from 'react-native-paper';
+import HeheSvg from './HeheSvg';
+import { useSelector, useDispatch } from "react-redux";
 
 
 const myEvents = [
@@ -19,20 +21,48 @@ const myEvents = [
 
 ]
 
-const MyEventCard = () => (
-    <View style={styles.cardContainer} >
-        {myEvents.map(event => (
-            <Card style={styles.cardStyle} key={event.id}>
-                <Card.Cover source={{uri: event.image}} />
-                <Card.Content style={{marginTop:5,}}>
-                    <Title style={styles.titleTxt}>{event.title}</Title>
-                    <Paragraph style={styles.paragTxt} >{event.paragraph}</Paragraph>
-                </Card.Content>
-            </Card>
-        ))
-        }
-    </View>
-);
+const MyEventCard = () => {
+    const { me } = useSelector((store) => store.user);
+
+    return(
+        <View>
+            {me.myPlans.length > 0 ?
+            
+                (
+                    <View style={{opacity:0.5, alignItems:'center', justifyContent:'center', width:200, height:200}}>
+                    <HeheSvg />
+                    <View style={{width:'75%'}}>
+                        <Text style={{fontFamily: "Poppins_500Medium", fontSize: 15, color: "#23036A", textAlign:'center'}}>
+                            Aún no has creado ningún evento.
+                        </Text>
+                    </View>
+                    </View>
+                )
+    
+            :
+                (
+                    <View style={styles.cardContainer} >
+                    { me.myPlans.map(plan => (
+                        <Card style={styles.cardStyle} key={plan.id}>
+                            <Card.Cover source={{uri: /* plan.img */ myEvents[0].image}} />
+                            <Card.Content style={{marginTop:5,}}>
+                                <Title style={styles.titleTxt}>{plan.name}</Title>
+                                <Paragraph style={styles.paragTxt} >{plan.description}</Paragraph>
+                            </Card.Content>
+                        </Card>
+                    ))}
+                    </View>
+                )
+                
+            }
+        </View>
+
+    )
+};
+
+
+    
+
 
 export default MyEventCard;
 

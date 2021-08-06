@@ -131,7 +131,7 @@ const postPlan = (req, res, next) => {
 
   User.findById(id).then((user) => {
     const date = new Date();
-    const panDate = new Date(req.body.planDate);
+    const planDate = new Date(req.body.planDate);
     var price = req.body.price;
     const capacity = parseInt(req.body.capacity);
     const free = !req.body.free; //negado por la logica que uso en el front ! ojo!
@@ -145,12 +145,15 @@ const postPlan = (req, res, next) => {
     console.log("FREEEE->", free);
     console.log("se paso a numero", price);
     console.log("esto es el date", date);
-    console.log("esto es el date del front", panDate);
+    console.log("esto es el date del front", planDate);
+    const file = req.file
+    console.log('ESTO ES FILEEEE APARECE PLIS',file)
+
     const plan = {
       planOwner: user.name,
       name: req.body.name,
       creationDate: date,
-      planDate: panDate,
+      planDate: planDate,
       address: req.body.address,
       price,
       capacity,
@@ -167,13 +170,13 @@ const postPlan = (req, res, next) => {
       });
     }
 
-    const newPlan = new Plan(plan);
+    /* const newPlan = new Plan(plan);
 
     newPlan.save().then((plan) => {
       user.myPlans = user.myPlans.concat(plan);
       user.save();
       res.json(plan);
-    });
+    }); */
   });
 };
 

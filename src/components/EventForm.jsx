@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 
+import * as FileSystem from 'expo-file-system';
+
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 //Redux import
 import { useSelector, useDispatch } from "react-redux";
@@ -28,6 +30,8 @@ const EventForm = ({ navigation }) => {
 // -----------------------------Image Picker Config----------------------------
 
   const [image, setImage] = React.useState([]);
+  const [uploading, setUploading] = React.useState(false)
+  const [imageBack, setImageBack] = React.useState(null);
  
 
   React.useEffect(() => {
@@ -41,24 +45,69 @@ const EventForm = ({ navigation }) => {
     })();
   }, []);
 
+//------------------------Esto es lo que sacamos del repo de github para subir imagenes---------------------
+/* async function uploadImageAsync(uri) {
+  let apiUrl =
+    "http://localhost:3001/api/storage/imgs";
+
+  // Note:
+  // Uncomment this if you want to experiment with local server
+  //
+  // if (Constants.isDevice) {
+  //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
+  // } else {
+  //   apiUrl = `http://localhost:3000/upload`
+  // }
+  let uriArray = uri.split(".");
+  let fileType = uriArray[uriArray.length - 1];
+
+  let formData = new FormData();
+  formData.append("photo", {
+    uri,
+    name: `photo.${fileType}`,
+    type: `image/${fileType}`,
+  });
+
+handleImagePicked = async (pickerResult) => {
+  let uploadResponse, uploadResult;
+
+  try {
+    setUploading(true)
+
+    if (!pickerResult.cancelled) {
+      uploadResponse = await uploadImageAsync(pickerResult.uri);
+      uploadResult = await uploadResponse.json();
+      console.log({ uploadResult });
+      setImageBack(uploadResult.location);
+    }
+  } catch (e) {
+    console.log({ uploadResponse });
+    console.log({ uploadResult });
+    console.log({ e });
+    
+  } finally {
+    setUploading(false)
+  }
+};
+} */
+//----------------------------------------------------------------------------------------------------------
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      /* base64: true */
+      base64: true,
     });
-
-    console.log(result.uri);
 
     if (!result.cancelled) {
       setImage([...image, result.uri]);
+      /* setImageBack(result.uri.replace('file://', '')) */
     }
-    
+
   };
   
-
   // -----------------------------Image Picker Config----------------------------
 
   const {
@@ -91,6 +140,8 @@ const EventForm = ({ navigation }) => {
     value: null,
   };
 
+  
+
   const onSubmit = (data) => {
     const obj = {
       address: data.address,
@@ -102,11 +153,14 @@ const EventForm = ({ navigation }) => {
       price: data.price,
       private: data.private,
       users: data.users,
-      img: image
+      img: imageBack
     }
+
     console.log("ESTA ES LA DATA->, ", obj);
 
-    /* dispatch(createPlan(data)).then(() => navigation.goBack()); */
+    /* FileSystem.uploadAsync(imageBack).then(('alo?')).catch(e => console.log('aca hay error',e)) */
+   
+    /* dispatch(createPlan(obj)).then(() => navigation.goBack()); */
   };
 
   //-----------------------------------Date Picker Config --------------------------
@@ -130,7 +184,7 @@ const EventForm = ({ navigation }) => {
     console.log('holis');
   }
 
- // -----------------------------Date Picker Config----------------------------
+ // ----------------------------- FIN Date Picker Config----------------------------
 
  const [pago, setPago] = React.useState(false);
 
@@ -163,8 +217,9 @@ const EventForm = ({ navigation }) => {
           (<Image source={{uri:image[0]}} style={{width:95, height:120, borderRadius:10,}}/>)
         
         }
-
+        
         {image.length === 1 ||  image.length === 0 ?
+        
         <View style={styles.imgContainer}>
           <TouchableOpacity
           onPress={pickImage}
@@ -184,7 +239,7 @@ const EventForm = ({ navigation }) => {
         
         }
 
-        {image.length === 2 ||  image.length === 0 ?
+        {image.length === 2 ||  image.length === 1 ||  image.length === 0  ?
         <View style={styles.imgContainer}>
           <TouchableOpacity
           onPress={pickImage}
@@ -273,14 +328,16 @@ const EventForm = ({ navigation }) => {
           //   required: true,
           // }}
           render={({ field: { onChange, onBlur, value } }) => (
-            
-              <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', borderBottomWidth: 1, borderBottomColor: "#D4B5FA", width: 300, paddingBottom:5, marginBottom:15, marginTop:5}}>
-                <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Seleccionar fecha</Text>
 
-                <TouchableOpacity
+            
+              <View style={{borderBottomWidth: 1, borderBottomColor: "#D4B5FA", width: 300, paddingBottom:5, marginBottom:15, marginTop:5}}>
+              <TouchableOpacity
                 onPress={showDatePicker}
                 >
+                  <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', }}>
+                <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Seleccionar fecha</Text>
                   <AntDesign name="calendar" size={20} color="#23036A" />
+                  </View>
                 </TouchableOpacity>
 
                 <DateTimePickerModal
@@ -294,6 +351,9 @@ const EventForm = ({ navigation }) => {
                   onCancel={hideDatePicker}
                 />
               </View>
+
+                
+              
               
           )}
           name="planDate"

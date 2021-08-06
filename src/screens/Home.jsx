@@ -16,7 +16,7 @@ const Home = ({ navigation }) => {
             <EventCard navigation={navigation} />
           </View>
 
-          <Text style={styles.textSubtitle}>Tus próximos eventos</Text>
+          <Text style={styles.textSubtitle}>Tus eventos creados</Text>
 
           <MyEventCard />
         </View>
