@@ -31,8 +31,14 @@ const EventForm = ({ navigation }) => {
 
   const { categories } = useSelector((store) => store.categories);
   const [date, setDate] = React.useState(new Date());
+  const [pago, setPago] = React.useState(false);
 
   const dispatch = useDispatch();
+
+  const togglePago = () => {
+    setPago(!pago);
+    console.log(pago);
+  };
 
   React.useEffect(() => {
     let mounted = true;
@@ -143,65 +149,66 @@ const EventForm = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={{ marginTop: 25, marginBottom: -150 }}>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.textSubtitle}
-                placeholder="Nombre del evento"
-                placeholderTextColor="#23036A"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="name"
-            defaultValue=""
-          />
-          {errors.name && <Text>Este campo no puede estar vacío</Text>}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.textSubtitle}
-                placeholderTextColor="#23036A"
-                placeholder="Ubicación"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="address"
-            defaultValue=""
-          />
-          {errors.lastName && <Text>Este campo no puede estar vacío</Text>}
 
-          <Controller
-            control={control}
-            // rules={{
-            //   required: true,
-            // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between" /* marginTop:5 */,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Poppins_300Light",
-                    fontSize: 15,
-                    color: "#23036A",
-                  }}
+        <View style={{marginTop:25, marginBottom:-150}}>
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Nombre del evento"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="name"
+          defaultValue=""
+        />
+
+        {errors.name && <Text>Este campo no puede estar vacío</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholderTextColor="#23036A"
+              placeholder="Ubicación"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="address"
+          defaultValue=""
+        />
+
+
+        {errors.lastName && <Text>Este campo no puede estar vacío</Text>}
+
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            
+              <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', /* marginTop:5 */}}>
+                <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Seleccionar fecha</Text>
+
+                <TouchableOpacity
+                onPress={showDatePicker}
+
                 >
                   Seleccionar fecha
                 </Text>
@@ -221,80 +228,104 @@ const EventForm = ({ navigation }) => {
                   onCancel={hideDatePicker}
                 />
               </View>
-            )}
-            name="planDate"
-            defaultValue=""
-          />
 
-          {errors.email && <Text>Este campo no puede estar vacío</Text>}
+              
+          )}
+          name="planDate"
+          defaultValue=""
+        />
 
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <View>
-                <Text
-                  style={{
-                    fontFamily: "Poppins_300Light",
-                    fontSize: 15,
-                    color: "#23036A",
-                  }}
-                >
-                  Seleccionar categoría:
-                </Text>
-                <RNPickerSelect
-                  placeholder={placeholder}
-                  // onValueChange={(value) => console.log("OnValue", value)}
-                  onValueChange={onChange}
-                  onBlur={onBlur}
-                  items={itemsForDropdown}
-                />
-              </View>
-            )}
-            name="category"
-          />
 
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.textSubtitle}
-                placeholder="Descripción del evento"
-                placeholderTextColor="#23036A"
+        {errors.email && <Text>Este campo no puede estar vacío</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <View >
+              <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>
+                Seleccionar categoría:
+              </Text>
+              <RNPickerSelect
+                placeholder={placeholder}
+                // onValueChange={(value) => console.log("OnValue", value)}
+                onValueChange={onChange}
+
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
               />
-            )}
-            name="description"
-            defaultValue=""
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.textSubtitle}
-                placeholder="Capacidad"
-                placeholderTextColor="#23036A"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="capacity"
-            defaultValue=""
-          />
 
+            </View>
+          )}
+          name="category"
+        />
+
+        {errors.category && <Text>This field is required</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Descripción del evento"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="description"
+          defaultValue=""
+        />
+
+        {errors.description && <Text>This field is required</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.textSubtitle}
+              placeholder="Capacidad"
+              placeholderTextColor="#23036A"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="capacity"
+          defaultValue=""
+        />
+
+        {errors.capacity && <Text>This field is required</Text>}
+
+        <Controller
+          control={control}
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View>
+              <Text>Pago</Text>
+              <Switch
+                value={value}
+                onValueChange={onChange}
+                onChange={togglePago}
+              />
+            </View>
+          )}
+          name="free"
+        />
+        {pago ? (
           <Controller
             control={control}
-            rules={{
-              required: true,
-            }}
+
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 style={styles.textSubtitle}
@@ -306,69 +337,42 @@ const EventForm = ({ navigation }) => {
               />
             )}
             name="price"
-            defaultValue=""
-          />
-          <Controller
-            control={control}
-            defaultValue="false"
-            render={({ field: { onChange, value } }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginTop: 5,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Poppins_300Light",
-                    fontSize: 15,
-                    color: "#23036A",
-                  }}
-                >
-                  Privado
-                </Text>
-                <Switch
-                  color="#985EFF"
-                  value={value}
-                  onValueChange={onChange}
-                />
-              </View>
-            )}
-            name="private"
-          />
 
-          <Controller
-            control={control}
-            render={() => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginTop: 15,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Poppins_300Light",
-                    fontSize: 15,
-                    color: "#23036A",
-                  }}
-                >
-                  Invitar
-                </Text>
-                <TouchableOpacity
-                  style={{ marginRight: 12 }}
-                  onPress={() => console.log("holis")}
-                >
-                  <AntDesign name="pluscircleo" size={20} color="#23036A" />
-                </TouchableOpacity>
-              </View>
-            )}
-            name="users"
           />
+        ) : (
+          <View></View>
+        )}
+
+        <Controller
+          control={control}
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:5}}>
+              <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Privado</Text>
+              <Switch color="#985EFF" value={value} onValueChange={onChange} />
+            </View>
+          )}
+          name="private"
+        />
+
+        <Controller
+          control={control}
+
+          render={() => (
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:15}}>
+                <Text style={{fontFamily: "Poppins_300Light", fontSize: 15, color:"#23036A"}}>Invitar</Text>
+              <TouchableOpacity 
+              style={{marginRight:12}}
+              onPress={() => (console.log('holis'))}
+              >
+                <AntDesign name="pluscircleo" size={20} color="#23036A" />
+
+              </TouchableOpacity>
+            </View>
+          )}
+          name="users"
+        />
+
 
           <View style={{ alignItems: "center" }}>
             <TouchableOpacity

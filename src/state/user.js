@@ -18,7 +18,9 @@ const initialState = {
   savedPlans: [],
   //addedAllPlans: [],
   addedCategories: [],
+
   deletedCategories: [],
+
 };
 
 const ip = "192.168.200.22";
@@ -63,7 +65,7 @@ export const userMe = createAsyncThunk("USER_ME", (token) => {
 });
 
 export const getAllUsers = createAsyncThunk("GET_USERS", () => {
-  return axios.get(`http://${os}:3001/api/user`).then((res) => res.data);
+  return axios.get(`http://192.168.0.3:3001/api/user`).then((res) => res.data);
 });
 
 export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {
@@ -104,9 +106,11 @@ export const addFavCategory = createAsyncThunk(
     const objCategory = { id: category };
     return AsyncStorage.getItem("token")
       .then((token) => {
+
         return axios.post(`http://${os}:3001/api/user/category`, objCategory, {
           headers: { Authorization: `Bearer ${JSON.parse(token)}` },
         });
+
       })
       .then((res) => res.data)
       .catch((error) =>
@@ -190,9 +194,11 @@ const userReducer = createReducer(initialState, {
 
   [addFavCategory.fulfilled]: (state, action) => {
     state.addedCategories = action.payload;
+
   },
   [deleteFavCategory.fulfilled]: (state, action) => {
     state.deletedCategories = action.payload;
+
   },
 });
 
