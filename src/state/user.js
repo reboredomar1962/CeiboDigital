@@ -19,6 +19,7 @@ const initialState = {
   //addedAllPlans: [],
   myCategories: [],
   addedCategories: [],
+
   deletedCategories: [],
 };
 
@@ -64,7 +65,7 @@ export const userMe = createAsyncThunk("USER_ME", (token) => {
 });
 
 export const getAllUsers = createAsyncThunk("GET_USERS", () => {
-  return axios.get(`http://${os}:3001/api/user`).then((res) => res.data);
+  return axios.get(`http://192.168.0.3:3001/api/user`).then((res) => res.data);
 });
 
 export const addPlan = createAsyncThunk("ADD_PLAN", (plan) => {

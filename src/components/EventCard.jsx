@@ -92,12 +92,12 @@ const EventCard = ({ navigation }) => {
                 <Text style={styles.priceTxt}>Gratis</Text>
               )}
 
-              <Rating
+              {/* <Rating
                 count={5}
                 startingValue={Math.round(item.recommendation)}
                 imageSize={20}
                 readonly
-              />
+              /> */}
 
               {!me || !me.id
                 ? null

@@ -131,20 +131,38 @@ const postPlan = (req, res, next) => {
 
   User.findById(id).then((user) => {
     const date = new Date();
+    const panDate = new Date(req.body.planDate);
+    var price = req.body.price;
+    const capacity = parseInt(req.body.capacity);
+    const free = !req.body.free; //negado por la logica que uso en el front ! ojo!
+
+    if (!price) {
+      price = 0;
+    } else {
+      price = parseInt(price);
+    }
+
+    console.log("FREEEE->", free);
+    console.log("se paso a numero", price);
     console.log("esto es el date", date);
+    console.log("esto es el date del front", panDate);
     const plan = {
-      planOwner: user,
+      planOwner: user.name,
       name: req.body.name,
       creationDate: date,
-      planDate: date,
+      planDate: panDate,
       address: req.body.address,
-      price: req.body.price,
-      capacity: req.body.capacity,
+      price,
+      capacity,
       description: req.body.description,
       users: req.body.users,
       private: req.body.private,
       category: req.body.category,
-      free: false,
+      free,
+      img: [
+        "https://st2.depositphotos.com/3591429/10111/i/600/depositphotos_101113662-stock-photo-friends-having-fun-together-on.jpg",
+        "https://image.freepik.com/foto-gratis/grupo-amigos-haciendo-fiesta-playa-al-atardecer_186382-1890.jpg",
+      ],
     };
 
     if (!plan.name) {
@@ -153,11 +171,13 @@ const postPlan = (req, res, next) => {
       });
     }
 
-    //const newPlan = new Plan(plan);
+    const newPlan = new Plan(plan);
 
-    //   newPlan.save().then((plan) => {
-    //     res.json(plan);
-    //   });
+    newPlan.save().then((plan) => {
+      user.myPlans = user.myPlans.concat(plan);
+      user.save();
+      res.json(plan);
+    });
   });
 };
 
